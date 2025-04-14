@@ -1,0 +1,75 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html class="bg-white" lang="en">
+
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="{% static '/img/logo-proyecto.png' %}">
+
+    {% tailwind_css %}
+
+
+    <!-- Include Alpine.js -->
+    <script src="{% static 'js/alpine.js' %}" defer></script>
+
+
+</head>
+
+<body class="leading-normal tracking-normal">
+
+    <header>
+        {% include 'app/partials/navbar.html' %}
+    </header>
+
+
+
+    <!-- Menú desplegable para móviles - Ajustado como un sidebar derecho -->
+    <div x-show="open" x-transition
+        class="fixed top-16 right-0  w-auto bg-base-100 shadow-lg z-50 overflow-y-auto md:hidden">
+
+        <ul class="menu menu-vertical">
+            <li><a href="{% url 'index' %}" class="nav-link">Inicio</a></li>
+            <li><a href="{% url 'menu.clase' %}" class="nav-link">Clases</a></li>
+            <li><a href="{% url 'nosotros' %}" class="nav-link">Nosotros</a></li>
+            <li><a href="{% url 'contacto' %}" class="nav-link">Contacto</a></li>
+            <li><a href="#" class="nav-link">Misión</a></li>
+            <li><a href="#" class="nav-link">Visión</a></li>
+
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'logout.session' %}" class="nav-link">Cerrar sesión</a></li>
+            {% else %}
+            <li><a href="{% url 'registrar' %}" class="nav-link">Registrar</a></li>
+            <li>
+                <details>
+                    <summary>Iniciar Sesión</summary>
+                    <ul class="bg-base-100 rounded-t-none p-2 z-50">
+                        <li><a href="{% url 'login' %}">Estudiante</a></li>
+                        <li><a href="{% url 'base_admin' %}">Administrador</a></li>
+                    </ul>
+                </details>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    </div>
+
+
+    <main>
+        {% block content %}
+        
+        {% endblock %}
+    </main>
+
+    <!--footer-->
+    {% include 'app/partials/footer.html' %}
+
+
+
+</body>
+<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
+
+</html>

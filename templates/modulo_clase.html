@@ -1,0 +1,77 @@
+{% extends "app/base-old.html" %}
+
+{% block title %}
+Cursos
+{% endblock %}
+
+{% load static %}
+{% block content %}
+{% load static %}
+{% block clase_body %}modulo{% endblock  %}
+
+<section>
+    <div class="titulo-menu"></div>
+    <div class="menu-video-listVideo">
+        <div class="menu-vertical">
+            <div class="icon-otrosCursos">
+                <img src="{% static "/iconos/pngwing.com.png" %}">
+                <h4 class="titulos">Otros cursos</h4>
+                <hr>
+            </div>
+
+            <ul class="menu-vertical-style">
+                {% for categoria in categorias %}
+                <li>
+                    <i class="fa-solid fa-leaf" style="color:green"></i><a href="">{{categoria.nombre_categoria}}</a>
+                    {% if categoria.nombre_categoria == "Familia" %}
+                        <i class="fa-solid fa-lock-open " style="color: aliceblue;"></i>
+                    {% else %}
+                        <i class="fa-solid fa-lock" style="color: aliceblue;"></i>
+                    {% endif %}
+                </li>
+                <hr>
+                {% endfor %}
+            </ul>
+            <div class="icon-notas">
+                <img src="{% static "iconos/calificaciones.com.png" %}" alt="">
+                <a href="">Mis notas</a>
+            </div>
+        </div>
+
+        <div class="video-listVideo">
+            <div class="video">
+                <video id="ventanaVideo" class="ventana-video" controls autoplay>
+                    <source id="videoSelect" type="video/mp4">
+                </video>
+            </div>
+
+            <div class="lista-video">
+                <h1>Lista del curso</h1>
+                <hr>
+                <ul>
+                    {% for categoriaClase in categoriasClases %}
+                    <div></div>
+                    <li>
+                        <!-- Contador de iteraciones <h6>{{ forloop.counter }}</h6>-->
+                        <div onclick="selectVideo('{{categoriaClase.videos.id}}')" style="display: flex;">
+                            <img src="{{categoriaClase.videos.imagen.url}}" alt="">
+                            <!-- <video poster="{{categoriaClase.videos.imagen.url}}" preload="metadata" width="100" height="150">
+                                    <source src="{{categoriaClase.videos.video.url}}" type="video/mp4" media="">
+                                </video>-->
+                            <p style="padding-left: 10px;">Con CSS podemos pasar a actuar cambiando s.</p>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <hr>
+
+                <div class="icon-evaluacion">
+                    <img src="{% static "iconos/evaluacion.com.png" %}" alt="">
+                    <a href="{% url 'evaluacion.modulo' NME=nombre_categoria %}">Realizar evaluacion</a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

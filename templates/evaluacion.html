@@ -1,0 +1,59 @@
+{% extends "app/base-old.html" %}
+
+{% block title %}
+    Evaluacion
+{% endblock  %}
+
+{% load static %}
+{% block content %}
+<section>
+    <div class="icon-interrogacion">
+        <img src="{% static "iconos/icon-interrogacion.com.png" %}" alt="">
+    </div>
+    <div class="container-evaluacion">
+        <form class="form-evaluacion" id="formularioEvaluacion" action="" method="POST"  style="">
+            {% for item  in respuestas %}
+
+            <div class="form-pregunta">
+                <img src="{% static "iconos/problem.png" %}" alt="">
+                <h5 id="pregunta">{{item.pregunta}}</h5>
+            </div>
+
+            {% if item.imagen %}
+            <div class="form-imagen">
+                <img src="{{item.imagen.url}}" alt="" >
+            </div>
+            {% else %}
+            <div class="form-video">
+                <video control loop autoplay>
+                    <source src="{{item.video.url}}" media="" type="video/mp4">
+                </video>
+            </div>
+            {% endif %}
+
+            
+            <div class="form-respuestas">
+                <div class="input">
+                    <input type="radio" name="p_{{item.id}}" id="p_{{item.id}}" value="{{item.respuesta1}}">:<h5>{{item.respuesta1}}</h5><br/>
+                </div>
+                <div class="input">
+                    <input type="radio" name="p_{{item.id}}" id="p_{{item.id}}" value="{{item.respuesta2}}">:<h5>{{item.respuesta2}}</h5><br/>
+                </div>
+                <div class="input">
+                    <input type="radio" name="p_{{item.id}}" id="p_{{item.id}}" value="{{item.respuesta3}}">:<h5>{{item.respuesta3}}</h5><br/>
+                </div>
+                <div class="input">
+                    <input type="radio" name="p_{{item.id}}" id="p_{{item.id}}" value="{{item.respuesta4}}">:<h5>{{item.respuesta4}}</h5><br/>
+                </div>
+                <hr>
+                <!-- Respuesta correcta específica para cada pregunta -->
+                <input type="hidden" name="rc_{{item.id}}" id="p_{{item.id}}" value="{{item.respuesta_correcta}}">
+                <input type="hidden" name="nombreCategoria" id="nombreCategoria" value="{{item.categoriaClases.nombre_categoria}}">
+                <!--<h6>RC: {{item.respuesta_correcta}}</h6>-->
+            </div>
+            {% endfor %}
+            <button type="button" onclick="validarRespuestas()">Enviar evaluacion</button>
+        </form>
+    </div>
+</section>
+{% endblock  %}

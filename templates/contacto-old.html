@@ -1,0 +1,101 @@
+{% extends "app/base-old.html" %}
+
+{% block title %}
+  Contatos
+{% endblock %}
+
+{% block content %}
+  <section class="contact-section">
+    <div class="container">
+      <div class="row align-items-start">
+        <!-- Información de contacto -->
+        <div class="col-lg-6 mb-5 mb-lg-0">
+          <h2 class="display-4 mb-4">Estamos en contacto</h2>
+          <p class="lead mb-4" style="font-family: 'Arial', sans-serif;
+          line-height: 1.6;
+          color: #000;">
+            Nos encantaría escuchar de ti. Envíanos un mensaje y te responderemos lo antes posible.
+          </p>
+          <div class="contact-info">
+            <p><i class="fas fa-map-marker-alt"></i>Barrio Zaragocilla, Diagonal 30 # 50, Cartagena, Colombia</p>
+            <p><i class="fas fa-phone"></i>PBX: (605) 6723700</p>
+            <p><i class="fas fa-envelope"></i>comunicaciones@tecnologicocomfenalco.edu.co</p>
+            <p><i class="fas fa-clock"></i>Horario de atención: Lunes a Viernes, 8:00 AM - 5:00 PM</p>
+            <p><i class="fas fa-timeres"></i>Tiempo estimado de respuesta: 24-48 horas</p>
+          </div>
+          <!-- Redes sociales -->
+          <div class="social-media mt-4">
+            <a href="https://es-la.facebook.com/" class="me-3"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://x.com/?logout=1726021767521" class="me-3"><i class="fab fa-X"></i></a>
+            <a href="https://www.instagram.com/" class="me-3"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/?trk=guest_homepage-basic_nav-header-logo"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        <!-- Formulario de contacto -->
+        <div class="col-lg-6">
+          <form class="contact-form" id="contactForm">
+            <div class="mb-4">
+              <input type="text" class="form-control" id="nombre" placeholder="Nombre y Apellido" required>
+            </div>
+            <div class="mb-4">
+              <input type="email" class="form-control" id="email" placeholder="Email" required>
+            </div>
+            <div class="mb-4">
+              <input type="text" class="form-control" id="pais" placeholder="País" required>
+            </div>
+            <div class="mb-4">
+              <input type="tel" class="form-control" id="telefono" placeholder="Teléfono" required>
+            </div>
+            <!-- Motivo del contacto -->
+            <div class="mb-4">
+              <select class="form-control" id="motivo" required>
+                <option value="" disabled selected>Motivo del contacto</option>
+                <option value="sugerencias">Sugerencias</option>
+                <option value="soporte">Soporte</option>
+                <option value="feedback">Feedback</option>
+              </select>
+            </div>
+            <!-- Adjuntar archivo -->
+            <div class="mb-4">
+              <input type="file" class="form-control" id="archivo">
+            </div>
+            <div class="mb-4">
+              <textarea class="form-control" id="mensaje" rows="4" placeholder="Tu mensaje" required></textarea>
+            </div>
+            <button type="submit">Enviar Mensaje</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección de testimonios -->
+  <section class="testimonials-section py-5">
+    <div class="container">
+      <h2 class="mb-5 text-center">Testimonios de nuestros usuarios</h2>
+      <div class="row">
+        <!-- Testimonio 1 -->
+        <div class="col-md-4">
+          <div class="testimonial">
+            <p>"Excelente plataforma para aprender lenguaje de señas. Muy intuitiva y fácil de usar."</p>
+            <p><strong>- Juan Pérez</strong></p>
+          </div>
+        </div>
+        <!-- Testimonio 2 -->
+        <div class="col-md-4">
+          <div class="testimonial">
+            <p>"Gracias a Exprésate con señas, he podido comunicarme mejor con mis compañeros."</p>
+            <p><strong>- María Rodríguez</strong></p>
+          </div>
+        </div>
+        <!-- Testimonio 3 -->
+        <div class="col-md-4">
+          <div class="testimonial">
+            <p>"Una herramienta invaluable para la inclusión y la educación."</p>
+            <p><strong>- Carlos Gómez</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock  %}

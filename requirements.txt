@@ -1,0 +1,8 @@
+psycopg
+Pillow
+tailwind
+django-tailwind
+django-browser-reload
+django-alpine
+django-redis
+pymongo

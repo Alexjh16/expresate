@@ -1,0 +1,269 @@
+/* Estilado logo */
+.logo {
+    width: 200px;
+    height: 65px;
+}
+.modulo{
+    background-color: #34495e;
+}
+
+/* Estilado foto perfil usuario */
+.usuarioFoto {
+    background-color: #ffffff;
+    margin-right: 10px;
+    margin-left: 10px;
+    border: 1px solid black;
+    border-radius: 9px;
+    width: 50px;
+    height: 50px;
+}
+
+.nombrePerfil {
+    margin-right: 70px;
+    border-left: 3px solid gray;
+    text-align: center;
+    width: 50px;
+}
+.nombrePerfil p {
+    margin-top: 10px;
+    margin-left: 3px;
+    color: #34495e;
+}
+
+.nombrePerfil a {
+    text-decoration: none;
+}
+
+.menu-video-listVideo {
+    display: flex;
+    margin-left: 5px;
+    margin-top: 40px;
+    border-top: #ffffff 1px solid;
+}
+
+.titulos {
+    text-align: center;
+    color: #ffffff;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 120%;
+    margin-top: 10px;
+}
+
+/* Estilado de modulo clases */
+.menu-vertical {
+    width: 10%;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.icon-otrosCursos{
+    display: flex;
+    size: 10px;
+}
+
+.icon-otrosCursos img{
+    width: 30px;
+    padding: 5px;
+}
+
+.menu-vertical a{
+    text-decoration: none;
+    margin-left: 10px;
+    color: #ffffff;
+}
+
+.menu-vertical-style{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-vertical-style a{
+    text-decoration: none;
+    color: rgb(255, 255, 255); 
+}
+
+.menu-vertical-style li{
+    padding-left: 10px;
+}
+
+.icon-notas{
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 5px;
+}
+
+.icon-notas img{
+    width: 30px;
+}
+
+.video-listVideo {
+    display: flex;
+    width: 100%;
+}
+
+.video {
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 10px;
+    text-align: center;
+}
+
+.ventana-video {
+    width: 1100px;
+    height: 1100px;
+    border: 0px solid rgb(0, 0, 0);
+}
+
+.lista-video {
+    border: 1px solid black;
+    margin-left: 10px;
+    margin-right: 5px;
+    border-radius: 12px;
+    width: 30%;
+    margin-top: 10px;
+}
+.lista-video ul{
+    
+    padding: 0;
+    margin: 0;
+}
+
+.lista-video li{
+    list-style: none;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    padding: 0; 
+}
+
+.lista-video img{
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+.lista-video h1{
+    text-align: center;
+    color: #ffffff;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 150%;
+    margin-top: 10px;
+}
+
+.lista-video a{
+    text-decoration: none;
+    margin-left: 10px;
+    color: #ffffff;
+}
+
+.icon-evaluacion{
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    
+}
+
+.icon-evaluacion img{
+    all:unset;
+    width: 40px;
+    padding-left: 10px;
+}
+
+.icon-interrogacion{
+    border: solid 1px rgb(0, 0, 0);
+    margin: 10px 10px 0px 10px;    
+    border-radius: 10px;
+    padding: 8px; 
+}
+
+.icon-interrogacion img{
+    width: 10%;
+}
+
+.container-evaluacion{
+    border: solid 1px rgb(0, 0, 0);
+    margin: 10px 100px 0px 100px;    
+    border-radius: 10px;
+    padding: 50px; 
+}
+
+.form-evaluacion{
+    
+}
+
+.form-pregunta{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.form-pregunta h5{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.form-imagen img{
+    width: 20%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.form-video video{
+    width: 500px;
+    margin-bottom: 10px;
+}
+
+.input{
+    align-items: center;
+    display: flex;
+    gap: 10px
+}
+
+input[type="radio"]{
+    transform: scale(1.5);
+}
+
+/* mensaje flotante */
+.mensaje {
+    position: fixed; /* Para que sea flotante */
+    top: 70px;    /* Aparece al final de la página */
+    right: 20px;      /* Separado del borde izquierdo */
+    background-color: #4caf50; /* Fondo verde */
+    color: white;             /* Texto blanco */
+    padding: 10px;            /* Espaciado interno */
+    border-radius: 5px;       /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra */
+    font-size: 16px;          /* Tamaño del texto */
+    z-index: 1000;            /* Para que quede por encima de otros elementos */
+    transition: right 0.5s ease-in-out;
+}
+
+.mensaje.success {
+    background-color: #4caf50;
+}
+
+.mensaje.error {
+    background-color: #f44336;
+}
+
+/* Animación de aparición y desaparición */
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}
+/***********************************************/
+
+.footer {
+    background-color: #121212;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 61px;
+    bottom: 0;
+    width: 100%;
+}

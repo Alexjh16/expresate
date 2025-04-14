@@ -1,0 +1,25 @@
+{% extends "app/base.html" %}
+
+{% block title  %}
+    Agregar categoria de clase
+{% endblock  %}
+
+{% load static %}
+{% block content %}
+<section>
+    <div class="registro-admin">
+      <img src="{% static "/img/logo-proyecto.png" %}" alt="logo proyecto" class="login-logo" />
+      <h2>Agregar categoria de clase</h2>
+
+      <form action="{% url "create.categoriaClases" %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="nombre" id="nombre" placeholder="Nombre categoria*:" required />
+        <button type="submit">Agregar categoria</button>
+      </form>
+
+      <div class="login-link">
+        Ya tengo cuenta <a href=" {% url "login" %}">Iniciar sesión</a>
+      </div>
+    </div>
+</section>
+{% endblock %}

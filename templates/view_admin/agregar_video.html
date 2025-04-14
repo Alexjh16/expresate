@@ -1,0 +1,36 @@
+{% extends "app/base.html" %}
+
+{% block title  %}
+    Registrar
+{% endblock  %}
+
+{% load static %}
+{% block content %}
+<section>
+    <div class="registro-admin">
+      <img src="{% static "/img/logo-proyecto.png" %}" alt="logo proyecto" class="login-logo" />
+      <h2>Ingregar nuevo video</h2>
+
+      <form action="{% url "create.videoClases" %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="nombre" id="nombre" placeholder="Nombre seña*:" required />
+        <label for="">Insertar imagen</label>
+        <input type="file" name="imagen" id="imagen" required />
+        <label for="">Insertar video</label>
+        <input type="file" name="video" id="video" required /> <br>
+        
+        <select class="mb-3"  name="categoriaClase">
+          {% for nombreCategoria in arrayCategoriaClases %}
+            <option value="{{nombreCategoria.id}}">{{nombreCategoria.nombre_categoria}}</option>
+          {% endfor %}
+        </select>
+      
+        <button type="submit">Agregar video</button>
+      </form>
+
+      <div class="login-link">
+        Ya tengo cuenta <a href=" {% url "login" %}">Iniciar sesión</a>
+      </div>
+    </div>
+</section>
+{% endblock %}

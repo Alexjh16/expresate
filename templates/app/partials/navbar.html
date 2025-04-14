@@ -1,0 +1,46 @@
+{% load static %}
+<!--navbar-->
+<div x-data="{ open: false }" class="navbar bg-base-100 relative z-50">
+    <div class="flex-1">
+        <a href="{% url 'index' %}" class="btn btn-ghost text-xl">
+            <img class="h-12 md:h-15 lg:h-18 w-auto object-contain" src="{% static '/img/logo-proyecto.png' %}"
+                alt="logo proyecto" class="logo" />
+        </a>
+    </div>
+
+    <!-- Botón hamburguesa en pantallas pequeñas -->
+    <div class="flex md:hidden">
+        <button @click="open = !open" class="btn btn-ghost">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- Menú horizontal normal en pantallas medianas/grandes -->
+    <div class="hidden md:flex flex-none">
+        <ul class="menu menu-horizontal px-1">
+            <!--<li><a href="{% url 'index' %}" class="nav-link">Inicio</a></li>-->
+            <li><a href="{% url 'clases' %}" class="nav-link">Clases</a></li>
+            <li><a href="{% url 'nosotros' %}" class="nav-link">Nosotros</a></li>
+            <!--<li><a href="{% url 'contacto' %}" class="nav-link">Contacto</a></li>-->
+            <!--<li><a href="{% url 'mision' %}" class="nav-link">Misión</a></li>-->
+            <!--<li><a href="{% url 'vision' %}" class="nav-link">Visión</a></li>-->
+
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'logout.session' %}" class="nav-link">Cerrar sesión</a></li>
+            {% else %}
+            <li><a href="{% url 'registrar' %}" class="nav-link">Registrar</a></li>
+            <li>
+                <details>
+                    <summary>Iniciar Sesión</summary>
+                    <ul class="bg-base-100 rounded-t-none p-2 z-50">
+                        <li><a href="{% url 'login' %}">Estudiante</a></li>
+                        <li><a href="{% url 'base_admin' %}">Administrador</a></li>
+                    </ul>
+                </details>
+            </li>
+            {% endif %}
+        </ul>
+    </div>

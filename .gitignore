@@ -1,0 +1,5 @@
+# Ignora todas las carpetas __pycache__ en cualquier nivel de directorio
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd

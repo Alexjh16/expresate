@@ -1,0 +1,71 @@
+{% extends "app/base-old.html" %}
+
+{% block title  %}
+    Inicio
+{% endblock  %}
+
+{% load static %}
+{% block content %}
+<section id="carrusel">
+    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+
+        <div class="carousel-item active" data-bs-interval="3000">
+          <img src="{% static "/img/Imagen-lenguaje de-señas-2.jpg" %}" class="d-block w-100" alt="..."/>
+        </div>
+
+        <div class="carousel-item" data-bs-interval="3000">
+          <img src="{% static "/img/Imagen-lenguaje de-señas-3.jpg" %}" class="d-block w-100" alt="..."/>
+        </div>
+
+        <div class="carousel-item"  data-bs-interval="3000">
+          <img src="{% static "/img/Imagen-lenguaje de-señas-4.jpg" %}" class="d-block w-100" alt="..."/>
+        </div>
+
+        <div class="carousel-item"  data-bs-interval="3000">
+          <img src="{% static "/img/Imagen-lenguaje-señas-1.jpg" %}" class="d-block w-100" alt="..."/>
+        </div>
+
+        <div class="carousel-item"  data-bs-interval="3000">
+          <img src="{% static "/img/imagen-interactiva.jpg" %}" class="d-block w-100" alt="..."/>
+        </div>
+
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+
+    </div>
+  </section>
+
+  <section id="inicio" class="section-inicio">
+    <div class="text-content">
+      <h2 class="section-title">
+        Aprendé lengua de señas desde la comodidad de tu hogar y a tu ritmo
+      </h2>
+      <p class="section-description">
+        Ofrece una experiencia educativa excepcional para contribuir a un
+        mundo más inclusivo ¡Empieza hoy mismo!
+      </p>
+      <button class="btn">Comenzar Gratis</button>
+      <button class="btn">Ver Planes</button>
+    </div>
+
+    <aside class="video-container">
+      <video src="{% static "videos_presentacion/Comunicación básica.mp4" %}" class="video" control autoplay>
+        Tu navegador no soporta el elemento de video.
+      </video>
+    </aside>
+  </section>
+
+  <section id="reconocimiento" class="section-reconocimiento">
+    <h3 class="section-subtitle">Por qué la gente ama aprender con <img src="{% static "/img/logo-proyecto.png" %}" alt="logo proyecto" class="logo"/></h3> 
+  </section>
+{% endblock  %}

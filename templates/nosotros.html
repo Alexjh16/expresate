@@ -1,0 +1,103 @@
+{% extends "app/base.html" %}
+
+{% block title %}
+Inicio | Expresate con señas
+{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+
+  <!---->
+{% include "app/partials/heading.html"%}
+
+
+
+    <div class="max-w-7xl sm:px-6 sm:py-7 lg:px-8 container gap-3 mx-auto p-4 grid grid-cols-2 grid-rows-3">
+        
+
+            {# Top Left Section #}
+            <div class="bg-slate-800 text-white row-span-2 rounded-lg overflow-hidden col relative shadow-xl">
+                <div class="absolute inset-0 w-full h-full">
+                    <img 
+                        src="https://dghqs88jwcgws.cloudfront.net/wp-content/uploads/2022/04/reto_flexibilidad_laboral.webp?x50738" 
+                        alt="Personas conversando en un ambiente acogedor"
+                        class="w-full h-full object-cover opacity-60"
+                    />
+                </div>
+                <div class="relative p-6 md:p-8 space-y-6">
+                    <div class=" text-teal-300 font-semibold">FLEXIBILIDAD TOTAL</div>
+                    <h2 class="text-5xl text-pretty md:text-5xl font-bold">
+                      Aprende desde cualquier lugar y en el momento que prefieras.
+                    </h2>
+                    <p class="text-2xl text-teal-300 font-semibold">
+                      Sin restricciones de horario. Accede al contenido en cualquier momento del día, adaptándolo a tu ritmo de aprendizaje.
+                    </p>
+                </div>
+            </div>
+    
+            {# Top Right Section #}
+            <div class="bg-gray-100 rounded-lg p-6 md:p-8 space-y-4">
+                <div class="text-sm font-semibold text-teal-500">INTERACTIVIDAD</div>
+                <h2 class="text-2xl md:text-3xl font-bold">Recibe retroalimentación en tiempo real mientras practicas las señas.</h2>
+                <p class="text-sm md:text-base">
+                  Disfruta de un aprendizaje interactivo donde recibirás respuestas inmediatas a cada seña que practiques. Gracias a esta retroalimentación en tiempo real, podrás corregir errores al instante y mejorar tu precisión de manera eficiente.
+                </p>
+            </div>
+    
+    
+            {# Bottom Left Section #}
+            <div class="bg-gray-100 rounded-lg p-6 md:p-8 space-y-6">
+                <h2 class="text-2xl md:text-3xl font-bold text-teal-500">Educación Inclusiva</h2>
+                <p class="text-sm md:text-base">
+                    Facilita el aprendizaje inclusivo con herramientas innovadoras y metodologías accesibles. Implementa recursos de lengua de señas para mejorar la comunicación en el aula y fortalecer la educación para todos.
+                </p>
+                <button 
+                    x-data="{ hover: false }"
+                    x-on:mouseenter="hover = true"
+                    x-on:mouseleave="hover = false"
+                    class="bg-teal-500 hover:bg-teal-600 text-white font-medium px-6 py-2 w-full md:w-auto rounded transition-transform duration-200"
+                    :class="{ 'scale-105': hover }"
+                >
+                    PARA CENTROS DE ENSEÑANZA
+                </button>
+            </div>
+            {# Bottom Left Section #}
+            <div class="bg-gray-100 rounded-lg p-6 md:p-8 space-y-6">
+                <h2 class="text-2xl md:text-3xl font-bold text-teal-500">Certificación Oficial</h2>
+                <p class="text-sm md:text-base">
+                    Obtén certificaciones y validaciones que acrediten tu aprendizaje en lengua de señas. Demuestra tus habilidades y conocimientos con reconocimientos oficiales dentro de nuestra plataforma educativa.
+                </p>
+                <button 
+                    x-data="{ hover: false }"
+                    x-on:mouseenter="hover = true"
+                    x-on:mouseleave="hover = false"
+                    class="bg-teal-500 hover:bg-teal-600 text-white font-medium px-6 py-2 w-full md:w-auto rounded transition-transform duration-200"
+                    :class="{ 'scale-105': hover }"
+                >
+                    RECONOCIMIENTOS
+                </button>
+            </div>
+    
+            {# Bottom Right Section #}
+            <div class="bg-slate-800 text-white rounded-lg overflow-hidden relative shadow-xl">
+                <div class="absolute inset-0 w-full h-full">
+                    <img 
+                        src="https://static01.nyt.com/images/2025/01/12/espanol/12mag-lor-ES-copy1/12mag-lor-articleLarge.jpg?quality=75&auto=webp&disable=upscale" 
+                        alt="Mujer meditando con un batido verde"
+                        class="w-full h-full object-cover opacity-60"
+                    />
+                </div>
+                <div class="relative p-6 md:p-8 space-y-4">
+                    <div class="text-sm font-semibold text-cyan-400">FACIL Y ENTRETENIDA</div>
+                    <h2 class="text-2xl md:text-3xl font-bold">
+                      Disfruta de una experiencia educativa envolvente que transforma el aprendizaje en un juego.
+                    </h2>
+                    <p class="text-sm md:text-base">
+                      Diseñado para todas las edades, este método intuitivo y dinámico hace que cada lección sea fácil de entender y entretenida, motivándote a seguir avanzando sin esfuerzo. ¡Aprender nunca había sido tan divertido!
+                    </p>
+                </div>
+            </div>
+    </div>
+{% endblock %}

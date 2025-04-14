@@ -1,0 +1,94 @@
+{% extends "app/base-old.html" %}
+
+{% block title %}
+Clases
+{% endblock %}
+
+{% load static %}
+{% block content %}
+<section id="porque" class="section-porque">
+    <h3 class="section-subtitle">¿POR QUÉ EXPRÉSATE CON SEÑAS?</h3>
+    <p class="section-description">Descubre los beneficios de aprender con nuestra plataforma</p>
+    <div>
+        <div class="benefits-list">
+            <div class="benefit-item">
+                <a {% if user.is_authenticated %} href="{% url 'modulo.family' NM='Familia' %}" {% else %} href="{% url "login" %}" {% endif %} style="text-decoration: none;">
+                    <img src="{% static "img/familia.png" %}" class="flexibilidad" alt="Icono de flexibilidad">
+                    <h4 class="li-h4">Familia</h4>
+                    <p class="li-p">Aprende desde tu casa, <br> a tu ritmo y sin horarios fijos. <br> Disponible las 24
+                        horas.</p>
+                </a>
+            </div>
+
+            <div class="benefit-item">
+                <a {% if user.is_authenticated %} href="{% url 'modulo.family' NM='Animales' %}" {% else %} href="{% url "login" %}" {% endif %} style="text-decoration: none;">
+                    <img src="{% static "img/animales.png" %}" class="interactivo" alt="Icono de interactividad">
+                    <h4 class="li-h4">Animales</h4>
+                    <p class="li-p">Vas a tener respuesta al instante <br> de las señas que estás aprendiendo.</p>
+                </a>
+            </div>
+
+            <div class="benefit-item">
+                <a {% if user.is_authenticated %} href="{% url 'modulo.family' NM='Numeros' %}" {% else %} href="{% url "login" %}" {% endif %} style="text-decoration: none;">
+                    <img src="{% static "img/numeros.png " %}" class="flexibilidad" alt="Icono de flexibilidad">
+                    <h4 class="li-h4">Numeros</h4>
+                    <p class="li-p">Aprende desde tu casa, <br> a tu ritmo y sin horarios fijos. <br> Disponible las 24 horas.</p>
+                </a>
+            </div>
+            
+            <div class="benefit-item">
+                <a {% if user.is_authenticated %} href="{% url 'modulo.family' NM='Vocales' %}" {% else %} href="{% url "login" %}" {% endif %} style="text-decoration: none;">
+                    <img src="{% static "img/vocales.png " %}" class="interactivo" alt="Icono de interactividad">
+                    <h4 class="li-h4">Vocales</h4>
+                    <p class="li-p">Vas a tener respuesta al instante <br> de las señas que estás aprendiendo.</p>
+                </a>
+            </div>
+            
+            <div class="benefit-item">
+                <a {% if user.is_authenticated %} href="{% url 'modulo.family' NM='Colores' %}" {% else %} href="{% url "login" %}" {% endif %} style="text-decoration: none;">
+                    <img src="{% static "img/colores.png" %}" class="interactivo" alt="Icono de interactividad">
+                    <h4 class="li-h4">Colores</h4>
+                    <p class="li-p">Vas a tener respuesta al instante <br> de las señas que estás aprendiendo.</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="benefits-list">
+            <div class="benefit-item">
+                <a {% if user.is_authenticated %} href="{% url 'modulo.family' NM='Alimentos' %}" {% else %} href="{% url "login" %}" {% endif %} style="text-decoration: none;">
+                    <img src="{% static "img/Alimentos.png" %}" class="facil-entretenido"
+                        alt="Icono de fácil y entretenida">
+                    <h4 class="li-h4">Alimentos</h4>
+                    <p class="li-p">¡Lo sentirás como un juego! <br> Es para todas las edades.</p>
+                </a>
+            </div>
+
+            <div class="benefit-item">
+                <a {% if user.is_authenticated %} href="{% url 'modulo.family' NM='Juguetes' %}" {% else %} href="{% url "login" %}" {% endif %} style="text-decoration: none;">
+                    <img src="{% static "img/juguete-de-forma.png" %}" class="interactivo"
+                        alt="Icono de interactividad">
+                    <h4 class="li-h4">Juguetes</h4>
+                    <p class="li-p">Vas a tener respuesta al instante <br> de las señas que estás aprendiendo.</p>
+                </a>
+            </div>
+
+            <div class="benefit-item">
+                <img src="{% static "img/abecedario.png " %}" class="facil-entretenido"
+                    alt="Icono de fácil y entretenida">
+                <h4 class="li-h4">Abecedario</h4>
+                <p class="li-p">¡Lo sentirás como un juego! <br> Es para todas las edades.</p>
+            </div>
+
+            <div class="benefit-item">
+                <img src="{% static "img/converzacion.png " %}" class="interactivo" alt="Icono de interactividad">
+                <h4 class="li-h4">Converzacion</h4>
+                <p class="li-p">Vas a tener respuesta al instante <br> de las señas que estás aprendiendo.</p>
+            </div>
+
+            <div class="benefit-item">
+                <img src="{% static "img/paises.png " %}" class="interactivo" alt="Icono de interactividad">
+                <h4 class="li-h4">Paises</h4>
+                <p class="li-p">Vas a tener respuesta al instante <br> de las señas que estás aprendiendo.</p>
+            </div>
+</section>
+{% endblock %}

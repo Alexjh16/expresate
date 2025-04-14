@@ -1,0 +1,41 @@
+{% extends "app/base.html" %}
+
+{% block title %}
+    Crear evaluacion
+{% endblock  %}
+
+{% load static %}
+{% block content %}
+<section>
+      <div class="registro-admin">
+        <img src="{% static "/img/logo-proyecto.png" %}" alt="logo proyecto" class="login-logo" />
+        <h2>Crear preguntas</h2>
+  
+        <form action="{% url "crear.pregunta" %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="text" name="pregunta" id="pregunta" placeholder="Crea tu pregunta*:" required />
+          <input type="text" name="respuestaCorrecta" id="pregunta" placeholder="Crea respuesta correcta*:" required />
+
+          <input type="text" name="respuesta_1" id="respuesta_1" placeholder="Respuesta 1*:" required />
+          <input type="text" name="respuesta_2" id="respuesta_2" placeholder="Respuesta 2*:" required />
+          <input type="text" name="respuesta_3" id="respuesta_3" placeholder="Respuesta 3*:" required />
+          <input type="text" name="respuesta_4" id="respuesta_4" placeholder="Respuesta 4*:" required />
+          <hr>
+          <label for="">Insertar imagen si la requiere</label>
+          <input type="file" name="imagen" id="imagen"/>
+          <hr>
+          <label for="">Insertar video si lo requiere</label>
+          <input type="file" name="video" id="video"/> <br>
+          <hr>
+          <label for="">Seleccione la categoria</label>
+          <select class="mb-3"  name="categoriaClase">
+            {% for nombreCategoria in arrayCategoriaClases %}
+              <option value="{{nombreCategoria.id}}">{{nombreCategoria.nombre_categoria}}</option>
+            {% endfor %}
+          </select>
+        
+          <button type="submit">Crear preguntas</button>
+        </form>
+      </div>
+  </section>
+{% endblock  %}

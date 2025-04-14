@@ -1,0 +1,39 @@
+{% load static %}
+<a href="{% url 'index' %}">
+    <img src="{% static "/img/logo-proyecto.png" %}" alt="logo proyecto" class="logo"/>
+</a>
+<nav class="nav">
+    <ul class="nav-list">
+        <li><a href="{% url 'indexOld' %}" class="nav-link">Inicio</a></li>
+        <li><a href="{% url 'menu.clase' %}" class="nav-link">Clases</a></li>
+        <li><a href="{% url 'menu.nosotros' %}" class="nav-link">Nosotros</a></li>
+        <li><a href="{% url 'contacto' %}" class="nav-link">Contacto</a></li>
+        <li><a href="#" class="nav-link">Mision</a></li>
+        <li><a href="#" class="nav-link">Vision</a></li>
+
+        {% if user.is_authenticated %}
+            <li><a href="{% url "logout.session" %}" class="nav-link">Cerrar sesion</a></li>
+        {% else %}
+            <li><a href="{% url 'registrar' %}" class="nav-link">Registrar</a></li>
+            <li><a href="{% url 'login' %}" class="nav-link">Iniciar sesion</a></li>
+        {% endif %}
+
+        
+    </ul>
+        
+        <div class="dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                ¿Que eres?
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'login' %}">Estudiante</a></li>
+              <li><a class="dropdown-item" href="{% url 'base_admin' %}">Administrador</a></li>
+            </ul>
+        </div>
+
+        {% if user.is_authenticated %}
+            <div class="nombrePerfil">
+                <a href=""><p>{{ user.username }}</p></a>
+            </div>
+        {% endif %}
+</nav>

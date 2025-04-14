@@ -1,0 +1,26 @@
+
+{% load static %}
+
+<p class="text-pretty font-bold">
+    Prueba Conexión Postgres
+</p>
+<span>Listado datos: </span>
+<ul>
+    {% for dato in datos %}
+        <li>
+            {{ dato.username }}
+        </li>
+    {% endfor %}
+</ul>
+<hr>
+
+<p class="text-pretty font-bold">
+    Prueba Conexión Redis:
+</p>
+<hr>
+
+
+
+<p class="text-pretty font-bold">
+    Prueba Conexión MongoDB:
+</p>

@@ -1,0 +1,55 @@
+{% extends "app/base-old.html" %}
+
+{% block title %}
+    Nosotros
+{% endblock %}
+
+{% load static %}
+{% block content %}
+<section id="porque" class="section-porque">
+    <h3 class="section-subtitle">¿POR QUÉ EXPRÉSATE CON SEÑAS?</h3>
+    <p class="section-description">Descubre los beneficios de aprender con nuestra plataforma</p>
+    
+    <ul class="benefits-list">
+        <li class="benefit-item">
+            <img src="{% static "img/flexibilidad.png " %}" class="flexibilidad" alt="Icono de flexibilidad">
+            <h4 class="li-h4">Flexibilidad Total</h4>
+            <p class="li-p">Aprende desde tu casa, <br> a tu ritmo y sin horarios fijos. <br> Disponible las 24 horas.</p>
+        </li>
+        
+        <li class="benefit-item">
+            <img src="{% static "img/facil-entretenido.png " %}" class="facil-entretenido" alt="Icono de fácil y entretenida">
+            <h4 class="li-h4">Fácil y Entretenida</h4>
+            <p class="li-p">¡Lo sentirás como un juego! <br> Es para todas las edades.</p>
+        </li>
+        
+        <li class="benefit-item">
+            <img src="{% static "img/interactivo.png " %}" class="interactivo" alt="Icono de interactividad">
+            <h4 class="li-h4">Interactividad</h4>
+            <p class="li-p">Vas a tener respuesta al instante <br> de las señas que estás aprendiendo.</p>
+        </li>
+    </ul>
+    
+</section>
+
+ <section id="usos" class="section-usos">
+    <h2 class="section-title">Plataforma adaptada para todos</h2>
+        <section class="use-cases">
+            <article class="use-case">
+                <h4 class="use-case-title">Uso Personal</h4>
+            </article>
+            <article class="use-case">
+                <h4 class="use-case-title">Para Empresas</h4>
+            </article>
+            <article class="use-case">
+                <h4 class="use-case-title">Para Centros de Enseñanza</h4>
+            </article>
+        </section>
+        <article class="use-case">
+            <h4 class="use-case-title">Reconocimiento</h4>
+        </article>
+    </section>
+
+</body>
+</html>
+{% endblock  %}
