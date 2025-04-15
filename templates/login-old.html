@@ -1,0 +1,29 @@
+{% extends "app/base-old.html" %}
+
+{% block title  %}
+    Iniciar sesion
+{% endblock  %}
+
+{% load static %}
+
+{% block clase_body %}background{% endblock %}
+
+{% block content %}
+    <div class="login-container">
+      <img src="{% static "/img/logo-proyecto.png" %}" alt="logo proyecto" class="login-logo" />
+      <h2>Iniciar Sesión</h2>
+      <form method="POST" action="{% url 'login.session' %}">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Nombre usuario" required />
+        <input type="password" name="password" placeholder="Contraseña" required />
+        <div class="remember-forgot">
+          <label><input type="checkbox" /> Recordar</label>
+          <a href="#">Olvidé la contraseña</a>
+        </div>
+        <button type="submit">Acceder</button>
+      </form>
+      <div class="signup">
+        No tengo cuenta <a href="{% url "registrar" %}">Crear una</a>
+      </div>
+    </div>
+{% endblock %}

@@ -21,17 +21,16 @@ urlpatterns = [
     path('index/', views.index, name='index'),
     path('clases/', views.clases, name='clases'),
     path('nosotros/', views.nosotros, name='nosotros'),
-    path('contacto/', views.contacto, name='contacto'),
-    path('mision/', views.mision, name='mision'),
+    path('registrar/', views.registrar, name='registrar'),
+    path('login/', views.login, name='login'),
     
-    path('vision/', views.vision, name= 'vision'),
     #
     path('menu/clases/', views.clasesOld, name='menu.clase'),
     
     path('menu/nosotros/', views.nosotrosOld, name='menu.nosotros'),
     path('menu/contacto/', views.contactoOld, name='menu.contacto'),
-    path('registrar/', views.registrar, name='registrar'),
-    path('login/', views.login, name='login'),
+    path('registrarOld/', views.registrarOld, name='registrarOld'),
+    path('loginOld/', views.loginOld, name='login'),
     
     #Ruta plantilla modulo
     path('modulo/clases', views.moduloClases, name='modulo.clase'),

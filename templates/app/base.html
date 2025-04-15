@@ -35,9 +35,6 @@
             <li><a href="{% url 'index' %}" class="nav-link">Inicio</a></li>
             <li><a href="{% url 'menu.clase' %}" class="nav-link">Clases</a></li>
             <li><a href="{% url 'nosotros' %}" class="nav-link">Nosotros</a></li>
-            <li><a href="{% url 'contacto' %}" class="nav-link">Contacto</a></li>
-            <li><a href="#" class="nav-link">Misión</a></li>
-            <li><a href="#" class="nav-link">Visión</a></li>
 
             {% if user.is_authenticated %}
             <li><a href="{% url 'logout.session' %}" class="nav-link">Cerrar sesión</a></li>

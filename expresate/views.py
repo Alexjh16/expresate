@@ -55,15 +55,14 @@ def clases(request):
 #
 def nosotros(request):
     return render(request, 'nosotros.html', {})
-def contacto(request):
-    return render(request, 'contacto.html', {})
+
+def registrar(request):
+    return render(request, 'registrar.html', {})
+
+def login(request):
+    return render(request, 'login.html', {})
 
 
-def mision(request):
-    return render(request, 'mision.html', {})
-
-def vision(request):
-    return render(request, 'vision.html', {})
 
 #funciones para archivos anteriores
 def indexOld(request):
@@ -78,11 +77,11 @@ def nosotrosOld(request):
 def contactoOld(request):
     return render(request, 'contacto-old.html', {})
 
-def registrar(request):
-    return render(request, 'registrar.html', {})
+def registrarOld(request):
+    return render(request, 'registrar-old.html', {})
 
-def login(request):
-    return render(request, 'login.html', {})
+def loginOld(request):
+    return render(request, 'login-old.html', {})
 
 def moduloClases(request):
     return render(request, 'modulo_clase.html', {})

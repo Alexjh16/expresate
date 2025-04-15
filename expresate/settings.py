@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    'usuarios',
-    'contenido',
+    'users',
+    'contenidos',
     'seguimiento',
     'evaluacion',
 
@@ -142,7 +142,7 @@ SESSION_CACHE_ALIAS = "default"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 #configuracion para auth user : Jhon Alexander Ramos
-AUTH_USER_MODEL = 'usuarios.Usuario'
+AUTH_USER_MODEL = 'users.Users'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
