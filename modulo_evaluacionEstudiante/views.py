@@ -2,8 +2,8 @@ import json
 from django.http import JsonResponse
 from django.shortcuts import render
 from modelos_expresate.models import CategoriaClases
-#from modulo_evaluacionEstudiante.models import Notas, Preguntas
-"""
+from modulo_evaluacionEstudiante.models import Notas, Preguntas
+
 def indexCrearPreguntas(request):
     arrayCategoriaClases = CategoriaClases.objects.all().order_by('nombre_categoria')
     return render(request, 'view_admin/crear_evaluacion.html', {'arrayCategoriaClases': arrayCategoriaClases})
@@ -58,4 +58,4 @@ def notas(request):
         user = usuario
       )
     return JsonResponse({"success":"'Notas guardadas con exito'"})
-    """
+    

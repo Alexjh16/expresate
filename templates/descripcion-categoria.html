@@ -1,0 +1,466 @@
+{% extends "app/base.html" %}
+
+{% block title %}
+Descripción Categorias | Expresate con señas
+{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+
+{% block extra_css %}
+<style>
+    .gradient-overlay {
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7));
+    }
+    
+    .video-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .instructor-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .benefit-icon {
+        transition: all 0.3s ease;
+    }
+    
+    .benefit-card:hover .benefit-icon {
+        transform: scale(1.1);
+    }
+</style>
+{% endblock %}
+<!-- Hero Section con imagen de fondo -->
+<div class="relative">
+    <!-- Imagen de fondo -->
+    <div class="absolute inset-0 z-0">
+        <img src="https://urfu.ru/fileadmin/user_upload/urfu.ru_en/News/Distance-learning.jpg" alt="Yoga y Meditación" class="w-full h-full object-cover">
+        <div class="absolute inset-0 gradient-overlay"></div>
+    </div>
+    
+    <!-- Contenido del hero -->
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+        <div class="text-center md:text-left md:max-w-2xl">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-teal-100 text-teal-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                Categoría Destacada
+            </span>
+            <h1 class="mb-4 text-4xl md:text-5xl font-extrabold text-white tracking-tight">Vocales: Primer nivel</h1>
+            
+            <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+                <a href="#videos" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 shadow-md hover:shadow-lg transition-all duration-300">
+                    Ver Videos
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+                <a href="#descripcion" class="inline-flex items-center justify-center px-5 py-3 border border-white text-base font-medium rounded-md text-white hover:bg-white/10 transition-all duration-300">
+                    Más Información
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Estadísticas rápidas -->
+<div class="bg-white shadow-md -mt-10 relative z-20 max-w-7xl mx-auto rounded-lg overflow-hidden">
+    <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200">
+        <div class="p-6 text-center">
+            <p class="text-sm font-medium text-gray-500 truncate">Videos Disponibles</p>
+            <p class="mt-1 text-3xl font-semibold text-gray-900">24</p>
+        </div>
+        <div class="p-6 text-center">
+            <p class="text-sm font-medium text-gray-500 truncate">Duración Total</p>
+            <p class="mt-1 text-3xl font-semibold text-gray-900">12h 45m</p>
+        </div>
+        <div class="p-6 text-center">
+            <p class="text-sm font-medium text-gray-500 truncate">Nivel de Dificultad</p>
+            <p class="mt-1 text-3xl font-semibold text-gray-900">Todos los niveles</p>
+        </div>
+    </div>
+</div>
+
+<!-- Descripción de la categoría -->
+<section id="descripcion" class="py-16 mt-7 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
+            <div>
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    Sobre esta categoría
+                </h2>
+                <p class="mt-4 text-lg text-gray-600">
+                    Nuestra categoría de Yoga y Meditación está diseñada para ayudarte a encontrar equilibrio, 
+                    flexibilidad y paz interior. A través de prácticas guiadas por expertos instructores, 
+                    aprenderás técnicas milenarias adaptadas al mundo moderno.
+                </p>
+                <p class="mt-4 text-lg text-gray-600">
+                    Ya sea que estés comenzando tu viaje en el yoga o buscando profundizar tu práctica, 
+                    encontrarás contenido adaptado a tu nivel y necesidades específicas. Desde posturas básicas 
+                    hasta secuencias avanzadas, meditaciones guiadas y técnicas de respiración.
+                </p>
+                <div class="mt-8">
+                    <h3 class="text-xl font-bold text-gray-900">¿Qué aprenderás?</h3>
+                    <ul class="mt-4 space-y-3">
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <svg class="h-6 w-6 text-teal-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <p class="ml-3 text-base text-gray-600">Posturas básicas y avanzadas de yoga</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <svg class="h-6 w-6 text-teal-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <p class="ml-3 text-base text-gray-600">Técnicas de respiración para reducir el estrés</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <svg class="h-6 w-6 text-teal-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <p class="ml-3 text-base text-gray-600">Meditaciones guiadas para principiantes y avanzados</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <svg class="h-6 w-6 text-teal-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <p class="ml-3 text-base text-gray-600">Secuencias para diferentes momentos del día</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <svg class="h-6 w-6 text-teal-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <p class="ml-3 text-base text-gray-600">Prácticas para aliviar dolores específicos</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-10 lg:mt-0">
+                <div class="aspect-w-16 aspect-h-9 rounded-xl overflow-hidden shadow-xl">
+                    <img src="https://www.commandeducation.com/wp-content/uploads/2022/08/student-working-on-test-for-school.jpeg" alt="Práctica de yoga" class="w-full h-full object-cover">
+                </div>
+                <div class="mt-6 grid grid-cols-2 gap-4">
+                    <div class="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden shadow-lg">
+                        <img src="https://images10.newegg.com/BizIntell/item/Input%20Output/Webcam/1EF-007G-00032/4.jpg" alt="Meditación" class="w-full h-full object-cover">
+                    </div>
+                    <div class="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden shadow-lg">
+                        <img src="https://t4.ftcdn.net/jpg/05/51/56/31/360_F_551563180_lOD3NKsxifWkCohVThXAaCdUN5nhAJoN.jpg" alt="Postura de yoga" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Beneficios -->
+<section class="py-16 mt-7 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                Beneficios de la práctica regular
+            </h2>
+            <p class="mt-4 max-w-2xl text-xl text-gray-600 mx-auto">
+                Incorporar yoga y meditación a tu rutina diaria puede transformar tu bienestar físico y mental.
+            </p>
+        </div>
+        
+        <div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <!-- Beneficio 1 -->
+            <div class="bg-gray-50 rounded-xl p-8 shadow-md hover:shadow-lg transition-all duration-300 benefit-card">
+                <div class="inline-flex items-center justify-center p-3 bg-teal-100 rounded-md benefit-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                </div>
+                <h3 class="mt-6 text-xl font-bold text-gray-900">Reduce el estrés y la ansiedad</h3>
+                <p class="mt-4 text-base text-gray-600">
+                    Las técnicas de respiración y meditación ayudan a calmar el sistema nervioso, reduciendo los niveles de cortisol y promoviendo una sensación de calma.
+                </p>
+            </div>
+            
+            <!-- Beneficio 2 -->
+            <div class="bg-gray-50 rounded-xl p-8 shadow-md hover:shadow-lg transition-all duration-300 benefit-card">
+                <div class="inline-flex items-center justify-center p-3 bg-cyan-100 rounded-md benefit-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                </div>
+                <h3 class="mt-6 text-xl font-bold text-gray-900">Mejora la flexibilidad y fuerza</h3>
+                <p class="mt-4 text-base text-gray-600">
+                    Las posturas de yoga trabajan diferentes grupos musculares, aumentando gradualmente la flexibilidad y desarrollando fuerza funcional en todo el cuerpo.
+                </p>
+            </div>
+            
+            <!-- Beneficio 3 -->
+            <div class="bg-gray-50 rounded-xl p-8 shadow-md hover:shadow-lg transition-all duration-300 benefit-card">
+                <div class="inline-flex items-center justify-center p-3 bg-teal-100 rounded-md benefit-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                </div>
+                <h3 class="mt-6 text-xl font-bold text-gray-900">Aumenta la concentración</h3>
+                <p class="mt-4 text-base text-gray-600">
+                    La práctica regular de meditación entrena la mente para mantener el enfoque, mejorando la capacidad de concentración en todas las áreas de tu vida.
+                </p>
+            </div>
+            
+            <!-- Beneficio 4 -->
+            <div class="bg-gray-50 rounded-xl p-8 shadow-md hover:shadow-lg transition-all duration-300 benefit-card">
+                <div class="inline-flex items-center justify-center p-3 bg-cyan-100 rounded-md benefit-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </div>
+                <h3 class="mt-6 text-xl font-bold text-gray-900">Mejora la calidad del sueño</h3>
+                <p class="mt-4 text-base text-gray-600">
+                    Las prácticas de relajación ayudan a regular el ciclo del sueño, facilitando un descanso más profundo y reparador durante la noche.
+                </p>
+            </div>
+            
+            <!-- Beneficio 5 -->
+            <div class="bg-gray-50 rounded-xl p-8 shadow-md hover:shadow-lg transition-all duration-300 benefit-card">
+                <div class="inline-flex items-center justify-center p-3 bg-teal-100 rounded-md benefit-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </div>
+                <h3 class="mt-6 text-xl font-bold text-gray-900">Promueve el autoconocimiento</h3>
+                <p class="mt-4 text-base text-gray-600">
+                    La práctica introspectiva te ayuda a conectar con tu cuerpo y mente, desarrollando una mayor conciencia de tus pensamientos y emociones.
+                </p>
+            </div>
+            
+            <!-- Beneficio 6 -->
+            <div class="bg-gray-50 rounded-xl p-8 shadow-md hover:shadow-lg transition-all duration-300 benefit-card">
+                <div class="inline-flex items-center justify-center p-3 bg-cyan-100 rounded-md benefit-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <h3 class="mt-6 text-xl font-bold text-gray-900">Aumenta los niveles de energía</h3>
+                <p class="mt-4 text-base text-gray-600">
+                    Ciertas prácticas de yoga están diseñadas para estimular el cuerpo y aumentar la vitalidad, dejándote con una sensación de energía renovada.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Videos disponibles -->
+<section id="videos" class="py-16 mt-7 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                Videos disponibles
+            </h2>
+            <p class="mt-4 max-w-2xl text-xl text-gray-600 mx-auto">
+                Explora nuestra colección de videos de yoga y meditación para todos los niveles.
+            </p>
+        </div>
+        
+        <!-- Filtros -->
+        <div class="mt-10 flex flex-wrap justify-center gap-3" x-data="{ activeFilter: 'todos' }">
+            <button @click="activeFilter = 'todos'" 
+                    :class="{'bg-teal-600 text-white': activeFilter === 'todos', 'bg-white text-gray-700 hover:bg-gray-100': activeFilter !== 'todos'}" 
+                    class="px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-all duration-300">
+                Todos
+            </button>
+            <button @click="activeFilter = 'principiante'" 
+                    :class="{'bg-teal-600 text-white': activeFilter === 'principiante', 'bg-white text-gray-700 hover:bg-gray-100': activeFilter !== 'principiante'}" 
+                    class="px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-all duration-300">
+                Principiante
+            </button>
+            <button @click="activeFilter = 'intermedio'" 
+                    :class="{'bg-teal-600 text-white': activeFilter === 'intermedio', 'bg-white text-gray-700 hover:bg-gray-100': activeFilter !== 'intermedio'}" 
+                    class="px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-all duration-300">
+                Intermedio
+            </button>
+            <button @click="activeFilter = 'avanzado'" 
+                    :class="{'bg-teal-600 text-white': activeFilter === 'avanzado', 'bg-white text-gray-700 hover:bg-gray-100': activeFilter !== 'avanzado'}" 
+                    class="px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-all duration-300">
+                Avanzado
+            </button>
+            <button @click="activeFilter = 'meditacion'" 
+                    :class="{'bg-teal-600 text-white': activeFilter === 'meditacion', 'bg-white text-gray-700 hover:bg-gray-100': activeFilter !== 'meditacion'}" 
+                    class="px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-all duration-300">
+                Meditación
+            </button>
+            <button @click="activeFilter = 'respiracion'" 
+                    :class="{'bg-teal-600 text-white': activeFilter === 'respiracion', 'bg-white text-gray-700 hover:bg-gray-100': activeFilter !== 'respiracion'}" 
+                    class="px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-all duration-300">
+                Respiración
+            </button>
+        </div>
+        
+        <!-- Grid de videos -->
+        <div class="mt-12 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+            <!-- Video 1 -->
+            <div class="group relative video-card transition-all duration-300">
+                <div class="w-full min-h-80 bg-gray-200 aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-md group-hover:shadow-xl">
+                    <img src="{% static 'img/video-thumbnail02.jpg' %}" alt="Yoga para principiantes" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900">
+                            <a href="#">
+                                Yoga para Principiantes: Primeros Pasos
+                            </a>
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600">Ana Martínez • 25 minutos</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video 2 -->
+            <div class="group relative video-card transition-all duration-300">
+                <div class="w-full min-h-80 bg-gray-200 aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-md group-hover:shadow-xl">
+                    <img src="{% static 'img/video-thumbnail02.jpg' %}" alt="Meditación guiada" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900">
+                            <a href="#">
+                                Meditación Guiada para Reducir Ansiedad
+                            </a>
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600">Carlos Ruiz • 15 minutos</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video 3 -->
+            <div class="group relative video-card transition-all duration-300">
+                <div class="w-full min-h-80 bg-gray-200 aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-md group-hover:shadow-xl">
+                    <img src="{% static 'img/video-thumbnail02.jpg' %}" alt="Secuencia de yoga intermedia" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900">
+                            <a href="#">
+                                Secuencia de Flujo Vinyasa
+                            </a>
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600">Laura Gómez • 45 minutos</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video 4 -->
+            <div class="group relative video-card transition-all duration-300">
+                <div class="w-full min-h-80 bg-gray-200 aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-md group-hover:shadow-xl">
+                    <img src="{% static 'img/video-thumbnail02.jpg' %}" alt="Técnicas de respiración" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900">
+                            <a href="#">
+                                Técnicas de Respiración Pranayama
+                            </a>
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600">Miguel Sánchez • 20 minutos</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video 5 -->
+            <div class="group relative video-card transition-all duration-300">
+                <div class="w-full min-h-80 bg-gray-200 aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-md group-hover:shadow-xl">
+                    <img src="{% static 'img/video-thumbnail02.jpg' %}" alt="Yoga avanzado" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900">
+                            <a href="#">
+                                Posturas Avanzadas: Inversiones
+                            </a>
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600">Elena Torres • 35 minutos</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video 6 -->
+            <div class="group relative video-card transition-all duration-300">
+                <div class="w-full min-h-80 bg-gray-200 aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-md group-hover:shadow-xl">
+                    <img src="{% static 'img/video-thumbnail02.jpg' %}"Meditación para dormir" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900">
+                            <a href="#">
+                                Meditación para Conciliar el Sueño
+                            </a>
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600">Sofía Blanco • 15 minutos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Botón para ver más -->
+        <div class="mt-7 py-2 text-center">
+            <a href="#" class="inline-flex items-center px-6 py-3 border border-transparent font-medium rounded-md shadow-sm bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                Ver todos los videos
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock %}

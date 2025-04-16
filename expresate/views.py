@@ -56,11 +56,20 @@ def clases(request):
 def nosotros(request):
     return render(request, 'nosotros.html', {})
 
+def descripcionCategoria(request):
+    return render(request, 'descripcion-categoria.html', {})
+
 def registrar(request):
     return render(request, 'registrar.html', {})
 
 def login(request):
     return render(request, 'login.html', {})
+
+def adminLogin(request):
+    return render(request, 'admin/login.html', {})
+
+def adminDashboard(request):
+    return render(request, 'admin/app/dashboard.html', {})
 
 
 

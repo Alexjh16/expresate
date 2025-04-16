@@ -21,8 +21,11 @@ urlpatterns = [
     path('index/', views.index, name='index'),
     path('clases/', views.clases, name='clases'),
     path('nosotros/', views.nosotros, name='nosotros'),
+    path('descripcion-categoria/', views.descripcionCategoria, name='descripcion-categoria'),
     path('registrar/', views.registrar, name='registrar'),
     path('login/', views.login, name='login'),
+    path('login-admin/', views.adminLogin, name='login-admin'),
+    path('dashboard-admin/', views.adminDashboard, name='dashboard-admin'),
     
     #
     path('menu/clases/', views.clasesOld, name='menu.clase'),
@@ -30,7 +33,7 @@ urlpatterns = [
     path('menu/nosotros/', views.nosotrosOld, name='menu.nosotros'),
     path('menu/contacto/', views.contactoOld, name='menu.contacto'),
     path('registrarOld/', views.registrarOld, name='registrarOld'),
-    path('loginOld/', views.loginOld, name='login'),
+    path('loginOld/', views.loginOld, name='loginOld'),
     
     #Ruta plantilla modulo
     path('modulo/clases', views.moduloClases, name='modulo.clase'),

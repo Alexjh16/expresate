@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+from users.models import Users
 from modelos_expresate.models import CategoriaClases
 
 #Modelos de Evaluation students
@@ -19,14 +20,14 @@ class Preguntas(models.Model):
     def __str__(self):
         return self.categoriaClases.nombre_categoria
 
-"""class Notas(models.Model):
+class Notas(models.Model):
     nombre_categoria = models.CharField(null=False, blank=True, max_length=50)
     respuestas_buenas = models.IntegerField(null=False, blank=True)
     respuestas_malas = models.IntegerField(null=False, blank=True)
     nota = models.FloatField(null=False, blank=True, default= 0.0)
     estado = models.CharField(null=False, blank=True, max_length=15)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.nombre_categoria
-   """ 
+   
