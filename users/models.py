@@ -9,8 +9,9 @@ from django.contrib.auth.models import AbstractUser
 #users
 
 class Paises(models.Model):
-    nombre_pais = models.CharField(max_length=100)
-    codigo_pais = models.CharField(max_length=10)
+    nombre = models.CharField(max_length=100)
+    codigo = models.CharField(max_length=10)
+    indicativo = models.CharField(max_length=10)
     codigo_iso = models.CharField(max_length=5)
     idioma_principal = models.CharField(max_length=50)
 
@@ -21,11 +22,11 @@ class Paises(models.Model):
         db_table = "paises"
         verbose_name = 'Pais'
         verbose_name_plural = 'Paises'
-        ordering = ['nombre_pais']
+        ordering = ['nombre']
 
 class RolesUser(models.Model):
-    nombre_rol = models.CharField(max_length=50)
-    descripcion_rol = models.TextField(null=True, blank=True)
+    nombre = models.CharField(max_length=50)
+    descripcion = models.TextField(null=True, blank=True)
 
     class Meta:
         db_table = 'roles_user'

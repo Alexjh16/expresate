@@ -6,3 +6,4 @@ django-browser-reload
 django-alpine
 django-redis
 pymongo
+django-seed

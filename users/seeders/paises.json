@@ -1,0 +1,1353 @@
+[
+    {
+        "nombre": "Afganistán",
+        "codigo": "AF",
+        "codigo_iso": "AFG",
+        "indicativo": "+93",
+        "idioma_principal": "Pastún"
+    },
+    {
+        "nombre": "Albania",
+        "codigo": "AL",
+        "codigo_iso": "ALB",
+        "indicativo": "+355",
+        "idioma_principal": "Albanés"
+    },
+    {
+        "nombre": "Alemania",
+        "codigo": "DE",
+        "codigo_iso": "DEU",
+        "indicativo": "+49",
+        "idioma_principal": "Alemán"
+    },
+    {
+        "nombre": "Andorra",
+        "codigo": "AD",
+        "codigo_iso": "AND",
+        "indicativo": "+376",
+        "idioma_principal": "Catalán"
+    },
+    {
+        "nombre": "Angola",
+        "codigo": "AO",
+        "codigo_iso": "AGO",
+        "indicativo": "+244",
+        "idioma_principal": "Portugués"
+    },
+    {
+        "nombre": "Antigua y Barbuda",
+        "codigo": "AG",
+        "codigo_iso": "ATG",
+        "indicativo": "+1",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Arabia Saudita",
+        "codigo": "SA",
+        "codigo_iso": "SAU",
+        "indicativo": "+966",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Argelia",
+        "codigo": "DZ",
+        "codigo_iso": "DZA",
+        "indicativo": "+213",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Argentina",
+        "codigo": "AR",
+        "codigo_iso": "ARG",
+        "indicativo": "+54",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Armenia",
+        "codigo": "AM",
+        "codigo_iso": "ARM",
+        "indicativo": "+374",
+        "idioma_principal": "Armenio"
+    },
+    {
+        "nombre": "Australia",
+        "codigo": "AU",
+        "codigo_iso": "AUS",
+        "indicativo": "+61",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Austria",
+        "codigo": "AT",
+        "codigo_iso": "AUT",
+        "indicativo": "+43",
+        "idioma_principal": "Alemán"
+    },
+    {
+        "nombre": "Azerbaiyán",
+        "codigo": "AZ",
+        "codigo_iso": "AZE",
+        "indicativo": "+994",
+        "idioma_principal": "Azerí"
+    },
+    {
+        "nombre": "Bahamas",
+        "codigo": "BS",
+        "codigo_iso": "BHS",
+        "indicativo": "+1",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Bangladés",
+        "codigo": "BD",
+        "codigo_iso": "BGD",
+        "indicativo": "+880",
+        "idioma_principal": "Bengalí"
+    },
+    {
+        "nombre": "Barbados",
+        "codigo": "BB",
+        "codigo_iso": "BRB",
+        "indicativo": "+1",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Baréin",
+        "codigo": "BH",
+        "codigo_iso": "BHR",
+        "indicativo": "+973",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Bélgica",
+        "codigo": "BE",
+        "codigo_iso": "BEL",
+        "indicativo": "+32",
+        "idioma_principal": "Neerlandés"
+    },
+    {
+        "nombre": "Belice",
+        "codigo": "BZ",
+        "codigo_iso": "BLZ",
+        "indicativo": "+501",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Benín",
+        "codigo": "BJ",
+        "codigo_iso": "BEN",
+        "indicativo": "+229",
+        "idioma_principal": "Francés"
+    },
+    {
+        "nombre": "Bielorrusia",
+        "codigo": "BY",
+        "codigo_iso": "BLR",
+        "indicativo": "+375",
+        "idioma_principal": "Bielorruso"
+    },
+    {
+        "nombre": "Birmania",
+        "codigo": "MM",
+        "codigo_iso": "MMR",
+        "indicativo": "+95",
+        "idioma_principal": "Birmano"
+    },
+    {
+        "nombre": "Bolivia",
+        "codigo": "BO",
+        "codigo_iso": "BOL",
+        "indicativo": "+591",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Bosnia y Herzegovina",
+        "codigo": "BA",
+        "codigo_iso": "BIH",
+        "indicativo": "+387",
+        "idioma_principal": "Bosnio"
+    },
+    {
+        "nombre": "Botsuana",
+        "codigo": "BW",
+        "codigo_iso": "BWA",
+        "indicativo": "+267",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Brasil",
+        "codigo": "BR",
+        "codigo_iso": "BRA",
+        "indicativo": "+55",
+        "idioma_principal": "Portugués"
+    },
+    {
+        "nombre": "Brunéi",
+        "codigo": "BN",
+        "codigo_iso": "BRN",
+        "indicativo": "+673",
+        "idioma_principal": "Malayo"
+    },
+    {
+        "nombre": "Bulgaria",
+        "codigo": "BG",
+        "codigo_iso": "BGR",
+        "indicativo": "+359",
+        "idioma_principal": "Búlgaro"
+    },
+    {
+        "nombre": "Burkina Faso",
+        "codigo": "BF",
+        "codigo_iso": "BFA",
+        "indicativo": "+226",
+        "idioma_principal": "Francés"
+    },
+    {
+        "nombre": "Burundi",
+        "codigo": "BI",
+        "codigo_iso": "BDI",
+        "indicativo": "+257",
+        "idioma_principal": "Francés"
+    },
+    {
+        "nombre": "Bután",
+        "codigo": "BT",
+        "codigo_iso": "BTN",
+        "indicativo": "+975",
+        "idioma_principal": "Dzongkha"
+    },
+    {
+        "nombre": "Cabo Verde",
+        "codigo": "CV",
+        "codigo_iso": "CPV",
+        "indicativo": "+238",
+        "idioma_principal": "Portugués"
+    },
+    {
+        "nombre": "Camboya",
+        "codigo": "KH",
+        "codigo_iso": "KHM",
+        "indicativo": "+855",
+        "idioma_principal": "Jemer"
+    },
+    {
+        "nombre": "Camerún",
+        "codigo": "CM",
+        "codigo_iso": "CMR",
+        "indicativo": "+237",
+        "idioma_principal": "Francés"
+    },
+    {
+        "nombre": "Canadá",
+        "codigo": "CA",
+        "codigo_iso": "CAN",
+        "indicativo": "+1",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Catar",
+        "codigo": "QA",
+        "codigo_iso": "QAT",
+        "indicativo": "+974",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Chad",
+        "codigo": "TD",
+        "codigo_iso": "TCD",
+        "indicativo": "+235",
+        "idioma_principal": "Francés"
+    },
+    {
+        "nombre": "Chile",
+        "codigo": "CL",
+        "codigo_iso": "CHL",
+        "indicativo": "+56",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "China",
+        "codigo": "CN",
+        "codigo_iso": "CHN",
+        "indicativo": "+86",
+        "idioma_principal": "Chino"
+    },
+    {
+        "nombre": "Chipre",
+        "codigo": "CY",
+        "codigo_iso": "CYP",
+        "indicativo": "+357",
+        "idioma_principal": "Griego"
+    },
+    {
+        "nombre": "Ciudad del Vaticano",
+        "codigo": "VA",
+        "codigo_iso": "VAT",
+        "indicativo": "+379",
+        "idioma_principal": "Italiano"
+    },
+    {
+        "nombre": "Colombia",
+        "codigo": "CO",
+        "codigo_iso": "COL",
+        "indicativo": "+57",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Comoras",
+        "codigo": "KM",
+        "codigo_iso": "COM",
+        "indicativo": "+269",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Corea del Norte",
+        "codigo": "KP",
+        "codigo_iso": "PRK",
+        "indicativo": "+850",
+        "idioma_principal": "Coreano"
+    },
+    {
+        "nombre": "Corea del Sur",
+        "codigo": "KR",
+        "codigo_iso": "KOR",
+        "indicativo": "+82",
+        "idioma_principal": "Coreano"
+    },
+    {
+        "nombre": "Costa de Marfil",
+        "codigo": "CI",
+        "codigo_iso": "CIV",
+        "indicativo": "+225",
+        "idioma_principal": "Francés"
+    },
+    {
+        "nombre": "Costa Rica",
+        "codigo": "CR",
+        "codigo_iso": "CRI",
+        "indicativo": "+506",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Croacia",
+        "codigo": "HR",
+        "codigo_iso": "HRV",
+        "indicativo": "+385",
+        "idioma_principal": "Croata"
+    },
+    {
+        "nombre": "Cuba",
+        "codigo": "CU",
+        "codigo_iso": "CUB",
+        "indicativo": "+53",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Dinamarca",
+        "codigo": "DK",
+        "codigo_iso": "DNK",
+        "indicativo": "+45",
+        "idioma_principal": "Danés"
+    },
+    {
+        "nombre": "Dominica",
+        "codigo": "DM",
+        "codigo_iso": "DMA",
+        "indicativo": "+1",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Ecuador",
+        "codigo": "EC",
+        "codigo_iso": "ECU",
+        "indicativo": "+593",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Egipto",
+        "codigo": "EG",
+        "codigo_iso": "EGY",
+        "indicativo": "+20",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "El Salvador",
+        "codigo": "SV",
+        "codigo_iso": "SLV",
+        "indicativo": "+503",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Emiratos Árabes Unidos",
+        "codigo": "AE",
+        "codigo_iso": "ARE",
+        "indicativo": "+971",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Eritrea",
+        "codigo": "ER",
+        "codigo_iso": "ERI",
+        "indicativo": "+291",
+        "idioma_principal": "Tigriña"
+    },
+    {
+        "nombre": "Eslovaquia",
+        "codigo": "SK",
+        "codigo_iso": "SVK",
+        "indicativo": "+421",
+        "idioma_principal": "Eslovaco"
+    },
+    {
+        "nombre": "Eslovenia",
+        "codigo": "SI",
+        "codigo_iso": "SVN",
+        "indicativo": "+386",
+        "idioma_principal": "Esloveno"
+    },
+    {
+        "nombre": "España",
+        "codigo": "ES",
+        "codigo_iso": "ESP",
+        "indicativo": "+34",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Estados Unidos",
+        "codigo": "US",
+        "codigo_iso": "USA",
+        "indicativo": "+1",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Estonia",
+        "codigo": "EE",
+        "codigo_iso": "EST",
+        "indicativo": "+372",
+        "idioma_principal": "Estonio"
+    },
+    {
+        "nombre": "Esuatini",
+        "codigo": "SZ",
+        "codigo_iso": "SWZ",
+        "indicativo": "+268",
+        "idioma_principal": "Suazi"
+    },
+    {
+        "nombre": "Etiopía",
+        "codigo": "ET",
+        "codigo_iso": "ETH",
+        "indicativo": "+251",
+        "idioma_principal": "Amárico"
+    },
+    {
+        "nombre": "Filipinas",
+        "codigo": "PH",
+        "codigo_iso": "PHL",
+        "indicativo": "+63",
+        "idioma_principal": "Filipino"
+    },
+    {
+        "nombre": "Finlandia",
+        "codigo": "FI",
+        "codigo_iso": "FIN",
+        "indicativo": "+358",
+        "idioma_principal": "Finés"
+    },
+    {
+        "nombre": "Fiyi",
+        "codigo": "FJ",
+        "codigo_iso": "FJI",
+        "indicativo": "+679",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Francia",
+        "codigo": "FR",
+        "codigo_iso": "FRA",
+        "indicativo": "+33",
+        "idioma_principal": "Francés"
+    },
+    {
+        "nombre": "Gabón",
+        "codigo": "GA",
+        "codigo_iso": "GAB",
+        "indicativo": "+241",
+        "idioma_principal": "Francés"
+    },
+    {
+        "nombre": "Gambia",
+        "codigo": "GM",
+        "codigo_iso": "GMB",
+        "indicativo": "+220",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Georgia",
+        "codigo": "GE",
+        "codigo_iso": "GEO",
+        "indicativo": "+995",
+        "idioma_principal": "Georgiano"
+    },
+    {
+        "nombre": "Ghana",
+        "codigo": "GH",
+        "codigo_iso": "GHA",
+        "indicativo": "+233",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Granada",
+        "codigo": "GD",
+        "codigo_iso": "GRD",
+        "indicativo": "+1",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Grecia",
+        "codigo": "GR",
+        "codigo_iso": "GRC",
+        "indicativo": "+30",
+        "idioma_principal": "Griego"
+    },
+    {
+        "nombre": "Guatemala",
+        "codigo": "GT",
+        "codigo_iso": "GTM",
+        "indicativo": "+502",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Guinea",
+        "codigo": "GN",
+        "codigo_iso": "GIN",
+        "indicativo": "+224",
+        "idioma_principal": "Francés"
+    },
+    {
+        "nombre": "Guinea-Bisáu",
+        "codigo": "GW",
+        "codigo_iso": "GNB",
+        "indicativo": "+245",
+        "idioma_principal": "Portugués"
+    },
+    {
+        "nombre": "Guinea Ecuatorial",
+        "codigo": "GQ",
+        "codigo_iso": "GNQ",
+        "indicativo": "+240",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Guyana",
+        "codigo": "GY",
+        "codigo_iso": "GUY",
+        "indicativo": "+592",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Haití",
+        "codigo": "HT",
+        "codigo_iso": "HTI",
+        "indicativo": "+509",
+        "idioma_principal": "Francés"
+    },
+    {
+        "nombre": "Honduras",
+        "codigo": "HN",
+        "codigo_iso": "HND",
+        "indicativo": "+504",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Hungría",
+        "codigo": "HU",
+        "codigo_iso": "HUN",
+        "indicativo": "+36",
+        "idioma_principal": "Húngaro"
+    },
+    {
+        "nombre": "India",
+        "codigo": "IN",
+        "codigo_iso": "IND",
+        "indicativo": "+91",
+        "idioma_principal": "Hindi"
+    },
+    {
+        "nombre": "Indonesia",
+        "codigo": "ID",
+        "codigo_iso": "IDN",
+        "indicativo": "+62",
+        "idioma_principal": "Indonesio"
+    },
+    {
+        "nombre": "Irak",
+        "codigo": "IQ",
+        "codigo_iso": "IRQ",
+        "indicativo": "+964",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Irán",
+        "codigo": "IR",
+        "codigo_iso": "IRN",
+        "indicativo": "+98",
+        "idioma_principal": "Persa"
+    },
+    {
+        "nombre": "Irlanda",
+        "codigo": "IE",
+        "codigo_iso": "IRL",
+        "indicativo": "+353",
+        "idioma_principal": "Irlandés"
+    },
+    {
+        "nombre": "Islandia",
+        "codigo": "IS",
+        "codigo_iso": "ISL",
+        "indicativo": "+354",
+        "idioma_principal": "Islandés"
+    },
+    {
+        "nombre": "Islas Marshall",
+        "codigo": "MH",
+        "codigo_iso": "MHL",
+        "indicativo": "+692",
+        "idioma_principal": "Marshalés"
+    },
+    {
+        "nombre": "Islas Salomón",
+        "codigo": "SB",
+        "codigo_iso": "SLB",
+        "indicativo": "+677",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Israel",
+        "codigo": "IL",
+        "codigo_iso": "ISR",
+        "indicativo": "+972",
+        "idioma_principal": "Hebreo"
+    },
+    {
+        "nombre": "Italia",
+        "codigo": "IT",
+        "codigo_iso": "ITA",
+        "indicativo": "+39",
+        "idioma_principal": "Italiano"
+    },
+    {
+        "nombre": "Jamaica",
+        "codigo": "JM",
+        "codigo_iso": "JAM",
+        "indicativo": "+1",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Japón",
+        "codigo": "JP",
+        "codigo_iso": "JPN",
+        "indicativo": "+81",
+        "idioma_principal": "Japonés"
+    },
+    {
+        "nombre": "Jordania",
+        "codigo": "JO",
+        "codigo_iso": "JOR",
+        "indicativo": "+962",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Kazajistán",
+        "codigo": "KZ",
+        "codigo_iso": "KAZ",
+        "indicativo": "+7",
+        "idioma_principal": "Kazajo"
+    },
+    {
+        "nombre": "Kenia",
+        "codigo": "KE",
+        "codigo_iso": "KEN",
+        "indicativo": "+254",
+        "idioma_principal": "Swahili"
+    },
+    {
+        "nombre": "Kirguistán",
+        "codigo": "KG",
+        "codigo_iso": "KGZ",
+        "indicativo": "+996",
+        "idioma_principal": "Kirguís"
+    },
+    {
+        "nombre": "Kiribati",
+        "codigo": "KI",
+        "codigo_iso": "KIR",
+        "indicativo": "+686",
+        "idioma_principal": "Gilbertés"
+    },
+    {
+        "nombre": "Kuwait",
+        "codigo": "KW",
+        "codigo_iso": "KWT",
+        "indicativo": "+965",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Laos",
+        "codigo": "LA",
+        "codigo_iso": "LAO",
+        "indicativo": "+856",
+        "idioma_principal": "Lao"
+    },
+    {
+        "nombre": "Lesoto",
+        "codigo": "LS",
+        "codigo_iso": "LSO",
+        "indicativo": "+266",
+        "idioma_principal": "Sesotho"
+    },
+    {
+        "nombre": "Letonia",
+        "codigo": "LV",
+        "codigo_iso": "LVA",
+        "indicativo": "+371",
+        "idioma_principal": "Letón"
+    },
+    {
+        "nombre": "Líbano",
+        "codigo": "LB",
+        "codigo_iso": "LBN",
+        "indicativo": "+961",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Liberia",
+        "codigo": "LR",
+        "codigo_iso": "LBR",
+        "indicativo": "+231",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Libia",
+        "codigo": "LY",
+        "codigo_iso": "LBY",
+        "indicativo": "+218",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Liechtenstein",
+        "codigo": "LI",
+        "codigo_iso": "LIE",
+        "indicativo": "+423",
+        "idioma_principal": "Alemán"
+    },
+    {
+        "nombre": "Lituania",
+        "codigo": "LT",
+        "codigo_iso": "LTU",
+        "indicativo": "+370",
+        "idioma_principal": "Lituano"
+    },
+    {
+        "nombre": "Luxemburgo",
+        "codigo": "LU",
+        "codigo_iso": "LUX",
+        "indicativo": "+352",
+        "idioma_principal": "Luxemburgués"
+    },
+    {
+        "nombre": "Madagascar",
+        "codigo": "MG",
+        "codigo_iso": "MDG",
+        "indicativo": "+261",
+        "idioma_principal": "Malgache"
+    },
+    {
+        "nombre": "Malasia",
+        "codigo": "MY",
+        "codigo_iso": "MYS",
+        "indicativo": "+60",
+        "idioma_principal": "Malayo"
+    },
+    {
+        "nombre": "Malaui",
+        "codigo": "MW",
+        "codigo_iso": "MWI",
+        "indicativo": "+265",
+        "idioma_principal": "Chichewa"
+    },
+    {
+        "nombre": "Maldivas",
+        "codigo": "MV",
+        "codigo_iso": "MDV",
+        "indicativo": "+960",
+        "idioma_principal": "Maldivo"
+    },
+    {
+        "nombre": "Malí",
+        "codigo": "ML",
+        "codigo_iso": "MLI",
+        "indicativo": "+223",
+        "idioma_principal": "Francés"
+    },
+    {
+        "nombre": "Malta",
+        "codigo": "MT",
+        "codigo_iso": "MLT",
+        "indicativo": "+356",
+        "idioma_principal": "Maltés"
+    },
+    {
+        "nombre": "Marruecos",
+        "codigo": "MA",
+        "codigo_iso": "MAR",
+        "indicativo": "+212",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Mauricio",
+        "codigo": "MU",
+        "codigo_iso": "MUS",
+        "indicativo": "+230",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Mauritania",
+        "codigo": "MR",
+        "codigo_iso": "MRT",
+        "indicativo": "+222",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "México",
+        "codigo": "MX",
+        "codigo_iso": "MEX",
+        "indicativo": "+52",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Micronesia",
+        "codigo": "FM",
+        "codigo_iso": "FSM",
+        "indicativo": "+691",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Moldavia",
+        "codigo": "MD",
+        "codigo_iso": "MDA",
+        "indicativo": "+373",
+        "idioma_principal": "Rumano"
+    },
+    {
+        "nombre": "Mónaco",
+        "codigo": "MC",
+        "codigo_iso": "MCO",
+        "indicativo": "+377",
+        "idioma_principal": "Francés"
+    },
+    {
+        "nombre": "Mongolia",
+        "codigo": "MN",
+        "codigo_iso": "MNG",
+        "indicativo": "+976",
+        "idioma_principal": "Mongol"
+    },
+    {
+        "nombre": "Montenegro",
+        "codigo": "ME",
+        "codigo_iso": "MNE",
+        "indicativo": "+382",
+        "idioma_principal": "Montenegrino"
+    },
+    {
+        "nombre": "Mozambique",
+        "codigo": "MZ",
+        "codigo_iso": "MOZ",
+        "indicativo": "+258",
+        "idioma_principal": "Portugués"
+    },
+    {
+        "nombre": "Namibia",
+        "codigo": "NA",
+        "codigo_iso": "NAM",
+        "indicativo": "+264",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Nauru",
+        "codigo": "NR",
+        "codigo_iso": "NRU",
+        "indicativo": "+674",
+        "idioma_principal": "Nauruano"
+    },
+    {
+        "nombre": "Nepal",
+        "codigo": "NP",
+        "codigo_iso": "NPL",
+        "indicativo": "+977",
+        "idioma_principal": "Nepalí"
+    },
+    {
+        "nombre": "Nicaragua",
+        "codigo": "NI",
+        "codigo_iso": "NIC",
+        "indicativo": "+505",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Níger",
+        "codigo": "NE",
+        "codigo_iso": "NER",
+        "indicativo": "+227",
+        "idioma_principal": "Francés"
+    },
+    {
+        "nombre": "Nigeria",
+        "codigo": "NG",
+        "codigo_iso": "NGA",
+        "indicativo": "+234",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Noruega",
+        "codigo": "NO",
+        "codigo_iso": "NOR",
+        "indicativo": "+47",
+        "idioma_principal": "Noruego"
+    },
+    {
+        "nombre": "Nueva Zelanda",
+        "codigo": "NZ",
+        "codigo_iso": "NZL",
+        "indicativo": "+64",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Omán",
+        "codigo": "OM",
+        "codigo_iso": "OMN",
+        "indicativo": "+968",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Países Bajos",
+        "codigo": "NL",
+        "codigo_iso": "NLD",
+        "indicativo": "+31",
+        "idioma_principal": "Neerlandés"
+    },
+    {
+        "nombre": "Pakistán",
+        "codigo": "PK",
+        "codigo_iso": "PAK",
+        "indicativo": "+92",
+        "idioma_principal": "Urdu"
+    },
+    {
+        "nombre": "Palaos",
+        "codigo": "PW",
+        "codigo_iso": "PLW",
+        "indicativo": "+680",
+        "idioma_principal": "Paluano"
+    },
+    {
+        "nombre": "Panamá",
+        "codigo": "PA",
+        "codigo_iso": "PAN",
+        "indicativo": "+507",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Papúa Nueva Guinea",
+        "codigo": "PG",
+        "codigo_iso": "PNG",
+        "indicativo": "+675",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Paraguay",
+        "codigo": "PY",
+        "codigo_iso": "PRY",
+        "indicativo": "+595",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Perú",
+        "codigo": "PE",
+        "codigo_iso": "PER",
+        "indicativo": "+51",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Polonia",
+        "codigo": "PL",
+        "codigo_iso": "POL",
+        "indicativo": "+48",
+        "idioma_principal": "Polaco"
+    },
+    {
+        "nombre": "Portugal",
+        "codigo": "PT",
+        "codigo_iso": "PRT",
+        "indicativo": "+351",
+        "idioma_principal": "Portugués"
+    },
+    {
+        "nombre": "Reino Unido",
+        "codigo": "GB",
+        "codigo_iso": "GBR",
+        "indicativo": "+44",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "República Centroafricana",
+        "codigo": "CF",
+        "codigo_iso": "CAF",
+        "indicativo": "+236",
+        "idioma_principal": "Francés"
+    },
+    {
+        "nombre": "República Checa",
+        "codigo": "CZ",
+        "codigo_iso": "CZE",
+        "indicativo": "+420",
+        "idioma_principal": "Checo"
+    },
+    {
+        "nombre": "República Democrática del Congo",
+        "codigo": "CD",
+        "codigo_iso": "COD",
+        "indicativo": "+243",
+        "idioma_principal": "Francés"
+    },
+    {
+        "nombre": "República Dominicana",
+        "codigo": "DO",
+        "codigo_iso": "DOM",
+        "indicativo": "+1",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Ruanda",
+        "codigo": "RW",
+        "codigo_iso": "RWA",
+        "indicativo": "+250",
+        "idioma_principal": "Kinyarwanda"
+    },
+    {
+        "nombre": "Rumanía",
+        "codigo": "RO",
+        "codigo_iso": "ROU",
+        "indicativo": "+40",
+        "idioma_principal": "Rumano"
+    },
+    {
+        "nombre": "Rusia",
+        "codigo": "RU",
+        "codigo_iso": "RUS",
+        "indicativo": "+7",
+        "idioma_principal": "Ruso"
+    },
+    {
+        "nombre": "Samoa",
+        "codigo": "WS",
+        "codigo_iso": "WSM",
+        "indicativo": "+685",
+        "idioma_principal": "Samoano"
+    },
+    {
+        "nombre": "San Cristóbal y Nieves",
+        "codigo": "KN",
+        "codigo_iso": "KNA",
+        "indicativo": "+1",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "San Marino",
+        "codigo": "SM",
+        "codigo_iso": "SMR",
+        "indicativo": "+378",
+        "idioma_principal": "Italiano"
+    },
+    {
+        "nombre": "San Vicente y las Granadinas",
+        "codigo": "VC",
+        "codigo_iso": "VCT",
+        "indicativo": "+1",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Santa Lucía",
+        "codigo": "LC",
+        "codigo_iso": "LCA",
+        "indicativo": "+1",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Santo Tomé y Príncipe",
+        "codigo": "ST",
+        "codigo_iso": "STP",
+        "indicativo": "+239",
+        "idioma_principal": "Portugués"
+    },
+    {
+        "nombre": "Senegal",
+        "codigo": "SN",
+        "codigo_iso": "SEN",
+        "indicativo": "+221",
+        "idioma_principal": "Francés"
+    },
+    {
+        "nombre": "Serbia",
+        "codigo": "RS",
+        "codigo_iso": "SRB",
+        "indicativo": "+381",
+        "idioma_principal": "Serbio"
+    },
+    {
+        "nombre": "Seychelles",
+        "codigo": "SC",
+        "codigo_iso": "SYC",
+        "indicativo": "+248",
+        "idioma_principal": "Criollo seychelense"
+    },
+    {
+        "nombre": "Sierra Leona",
+        "codigo": "SL",
+        "codigo_iso": "SLE",
+        "indicativo": "+232",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Singapur",
+        "codigo": "SG",
+        "codigo_iso": "SGP",
+        "indicativo": "+65",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Siria",
+        "codigo": "SY",
+        "codigo_iso": "SYR",
+        "indicativo": "+963",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Somalia",
+        "codigo": "SO",
+        "codigo_iso": "SOM",
+        "indicativo": "+252",
+        "idioma_principal": "Somalí"
+    },
+    {
+        "nombre": "Sri Lanka",
+        "codigo": "LK",
+        "codigo_iso": "LKA",
+        "indicativo": "+94",
+        "idioma_principal": "Cingalés"
+    },
+    {
+        "nombre": "Sudáfrica",
+        "codigo": "ZA",
+        "codigo_iso": "ZAF",
+        "indicativo": "+27",
+        "idioma_principal": "Afrikáans"
+    },
+    {
+        "nombre": "Sudán",
+        "codigo": "SD",
+        "codigo_iso": "SDN",
+        "indicativo": "+249",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Sudán del Sur",
+        "codigo": "SS",
+        "codigo_iso": "SSD",
+        "indicativo": "+211",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Suecia",
+        "codigo": "SE",
+        "codigo_iso": "SWE",
+        "indicativo": "+46",
+        "idioma_principal": "Sueco"
+    },
+    {
+        "nombre": "Suiza",
+        "codigo": "CH",
+        "codigo_iso": "CHE",
+        "indicativo": "+41",
+        "idioma_principal": "Alemán"
+    },
+    {
+        "nombre": "Surinam",
+        "codigo": "SR",
+        "codigo_iso": "SUR",
+        "indicativo": "+597",
+        "idioma_principal": "Neerlandés"
+    },
+    {
+        "nombre": "Tailandia",
+        "codigo": "TH",
+        "codigo_iso": "THA",
+        "indicativo": "+66",
+        "idioma_principal": "Tailandés"
+    },
+    {
+        "nombre": "Tanzania",
+        "codigo": "TZ",
+        "codigo_iso": "TZA",
+        "indicativo": "+255",
+        "idioma_principal": "Swahili"
+    },
+    {
+        "nombre": "Tayikistán",
+        "codigo": "TJ",
+        "codigo_iso": "TJK",
+        "indicativo": "+992",
+        "idioma_principal": "Tayiko"
+    },
+    {
+        "nombre": "Timor Oriental",
+        "codigo": "TL",
+        "codigo_iso": "TLS",
+        "indicativo": "+670",
+        "idioma_principal": "Portugués"
+    },
+    {
+        "nombre": "Togo",
+        "codigo": "TG",
+        "codigo_iso": "TGO",
+        "indicativo": "+228",
+        "idioma_principal": "Francés"
+    },
+    {
+        "nombre": "Tonga",
+        "codigo": "TO",
+        "codigo_iso": "TON",
+        "indicativo": "+676",
+        "idioma_principal": "Tongano"
+    },
+    {
+        "nombre": "Trinidad y Tobago",
+        "codigo": "TT",
+        "codigo_iso": "TTO",
+        "indicativo": "+1",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Túnez",
+        "codigo": "TN",
+        "codigo_iso": "TUN",
+        "indicativo": "+216",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Turkmenistán",
+        "codigo": "TM",
+        "codigo_iso": "TKM",
+        "indicativo": "+993",
+        "idioma_principal": "Turkmeno"
+    },
+    {
+        "nombre": "Turquía",
+        "codigo": "TR",
+        "codigo_iso": "TUR",
+        "indicativo": "+90",
+        "idioma_principal": "Turco"
+    },
+    {
+        "nombre": "Tuvalu",
+        "codigo": "TV",
+        "codigo_iso": "TUV",
+        "indicativo": "+688",
+        "idioma_principal": "Tuvaluano"
+    },
+    {
+        "nombre": "Ucrania",
+        "codigo": "UA",
+        "codigo_iso": "UKR",
+        "indicativo": "+380",
+        "idioma_principal": "Ucraniano"
+    },
+    {
+        "nombre": "Uganda",
+        "codigo": "UG",
+        "codigo_iso": "UGA",
+        "indicativo": "+256",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Uruguay",
+        "codigo": "UY",
+        "codigo_iso": "URY",
+        "indicativo": "+598",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Uzbekistán",
+        "codigo": "UZ",
+        "codigo_iso": "UZB",
+        "indicativo": "+998",
+        "idioma_principal": "Uzbeko"
+    },
+    {
+        "nombre": "Vanuatu",
+        "codigo": "VU",
+        "codigo_iso": "VUT",
+        "indicativo": "+678",
+        "idioma_principal": "Bislama"
+    },
+    {
+        "nombre": "Venezuela",
+        "codigo": "VE",
+        "codigo_iso": "VEN",
+        "indicativo": "+58",
+        "idioma_principal": "Español"
+    },
+    {
+        "nombre": "Vietnam",
+        "codigo": "VN",
+        "codigo_iso": "VNM",
+        "indicativo": "+84",
+        "idioma_principal": "Vietnamita"
+    },
+    {
+        "nombre": "Yemen",
+        "codigo": "YE",
+        "codigo_iso": "YEM",
+        "indicativo": "+967",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Yibuti",
+        "codigo": "DJ",
+        "codigo_iso": "DJI",
+        "indicativo": "+253",
+        "idioma_principal": "Árabe"
+    },
+    {
+        "nombre": "Zambia",
+        "codigo": "ZM",
+        "codigo_iso": "ZMB",
+        "indicativo": "+260",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Zimbabue",
+        "codigo": "ZW",
+        "codigo_iso": "ZWE",
+        "indicativo": "+263",
+        "idioma_principal": "Inglés"
+    },
+    {
+        "nombre": "Palestina",
+        "codigo": "PS",
+        "codigo_iso": "PSE",
+        "indicativo": "+970",
+        "idioma_principal": "Árabe"
+    }
+]

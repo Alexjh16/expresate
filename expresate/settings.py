@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     'seguimiento',
     'evaluacion',
 
+    #Django-seed : Jhon Alexander
+    'django_seed',
+
     #Apps anterios[Borrar]
     'modelos_expresate',
     'modulo_evaluacionEstudiante'

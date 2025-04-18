@@ -253,7 +253,7 @@ Registrar | Expresate con señas
                                 
                                 <!-- Rol -->
                                 <div>
-                                    <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Rol</label>
+                                    <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Perfil/Rol</label>
                                     <select 
                                         id="role" 
                                         name="role" 
@@ -266,6 +266,8 @@ Registrar | Expresate con señas
                                         <option value="teacher">Docente</option>
                                         <option value="university">Universitario</option>
                                         <option value="professional">Niño</option>
+                                        <option value="professional">Solo Madre</option>
+                                        <option value="professional">Solo Padre</option>
                                         <option value="other">Otro</option>
                                     </select>
                                     <div x-show="errors.role" class="text-red-500 text-xs mt-1" x-text="errors.role"></div>

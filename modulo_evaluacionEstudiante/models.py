@@ -26,7 +26,7 @@ class Notas(models.Model):
     respuestas_malas = models.IntegerField(null=False, blank=True)
     nota = models.FloatField(null=False, blank=True, default= 0.0)
     estado = models.CharField(null=False, blank=True, max_length=15)
-    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    #user = models.ForeignKey(Users, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.nombre_categoria
