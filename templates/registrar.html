@@ -68,8 +68,20 @@ Registrar | Expresate con señas
         
                     <!-- Columna derecha con formulario - ocupa 3 de 5 columnas -->
                     <div class="md:col-span-3 bg-white rounded-lg p-6 md:p-8 shadow-lg">
-                        <form method="post" action='{% url "registrar_user" %}' x-data="registrationForm()">
+                        
+                        <form method="post" action="{% url 'registrarUser' %}" x-data="registrationForm()">
                             {% csrf_token %}
+                            
+                            <!-- Mostrar errores generales -->
+    {% if form.non_field_errors %}
+    <div class="mb-4 p-4 rounded-md bg-red-100 text-red-700">
+        {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+                             <!-- Renderizar los campos del formulario -->
+    {{ form.as_p }}
                             
                             {% if messages %}
                                 {% for message in messages %}
@@ -146,32 +158,32 @@ Registrar | Expresate con señas
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                                 <!-- Contraseña -->
                                 <div>
-                                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+                                    <label for="password1" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
                                     <input 
                                         type="password" 
-                                        id="password" 
-                                        name="password" 
+                                        id="password1" 
+                                        name="password1" 
                                         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                                         placeholder="Crea una contraseña segura"
-                                        x-model="formData.password"
+                                        x-model="formData.password1"
                                         required
                                     >
-                                    <div x-show="errors.password" class="text-red-500 text-xs mt-1" x-text="errors.password"></div>
+                                    <div x-show="errors.password1" class="text-red-500 text-xs mt-1" x-text="errors.password1"></div>
                                 </div>
                                 
                                 <!-- Confirmar contraseña -->
                                 <div>
-                                    <label for="password_confirm" class="block text-sm font-medium text-gray-700 mb-1">Confirmar contraseña</label>
+                                    <label for="password2" class="block text-sm font-medium text-gray-700 mb-1">Confirmar contraseña</label>
                                     <input 
                                         type="password" 
-                                        id="password_confirm" 
-                                        name="password_confirm" 
+                                        id="password2" 
+                                        name="password2" 
                                         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                                         placeholder="Repite tu contraseña"
-                                        x-model="formData.password_confirm"
+                                        x-model="formData.password2"
                                         required
                                     >
-                                    <div x-show="errors.password_confirm" class="text-red-500 text-xs mt-1" x-text="errors.password_confirm"></div>
+                                    <div x-show="errors.password2" class="text-red-500 text-xs mt-1" x-text="errors.password2"></div>
                                 </div>
                             </div>
                             
@@ -198,23 +210,26 @@ Registrar | Expresate con señas
                                 
                                 <!-- País -->
                                 <div class="mb-4">
-                                    <label for="pais" class="block text-sm font-medium text-gray-700 mb-1">País</label>
+                                    <label for="nombrePais" class="block text-sm font-medium text-gray-700 mb-1">País</label>
                                     <input 
                                         list="countriesList"
-                                        id="pais" 
-                                        name="pais" 
+                                        id="nombrePais" 
+                                        name="nombrePais" 
                                         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-transparent bg-white text-gray-400"
                                         placeholder="Escribe o selecciona tu país"
-                                        x-model="formData.pais"
+                                        x-model="formData.nombrePais"
+                                        @input="updateHiddenPaisId()"
                                         autocomplete="off"
                                         required
                                     >
+                                    
+                                    <input type="hidden" x-model="formData.pais" id="pais" name="pais" /><!--pais id-->
                                     <datalist id="countriesList">
                                         {% for pais in listPaises %}
                                             <option value="{{ pais.nombre }}" data-id="{{ pais.id }}">{{ pais.nombre }}</option>
                                         {% endfor %}
                                     </datalist>
-                                    <div x-show="errors.pais" class="text-red-500 text-xs mt-1" x-text="errors.pais"></div>
+                                    <div x-show="errors.nombrePais" class="text-red-500 text-xs mt-1" x-text="errors.nombrePais"></div>
                                 </div>
                             </div>
                             
@@ -309,10 +324,11 @@ Registrar | Expresate con señas
                 last_name: '',
                 username: '',
                 email: '',
-                password: '',
-                password_confirm: '',
+                password1: '',
+                password2: '',
                 dispositivo: '',
-                pais: '',
+                nombrePais: '',
+                pais:'',
                 edad: '',
                 rol: '',
                 terms: false
@@ -324,14 +340,27 @@ Registrar | Expresate con señas
                     this.formData.last_name.trim() &&
                     this.formData.username.trim() &&
                     this.validateEmail(this.formData.email) &&
-                    this.formData.password.trim() &&
-                    this.formData.password === this.formData.password_confirm &&
+                    this.formData.password1.trim() &&
+                    this.formData.password1 === this.formData.password2 &&
                     this.formData.dispositivo &&
-                    this.formData.pais.trim() &&
+                    this.formData.nombrePais.trim() &&
                     this.formData.edad >= 7 &&
                     this.formData.edad <= 120 &&
                     this.formData.rol
                 );
+            },
+            updateHiddenPaisId(){
+                const selectedOption = document.querySelector('#countriesList option[value="' + this.formData.nombrePais + '"]');
+                const idPais = selectedOption.getAttribute('data-id');
+
+                if (selectedOption) {
+                    const idPais = selectedOption.getAttribute('data-id');
+                    this.formData.pais = idPais; 
+                    document.getElementById('pais').value = idPais; 
+                } else {
+                    this.formData.pais = ''; 
+                    document.getElementById('pais').value = ''; 
+                }   
             },
             submitForm() {
                 this.errors = {};
@@ -361,13 +390,13 @@ Registrar | Expresate con señas
                     isValid = false;
                 }
 
-                if (!this.formData.password.trim()) {
+                if (!this.formData.password1.trim()) {
                     this.errors.password = 'Por favor ingresa una contraseña';
                     isValid = false;
                 }
 
-                if (this.formData.password !== this.formData.password_confirm) {
-                    this.errors.password_confirm = 'Las contraseñas no coinciden';
+                if (this.formData.password1 !== this.formData.password2) {
+                    this.errors.password2 = 'Las contraseñas no coinciden';
                     isValid = false;
                 }
 
@@ -377,8 +406,8 @@ Registrar | Expresate con señas
                 }
 
                 const paisOptions = Array.from(document.querySelectorAll('#countriesList option')).map(option => option.value);
-                if (!paisOptions.includes(this.formData.pais.trim())) {
-                    this.errors.pais = 'Por favor selecciona un país válido de la lista';
+                if (!paisOptions.includes(this.formData.nombrePais.trim())) {
+                    this.errors.nombrePais = 'Por favor selecciona un país válido de la lista';
                     isValid = false;
                 }
 

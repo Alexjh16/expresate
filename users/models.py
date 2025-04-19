@@ -16,7 +16,7 @@ class Paises(models.Model):
     idioma_principal = models.CharField(max_length=50)
 
     def __str__(self):
-        return f'{self.nombre_pais} - {self.codigo_iso}'
+        return f'{self.nombre} - {self.codigo_iso}'
 
     class Meta:
         db_table = "paises"
@@ -33,7 +33,7 @@ class RolesUser(models.Model):
         verbose_name_plural = 'Roles_user'
 
     def __str__(self):
-        return f'{self.nombre_rol} - {self.descripcion_rol}'
+        return f'{self.nombre} - {self.descripcion}'
 
 class Users(AbstractUser):
     foto = models.URLField(null=True, blank=True)
