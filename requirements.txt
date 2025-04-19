@@ -7,3 +7,4 @@ django-alpine
 django-redis
 pymongo
 django-seed
+django-altcha

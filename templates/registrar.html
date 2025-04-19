@@ -27,8 +27,8 @@ Registrar | Expresate con señas
                     <div class="md:col-span-2 bg-slate-800 text-white rounded-lg overflow-hidden relative shadow-xl">
                         <div class="absolute inset-0 w-full h-full">
                             <img 
-                                src="https://cdn.pixabay.com/photo/2018/03/05/15/45/nature-3201015_1280.jpg" 
-                                alt="Persona haciendo ejercicio"
+                                src="https://america-retail.com/wp-content/uploads/2024/08/Hombre-revisando-su-cuenta-corriente-online-en-una-Mac-ecommerce.jpg" 
+                                alt="Persona sentada con laptop"
                                 class="w-full h-full object-cover opacity-40"
                             />
                         </div>
@@ -70,18 +70,9 @@ Registrar | Expresate con señas
                     <div class="md:col-span-3 bg-white rounded-lg p-6 md:p-8 shadow-lg">
                         
                         <form method="post" action="{% url 'registrarUser' %}" x-data="registrationForm()">
-                            {% csrf_token %}
+                            {% csrf_token %}                           
                             
-                            <!-- Mostrar errores generales -->
-    {% if form.non_field_errors %}
-    <div class="mb-4 p-4 rounded-md bg-red-100 text-red-700">
-        {% for error in form.non_field_errors %}
-            <p>{{ error }}</p>
-        {% endfor %}
-    </div>
-{% endif %}
-                             <!-- Renderizar los campos del formulario -->
-    {{ form.as_p }}
+                           
                             
                             {% if messages %}
                                 {% for message in messages %}
@@ -104,6 +95,15 @@ Registrar | Expresate con señas
                                         x-model="formData.first_name"
                                         required
                                     >
+                                    <!-- backend errors -->
+                                    {% if form.first_name.errors %}
+                                        <div class="text-red-500 text-xs mt-1">
+                                            {% for error in form.first_name.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <!-- fronted errors -->
                                     <div x-show="errors.first_name" class="text-red-500 text-xs mt-1" x-text="errors.first_name"></div>
                                 </div>
                                 
@@ -119,6 +119,15 @@ Registrar | Expresate con señas
                                         x-model="formData.last_name"
                                         required
                                     >
+                                    <!-- backend errors -->
+                                    {% if form.last_name.errors %}
+                                        <div class="text-red-500 text-xs mt-1">
+                                            {% for error in form.last_name.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <!-- fronted errors -->
                                     <div x-show="errors.last_name" class="text-red-500 text-xs mt-1" x-text="errors.last_name"></div>
                                 </div>
                             </div>
@@ -136,6 +145,15 @@ Registrar | Expresate con señas
                                         x-model="formData.username"
                                         required
                                     >
+                                    <!-- backend errors -->
+                                    {% if form.username.errors %}
+                                        <div class="text-red-500 text-xs mt-1">
+                                            {% for error in form.username.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <!-- fronted errors -->
                                     <div x-show="errors.username" class="text-red-500 text-xs mt-1" x-text="errors.username"></div>
                                 </div>
                                 
@@ -151,6 +169,15 @@ Registrar | Expresate con señas
                                         x-model="formData.email"
                                         required
                                     >
+                                    <!-- backend errors -->
+                                    {% if form.email.errors %}
+                                        <div class="text-red-500 text-xs mt-1">
+                                            {% for error in form.email.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <!-- fronted errors -->
                                     <div x-show="errors.email" class="text-red-500 text-xs mt-1" x-text="errors.email"></div>
                                 </div>
                             </div>
@@ -168,6 +195,15 @@ Registrar | Expresate con señas
                                         x-model="formData.password1"
                                         required
                                     >
+                                    <!-- backend errors -->
+                                    {% if form.password1.errors %}
+                                        <div class="text-red-500 text-xs mt-1">
+                                            {% for error in form.password1.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <!-- fronted errors -->
                                     <div x-show="errors.password1" class="text-red-500 text-xs mt-1" x-text="errors.password1"></div>
                                 </div>
                                 
@@ -183,6 +219,15 @@ Registrar | Expresate con señas
                                         x-model="formData.password2"
                                         required
                                     >
+                                    <!-- backend errors -->
+                                    {% if form.password2.errors %}
+                                        <div class="text-red-500 text-xs mt-1">
+                                            {% for error in form.password2.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <!-- fronted errors -->
                                     <div x-show="errors.password2" class="text-red-500 text-xs mt-1" x-text="errors.password2"></div>
                                 </div>
                             </div>
@@ -205,6 +250,15 @@ Registrar | Expresate con señas
                                         <option value="desktop">Computadora de escritorio</option>
                                         <option value="other">Otro</option>
                                     </select>
+                                    <!-- backend errors -->
+                                    {% if form.dispositivo.errors %}
+                                        <div class="text-red-500 text-xs mt-1">
+                                            {% for error in form.dispositivo.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <!-- fronted errors -->
                                     <div x-show="errors.dispositivo" class="text-red-500 text-xs mt-1" x-text="errors.dispositivo"></div>
                                 </div>
                                 
@@ -229,6 +283,16 @@ Registrar | Expresate con señas
                                             <option value="{{ pais.nombre }}" data-id="{{ pais.id }}">{{ pais.nombre }}</option>
                                         {% endfor %}
                                     </datalist>
+
+                                    <!-- backend errors -->
+                                    {% if form.pais.errors %}
+                                        <div class="text-red-500 text-xs mt-1">
+                                            {% for error in form.pais.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <!-- fronted errors -->
                                     <div x-show="errors.nombrePais" class="text-red-500 text-xs mt-1" x-text="errors.nombrePais"></div>
                                 </div>
                             </div>
@@ -248,6 +312,15 @@ Registrar | Expresate con señas
                                         x-model="formData.edad"
                                         required
                                     >
+                                    <!-- backend errors -->
+                                    {% if form.edad.errors %}
+                                        <div class="text-red-500 text-xs mt-1">
+                                            {% for error in form.edad.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <!-- fronted errors -->
                                     <div x-show="errors.edad" class="text-red-500 text-xs mt-1" x-text="errors.edad"></div>
                                 </div>
                                 
@@ -266,6 +339,15 @@ Registrar | Expresate con señas
                                             <option value="{{ rol.id }}">{{ rol.nombre }}</option>
                                         {% endfor %}
                                     </select>
+                                    <!-- backend errors -->
+                                    {% if form.rol.errors %}
+                                        <div class="text-red-500 text-xs mt-1">
+                                            {% for error in form.rol.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <!-- fronted errors -->
                                     <div x-show="errors.rol" class="text-red-500 text-xs mt-1" x-text="errors.rol"></div>
                                 </div>
                             </div>
@@ -286,6 +368,15 @@ Registrar | Expresate con señas
                                         Acepto los <a href="#" class="text-cyan-600 hover:underline">términos y condiciones</a> y la <a href="#" class="text-cyan-600 hover:underline">política de privacidad</a>
                                     </label>
                                 </div>
+                                <!-- backend errors -->
+                                    {% if form.terms.errors %}
+                                        <div class="text-red-500 text-xs mt-1">
+                                            {% for error in form.terms.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                <!-- fronted errors -->
                                 <div x-show="errors.terms" class="text-red-500 text-xs mt-1" x-text="errors.terms"></div>
                             </div>
                             
@@ -303,7 +394,7 @@ Registrar | Expresate con señas
                                 </button>
                                 
                                 <p class="text-center text-sm text-gray-600">
-                                    ¿Ya tienes una cuenta? <a href="#" class="text-cyan-600 hover:underline">Inicia sesión aquí</a>
+                                    ¿Ya tienes una cuenta? <a href="{% url 'login' %}" class="text-cyan-600 hover:underline">Inicia sesión aquí</a>
                                 </p>
                             </div>
                         </form>
@@ -320,18 +411,19 @@ Registrar | Expresate con señas
     function registrationForm() {
         return {
             formData: {
-                first_name: '',
-                last_name: '',
-                username: '',
-                email: '',
-                password1: '',
-                password2: '',
-                dispositivo: '',
-                nombrePais: '',
-                pais:'',
-                edad: '',
-                rol: '',
+                first_name: "{{ form.first_name.value|default:''|escapejs }}",
+                last_name: "{{ form.last_name.value|default:''|escapejs }}",
+                username: "{{ form.username.value|default:''|escapejs }}",
+                email: "{{ form.email.value|default:''|escapejs }}",
+                password1: "",
+                password2: "",
+                dispositivo: "{{ form.dispositivo.value|default:''|escapejs }}",
+                nombrePais: "{{ form.nombrePais.value|default:''|escapejs }}",
+                pais: "{{ form.pais.value|default:''|escapejs }}",
+                edad: "{{ form.edad.value|default:''|escapejs }}",
+                rol: "{{ form.rol.value|default:''|escapejs }}",
                 terms: false
+                
             },
             errors: {},
             get isFormValid() {
@@ -431,7 +523,6 @@ Registrar | Expresate con señas
                 }
 
                 if (isValid) {
-                    // Enviar el formulario
                     document.querySelector('form').submit();
                 }              
             },

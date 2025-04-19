@@ -1,7 +1,8 @@
 from django import forms
+from altcha import verify_solution
 from django.contrib.auth.forms import UserCreationForm
 from .models import Users, Paises, RolesUser
-from django.core.exceptions import ValidationError
+
 
 class registrarUserForm(UserCreationForm):
     pais = forms.ModelChoiceField(
@@ -13,16 +14,10 @@ class registrarUserForm(UserCreationForm):
         queryset=RolesUser.objects.all(),
         required=True,
         label="Rol"
-    )
-    terms = forms.BooleanField(
-        required=True,
-        label="Acepto los términos y condiciones"
-    )
-
+    )    
     class Meta(UserCreationForm.Meta):
         model = Users
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'dispositivo', 'pais', 'edad', 'rol')
-
     def clean_first_name(self):
         first_name = self.cleaned_data.get('first_name')
         if not first_name or not first_name.strip():
@@ -64,16 +59,6 @@ class registrarUserForm(UserCreationForm):
         if not RolesUser.objects.filter(id=rol.id).exists():
             raise forms.ValidationError("Por favor selecciona un rol válido.")
         return rol
-
-    def clean(self):
-        cleaned_data = super().clean()
-        password1 = cleaned_data.get('password1')
-        password2 = cleaned_data.get('password2')
-
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Las contraseñas no coinciden.")
-
-        return cleaned_data
     
     def clean_password1(self):
         password = self.cleaned_data.get('password1')
@@ -84,16 +69,20 @@ class registrarUserForm(UserCreationForm):
         if not any(char.isalpha() for char in password):
             raise forms.ValidationError("La contraseña debe contener al menos una letra.")
         return password
-    
+
     def clean_dispositivo(self):
         dispositivo = self.cleaned_data.get('dispositivo')
-        dispositivos_permitidos = ['Smartphone', 'Tablet', 'Laptop', 'Computadora de escritorio', 'Otro']
+        dispositivos_permitidos = ['smartphone', 'tablet', 'laptop', 'desktop']
         if dispositivo not in dispositivos_permitidos:
             raise forms.ValidationError("Por favor selecciona un dispositivo válido.")
         return dispositivo
-    
-    def clean_terms(self):
-        terms = self.cleaned_data.get('terms')
-        if not terms:
-            raise forms.ValidationError("Debes aceptar los términos y condiciones para registrarte.")
-        return terms
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get('password1')
+        password2 = cleaned_data.get('password2')
+
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("Las contraseñas no coinciden.")
+
+        return cleaned_data

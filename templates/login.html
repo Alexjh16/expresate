@@ -27,17 +27,18 @@ Iniciar sesión | Expresate con señas
 
             <div class="bg-slate-800 text-white rounded-lg overflow-hidden relative shadow-xl">
               <div class="absolute inset-0 w-full h-full">
-                <img src="https://www.epidemicsound.com/blog/content/images/size/w2000/2024/10/motion-blur-header.webp"
-                  alt="Persona escribiendo en un cuaderno" class="w-full h-full object-cover opacity-60" />
+                <img src="https://d12jofbmgge65s.cloudfront.net/wp-content/uploads/2024/04/talk-text-alt-2x.webp"
+                  alt="Niña sonriendo con telefono" class="w-full h-full object-cover opacity-60" />
               </div>
               <div class="relative p-6 md:p-8 space-y-4">
                 <div class="text-sm font-semibold text-teal-300">LOGIN</div>
                 <h2 class="text-2xl md:text-3xl font-bold">
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque itaque nam eum, architecto facere eius. 
+                  Accede a tu cuenta y comienza a explorar nuestra plataforma.
                 </h2>
                 <p class="text-sm md:text-base">
-                  Nuestro equipo de coaches especializados está listo para escucharte y ayudarte a crear un plan
-                  personalizado que se adapte a tus necesidades únicas.
+                  lorem ipsum dolor  sit amet consectetur adipisicing elit. Quisquam, voluptatibus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.
+                  voluptatibus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.
+
                 </p>
                 <div class="pt-4 space-y-3">
                   <div class="flex items-center">
@@ -53,14 +54,7 @@ Iniciar sesión | Expresate con señas
               <form method="post" action="" x-data="contactForm()">
                 {% csrf_token %}
 
-                {% if messages %}
-                {% for message in messages %}
-                <div
-                  class="mb-7 p-7 rounded-md {% if message.tags == 'success' %}bg-green-100 text-green-700{% else %}bg-red-100 text-red-700{% endif %}">
-                  {{ message }}
-                </div>
-                {% endfor %}
-                {% endif %}
+                
 
                 <div class="space-y-6">
                   <div>
@@ -98,6 +92,16 @@ Iniciar sesión | Expresate con señas
                     Iniciar sesión
                   </button>
                 </div>
+                {% if messages %}
+                  {% for message in messages %}                
+                    <div class="mb-4 mt-7 p-4 rounded-md {% if message.tags == 'success' %}bg-green-100 text-gray-700{% else %}bg-red-100 text-red-700{% endif %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      {{ message }}
+                    </div>
+                  {% endfor %}
+                {% endif %}
               </form>
             </div>
           </div>

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     #Django-seed : Jhon Alexander
     'django_seed',
+    'django_altcha',
 
     #Apps anterios[Borrar]
     'modelos_expresate',
