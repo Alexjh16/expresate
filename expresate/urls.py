@@ -26,6 +26,9 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('login-admin/', views.adminLogin, name='login-admin'),
     path('dashboard-admin/', views.adminDashboard, name='dashboard-admin'),
+
+    #Ruta a al modulo de Registro de usuarios
+    path('users/', include('users.urls')),
     
     #
     path('menu/clases/', views.clasesOld, name='menu.clase'),

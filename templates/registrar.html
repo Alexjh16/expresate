@@ -68,7 +68,7 @@ Registrar | Expresate con señas
         
                     <!-- Columna derecha con formulario - ocupa 3 de 5 columnas -->
                     <div class="md:col-span-3 bg-white rounded-lg p-6 md:p-8 shadow-lg">
-                        <form method="post" action="" x-data="registrationForm()">
+                        <form method="post" action='{% url "registrar_user" %}' x-data="registrationForm()">
                             {% csrf_token %}
                             
                             {% if messages %}
@@ -178,12 +178,12 @@ Registrar | Expresate con señas
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                                 <!-- Dispositivo de preferencia -->
                                 <div>
-                                    <label for="device" class="block text-sm font-medium text-gray-700 mb-1">Dispositivo de preferencia</label>
+                                    <label for="dispositivo" class="block text-sm font-medium text-gray-700 mb-1">Dispositivo de preferencia</label>
                                     <select 
-                                        id="device" 
-                                        name="device" 
+                                        id="dispositivo" 
+                                        name="dispositivo" 
                                         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                                        x-model="formData.device"
+                                        x-model="formData.dispositivo"
                                         required
                                     >
                                         <option value="">Selecciona un dispositivo</option>
@@ -193,84 +193,65 @@ Registrar | Expresate con señas
                                         <option value="desktop">Computadora de escritorio</option>
                                         <option value="other">Otro</option>
                                     </select>
-                                    <div x-show="errors.device" class="text-red-500 text-xs mt-1" x-text="errors.device"></div>
+                                    <div x-show="errors.dispositivo" class="text-red-500 text-xs mt-1" x-text="errors.dispositivo"></div>
                                 </div>
                                 
                                 <!-- País -->
-                                <div>
-                                    <label for="country" class="block text-sm font-medium text-gray-700 mb-1">País</label>
-                                    <select 
-                                        id="country" 
-                                        name="country" 
-                                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                                        x-model="formData.country"
+                                <div class="mb-4">
+                                    <label for="pais" class="block text-sm font-medium text-gray-700 mb-1">País</label>
+                                    <input 
+                                        list="countriesList"
+                                        id="pais" 
+                                        name="pais" 
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-transparent bg-white text-gray-400"
+                                        placeholder="Escribe o selecciona tu país"
+                                        x-model="formData.pais"
+                                        autocomplete="off"
                                         required
                                     >
-                                        <option value="">Selecciona tu país</option>
-                                        <option value="AR">Argentina</option>
-                                        <option value="BO">Bolivia</option>
-                                        <option value="CL">Chile</option>
-                                        <option value="CO">Colombia</option>
-                                        <option value="CR">Costa Rica</option>
-                                        <option value="CU">Cuba</option>
-                                        <option value="EC">Ecuador</option>
-                                        <option value="SV">El Salvador</option>
-                                        <option value="ES">España</option>
-                                        <option value="GT">Guatemala</option>
-                                        <option value="HN">Honduras</option>
-                                        <option value="MX">México</option>
-                                        <option value="NI">Nicaragua</option>
-                                        <option value="PA">Panamá</option>
-                                        <option value="PY">Paraguay</option>
-                                        <option value="PE">Perú</option>
-                                        <option value="PR">Puerto Rico</option>
-                                        <option value="DO">República Dominicana</option>
-                                        <option value="UY">Uruguay</option>
-                                        <option value="VE">Venezuela</option>
-                                        <option value="OT">Otro</option>
-                                    </select>
-                                    <div x-show="errors.country" class="text-red-500 text-xs mt-1" x-text="errors.country"></div>
+                                    <datalist id="countriesList">
+                                        {% for pais in listPaises %}
+                                            <option value="{{ pais.nombre }}" data-id="{{ pais.id }}">{{ pais.nombre }}</option>
+                                        {% endfor %}
+                                    </datalist>
+                                    <div x-show="errors.pais" class="text-red-500 text-xs mt-1" x-text="errors.pais"></div>
                                 </div>
                             </div>
                             
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                                 <!-- Edad -->
                                 <div>
-                                    <label for="age" class="block text-sm font-medium text-gray-700 mb-1">Edad</label>
+                                    <label for="edad" class="block text-sm font-medium text-gray-700 mb-1">Edad</label>
                                     <input 
                                         type="number" 
-                                        id="age" 
-                                        name="age" 
+                                        id="edad" 
+                                        name="edad" 
                                         min="18" 
                                         max="120" 
                                         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                                         placeholder="Tu edad"
-                                        x-model="formData.age"
+                                        x-model="formData.edad"
                                         required
                                     >
-                                    <div x-show="errors.age" class="text-red-500 text-xs mt-1" x-text="errors.age"></div>
+                                    <div x-show="errors.edad" class="text-red-500 text-xs mt-1" x-text="errors.edad"></div>
                                 </div>
                                 
                                 <!-- Rol -->
                                 <div>
-                                    <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Perfil/Rol</label>
+                                    <label for="rol" class="block text-sm font-medium text-gray-700 mb-1">Perfil/Rol</label>
                                     <select 
-                                        id="role" 
-                                        name="role" 
+                                        id="rol" 
+                                        name="rol" 
                                         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                                        x-model="formData.role"
+                                        x-model="formData.rol"
                                         required
                                     >
                                         <option value="">Selecciona tu rol</option>
-                                        <option value="student">Estudiante</option>
-                                        <option value="teacher">Docente</option>
-                                        <option value="university">Universitario</option>
-                                        <option value="professional">Niño</option>
-                                        <option value="professional">Solo Madre</option>
-                                        <option value="professional">Solo Padre</option>
-                                        <option value="other">Otro</option>
+                                        {% for rol in listRoles %}
+                                            <option value="{{ rol.id }}">{{ rol.nombre }}</option>
+                                        {% endfor %}
                                     </select>
-                                    <div x-show="errors.role" class="text-red-500 text-xs mt-1" x-text="errors.role"></div>
+                                    <div x-show="errors.rol" class="text-red-500 text-xs mt-1" x-text="errors.rol"></div>
                                 </div>
                             </div>
                             
@@ -282,6 +263,8 @@ Registrar | Expresate con señas
                                         name="terms" 
                                         class="h-4 w-4 text-cyan-600 focus:ring-cyan-500 border-gray-300 rounded"
                                         x-model="formData.terms"
+                                        :disabled="!isFormValid"
+                                        x-on:change="if (!isFormValid) formData.terms = false"
                                         required
                                     >
                                     <label for="terms" class="ml-2 block text-sm text-gray-700">
@@ -315,30 +298,61 @@ Registrar | Expresate con señas
         </div>
     </div>
 </div>
-{% endblock %}
 
-{% block extra_js %}
+
+
 <script>
-    function contactForm() {
+    function registrationForm() {
         return {
             formData: {
-                name: '',
+                first_name: '',
+                last_name: '',
+                username: '',
                 email: '',
-                subject: '',
-                message: '',
-                privacy: false
+                password: '',
+                password_confirm: '',
+                dispositivo: '',
+                pais: '',
+                edad: '',
+                rol: '',
+                terms: false
             },
             errors: {},
+            get isFormValid() {
+                return (
+                    this.formData.first_name.trim() &&
+                    this.formData.last_name.trim() &&
+                    this.formData.username.trim() &&
+                    this.validateEmail(this.formData.email) &&
+                    this.formData.password.trim() &&
+                    this.formData.password === this.formData.password_confirm &&
+                    this.formData.dispositivo &&
+                    this.formData.pais.trim() &&
+                    this.formData.edad >= 7 &&
+                    this.formData.edad <= 120 &&
+                    this.formData.rol
+                );
+            },
             submitForm() {
                 this.errors = {};
                 let isValid = true;
-                
+
                 // Validación básica
-                if (!this.formData.name.trim()) {
-                    this.errors.name = 'Por favor ingresa tu nombre';
+                if (!this.formData.first_name.trim()) {
+                    this.errors.first_name = 'Por favor ingresa tus nombres';
                     isValid = false;
                 }
-                
+
+                if (!this.formData.last_name.trim()) {
+                    this.errors.last_name = 'Por favor ingresa tus apellidos';
+                    isValid = false;
+                }
+
+                if (!this.formData.username.trim()) {
+                    this.errors.username = 'Por favor ingresa un nombre de usuario';
+                    isValid = false;
+                }
+
                 if (!this.formData.email.trim()) {
                     this.errors.email = 'Por favor ingresa tu correo electrónico';
                     isValid = false;
@@ -346,26 +360,51 @@ Registrar | Expresate con señas
                     this.errors.email = 'Por favor ingresa un correo electrónico válido';
                     isValid = false;
                 }
-                
-                if (!this.formData.subject) {
-                    this.errors.subject = 'Por favor selecciona un asunto';
+
+                if (!this.formData.password.trim()) {
+                    this.errors.password = 'Por favor ingresa una contraseña';
                     isValid = false;
                 }
-                
-                if (!this.formData.message.trim()) {
-                    this.errors.message = 'Por favor ingresa tu mensaje';
+
+                if (this.formData.password !== this.formData.password_confirm) {
+                    this.errors.password_confirm = 'Las contraseñas no coinciden';
                     isValid = false;
                 }
-                
-                if (!this.formData.privacy) {
-                    this.errors.privacy = 'Debes aceptar la política de privacidad';
+
+                if (!this.formData.dispositivo) {
+                    this.errors.dispositivo = 'Por favor selecciona un dispositivo';
                     isValid = false;
                 }
-                
+
+                const paisOptions = Array.from(document.querySelectorAll('#countriesList option')).map(option => option.value);
+                if (!paisOptions.includes(this.formData.pais.trim())) {
+                    this.errors.pais = 'Por favor selecciona un país válido de la lista';
+                    isValid = false;
+                }
+
+                if (!this.formData.edad || this.formData.edad < 7 || this.formData.edad > 120) {
+                    this.errors.edad = 'Por favor ingresa una edad válida (entre 7 y 120)';
+                    isValid = false;
+                }
+
+                if (!this.formData.rol) {
+                    this.errors.rol = 'Por favor selecciona tu rol';
+                    isValid = false;
+                }
+
+                if (!this.formData.terms) {
+                    this.errors.terms = 'Debes aceptar los términos y condiciones';
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    this.formData.terms = false;
+                }
+
                 if (isValid) {
                     // Enviar el formulario
                     document.querySelector('form').submit();
-                }
+                }              
             },
             validateEmail(email) {
                 const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

@@ -2,6 +2,7 @@ from django.shortcuts import render
 #prueba para redis
 from django.core.cache import cache
 from django.http import JsonResponse
+from users.models import Paises, RolesUser
 
 #prueba para mongodb
 #from pymongo import MongoClient
@@ -60,7 +61,12 @@ def descripcionCategoria(request):
     return render(request, 'descripcion-categoria.html', {})
 
 def registrar(request):
-    return render(request, 'registrar.html', {})
+    listRoles = RolesUser.objects.all().order_by('nombre')
+    listPaises = Paises.objects.all().order_by('nombre')
+    return render(request, 'registrar.html',{
+        'listRoles': listRoles,
+        'listPaises': listPaises
+    })
 
 def login(request):
     return render(request, 'login.html', {})
