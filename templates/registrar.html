@@ -372,19 +372,23 @@ Registrar | Expresate con señas
                                     >
                                     <label for="terms" class="ml-2 block text-sm text-gray-700">
                                         Acepto los <a href="#" class="text-cyan-600 hover:underline">términos y condiciones</a> y la <a href="#" class="text-cyan-600 hover:underline">política de privacidad</a>
+                                        <div x-show="errors.terms" class="text-red-500 text-xs mt-1" x-text="errors.terms"></div>
+                                         <!-- backend errors -->
+                                            {% if form.terms.errors %}
+                                            <div class="text-red-500 text-xs mt-1">
+                                                {% for error in form.terms.errors %}
+                                                    <p>{{ error }}</p>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                        <!-- fronted errors --> 
                                     </label>
-                                </div>
-                                <!-- backend errors -->
-                                    {% if form.terms.errors %}
-                                        <div class="text-red-500 text-xs mt-1">
-                                            {% for error in form.terms.errors %}
-                                                <p>{{ error }}</p>
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
-                                <!-- fronted errors -->
+                                    
+                                   
                                 
-                                <div x-show="errors.terms" class="text-red-500 text-xs mt-1" x-text="errors.terms"></div>
+                                
+                                </div>
+                                
                                 <altcha-widget challengeurl="{% url 'altcha_challenge' %}">
 
                                 </altcha-widget>
