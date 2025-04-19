@@ -18,6 +18,7 @@ class registrarUserForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = Users
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'dispositivo', 'pais', 'edad', 'rol')
+        
     def clean_first_name(self):
         first_name = self.cleaned_data.get('first_name')
         if not first_name or not first_name.strip():

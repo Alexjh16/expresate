@@ -1,10 +1,16 @@
 {% extends "app/base.html" %}
 
+{% load static %}
+
+
 {% block title %}
 Registrar | Expresate con señas
 {% endblock %}
 
 {% block content %}
+
+
+
 <div class="container mx-auto p-4">
     <div class="max-w-4xl mx-auto">
         <!-- Encabezado -->
@@ -352,7 +358,7 @@ Registrar | Expresate con señas
                                 </div>
                             </div>
                             
-                            <div class="mb-6">
+                            <div class="mb-6 flex items-center justify-between gap-4">
                                 <div class="flex items-center">
                                     <input 
                                         type="checkbox" 
@@ -377,8 +383,14 @@ Registrar | Expresate con señas
                                         </div>
                                     {% endif %}
                                 <!-- fronted errors -->
+                                
                                 <div x-show="errors.terms" class="text-red-500 text-xs mt-1" x-text="errors.terms"></div>
+                                <altcha-widget challengeurl="{% url 'altcha_challenge' %}">
+
+                                </altcha-widget>
                             </div>
+                            
+
                             
                             <div class="flex flex-col space-y-4">
                                 <button 
@@ -398,6 +410,8 @@ Registrar | Expresate con señas
                                 </p>
                             </div>
                         </form>
+
+                       
                     </div>
                 </div>
             </div>
@@ -406,7 +420,7 @@ Registrar | Expresate con señas
 </div>
 
 
-
+<script src="{% static 'js/altcha.js' %}?v=2" type="module"></script>
 <script>
     function registrationForm() {
         return {

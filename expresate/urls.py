@@ -1,9 +1,11 @@
 from . import views
+from users.views import altcha_challenge
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
+
 
 urlpatterns = [
     
@@ -27,7 +29,10 @@ urlpatterns = [
     path('login-admin/', views.adminLogin, name='login-admin'),
     path('dashboard-admin/', views.adminDashboard, name='dashboard-admin'),
 
+
+
     #Ruta a al modulo de Registro de usuarios
+    path('altcha-challenge/', altcha_challenge, name='altcha_challenge'),
     path('users/', include('users.urls')),
     
     #

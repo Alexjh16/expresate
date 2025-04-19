@@ -8,3 +8,4 @@ django-redis
 pymongo
 django-seed
 django-altcha
+django-cors-headers

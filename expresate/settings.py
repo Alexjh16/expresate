@@ -44,9 +44,10 @@ INSTALLED_APPS = [
     'seguimiento',
     'evaluacion',
 
-    #Django-seed : Jhon Alexander
+    #Django-seed, altcha, corsheader : Jhon Alexander
     'django_seed',
     'django_altcha',
+    'corsheaders',
 
     #Apps anterios[Borrar]
     'modelos_expresate',
@@ -59,8 +60,11 @@ INSTALLED_APPS = [
     #alpine js : Jhon Alexander
     'django_alpine',
 ]
-#adding tailwinds css : Jhon Alexander
+#adding tailwind, altcha, cors headers : Jhon Alexander
 TAILWIND_APP_NAME = 'theme'
+ALTCHA_SECRET_KEY = 'key_1k07u2ceuNfftdDGhw7w6'
+ALTCHA_ALGORITHM = 'SHA-256'
+CORS_ALLOW_ALL_ORIGINS = True 
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -84,8 +88,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    #config for tailwind css : Jhon Alexander
+    #config for django reload, cors headers : Jhon Alexander
     "django_browser_reload.middleware.BrowserReloadMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'expresate.urls'
