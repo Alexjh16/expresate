@@ -1,5 +1,6 @@
 from django import forms
 from altcha import verify_solution
+from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from .models import Users, Paises, RolesUser
 
@@ -14,10 +15,29 @@ class registrarUserForm(UserCreationForm):
         queryset=RolesUser.objects.all(),
         required=True,
         label="Rol"
-    )    
+    )
+        
+    altcha_token = forms.CharField(
+        required=True,
+        widget=forms.HiddenInput(),
+        label="Captcha"
+    )
+    
     class Meta(UserCreationForm.Meta):
         model = Users
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'dispositivo', 'pais', 'edad', 'rol')
+        
+    def clean_altcha_token(self):
+        token = self.cleaned_data.get('altcha')
+        print(token)
+        if not token:
+            raise forms.ValidationError("El captcha es obligatorio.")
+        
+        is_valid = verify_solution(token, hmac_key=settings.ALTCHA_SECRET_KEY)
+        if not is_valid:
+            raise forms.ValidationError("El captcha no es válido. Por favor, inténtalo de nuevo.")
+        
+        return token
         
     def clean_first_name(self):
         first_name = self.cleaned_data.get('first_name')
