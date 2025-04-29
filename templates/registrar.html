@@ -381,7 +381,7 @@ Registrar | Expresate con señas
                                                 {% endfor %}
                                             </div>
                                         {% endif %}
-                                        <!-- fronted errors --> 
+                                        
                                     </label>
                                     
                                    
@@ -389,9 +389,17 @@ Registrar | Expresate con señas
                                 
                                 </div>
                                 
-                                <altcha-widget challengeurl="{% url 'altcha_challenge' %}">
-
+                                <altcha-widget challengeurl="{% url 'altcha_challenge' %}" 
+                                            onverified="document.getElementById('altcha_token').value = $event.detail.token">
                                 </altcha-widget>
+                                 <!-- backend errors -->
+                                 {% if form.altcha_token.errors %}
+                                 <div class="text-red-500 text-xs mt-1">
+                                     {% for error in form.altcha_token.errors %}
+                                         <p>{{ error }}</p>
+                                     {% endfor %}
+                                 </div>
+                             {% endif %}
                             </div>
                             
 

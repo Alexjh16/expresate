@@ -53,6 +53,7 @@ def registrarUser(request):
             messages.success(request, 'Usuario registrado, por favor inicia sesión')
             return redirect('login') 
         else:
+            print(form.errors)
             messages.error(request, 'Por favor valida la información del formulario')
     else:
         form = registrarUserForm()
