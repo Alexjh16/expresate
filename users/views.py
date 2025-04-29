@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .forms import registrarUserForm
+from django.core.cache import cache as redis #redis: Jhon Alexander
 from .models import Paises, RolesUser
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -45,7 +46,10 @@ def registrarUser(request):
     if request.method == 'POST':
         form = registrarUserForm(request.POST)
         if form.is_valid():
-            form.save()
+            #guardar el usuario en la base de datos pgsql
+            user = form.save()
+            #guardar el usuario en la base de datos redis
+            redis.set(user.username, user.password, timeout=300, version='')  # 5 minutos
             messages.success(request, 'Usuario registrado, por favor inicia sesión')
             return redirect('login') 
         else:
