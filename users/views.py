@@ -19,7 +19,7 @@ SECRET_KEY = settings.ALTCHA_SECRET_KEY
 def altcha_challenge(request):
     if request.method == 'POST':
         token = request.POST.get('altcha')
-        is_valid = verify_solution(token, hmac_key=SECRET_KEY)  # Usando settings
+        is_valid = verify_solution(token, hmac_key=SECRET_KEY, check_expires=True)  # Usando settings
         return JsonResponse({'valid': is_valid})
     
     options = ChallengeOptions(

@@ -28,12 +28,12 @@ class registrarUserForm(UserCreationForm):
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'dispositivo', 'pais', 'edad', 'rol')
         
     def clean_altcha_token(self):
-        token = self.cleaned_data.get('altcha')
+        token = self.cleaned_data.get('altcha_token')
         print(token)
         if not token:
             raise forms.ValidationError("El captcha es obligatorio.")
         
-        is_valid = verify_solution(token, hmac_key=settings.ALTCHA_SECRET_KEY)
+        is_valid = verify_solution(token, hmac_key=settings.ALTCHA_SECRET_KEY, check_expires=True)
         if not is_valid:
             raise forms.ValidationError("El captcha no es válido. Por favor, inténtalo de nuevo.")
         

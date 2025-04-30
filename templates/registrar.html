@@ -359,51 +359,54 @@ Registrar | Expresate con señas
                             </div>
                             
                             <div class="mb-6 flex items-center justify-between gap-4">
-                                <div class="flex items-center">
-                                    <input 
-                                        type="checkbox" 
-                                        id="terms" 
-                                        name="terms" 
-                                        class="h-4 w-4 text-cyan-600 focus:ring-cyan-500 border-gray-300 rounded"
-                                        x-model="formData.terms"
-                                        :disabled="!isFormValid"
-                                        x-on:change="if (!isFormValid) formData.terms = false"
-                                        required
-                                    >
-                                    <label for="terms" class="ml-2 block text-sm text-gray-700">
-                                        Acepto los <a href="#" class="text-cyan-600 hover:underline">términos y condiciones</a> y la <a href="#" class="text-cyan-600 hover:underline">política de privacidad</a>
-                                        <div x-show="errors.terms" class="text-red-500 text-xs mt-1" x-text="errors.terms"></div>
-                                         <!-- backend errors -->
-                                            {% if form.terms.errors %}
-                                            <div class="text-red-500 text-xs mt-1">
-                                                {% for error in form.terms.errors %}
-                                                    <p>{{ error }}</p>
-                                                {% endfor %}
-                                            </div>
-                                        {% endif %}
-                                        
-                                    </label>
-                                    
-                                   
-                                
-                                
-                                </div>
-                                
-                                <altcha-widget challengeurl="{% url 'altcha_challenge' %}" 
-                                            onverified="document.getElementById('altcha_token').value = $event.detail.token">
-                                </altcha-widget>
-                                 <!-- backend errors -->
-                                 {% if form.altcha_token.errors %}
-                                 <div class="text-red-500 text-xs mt-1">
-                                     {% for error in form.altcha_token.errors %}
-                                         <p>{{ error }}</p>
-                                     {% endfor %}
-                                 </div>
-                             {% endif %}
-                            </div>
-                            
 
-                            
+                                <div class="w-1/2" x-data="altchaHandler()" x-init="init()">
+                                    <altcha-widget id="altcha" challengeurl="{% url 'altcha_challenge' %}"></altcha-widget>
+                                    <input type="hidden" name="altcha_token"  :value="payload">
+                                    <input type="hidden" name="token" id="token" x-model="formData.token">
+                                </div>
+                                <!-- fronted errors -->
+                                <div x-show="errors.token" class="text-red-500 text-xs mt-1" x-text="errors.token"></div>
+                                 <!-- backend errors -->
+                                  
+                                 {% if form.altcha_token.errors %}
+                                    <div class="text-red-500 text-xs mt-1">
+                                        {% for error in form.altcha_token.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+
+                                
+
+                                
+                            </div>                           
+
+                            <div class="flex mb-3 items-center">
+                                <input 
+                                    type="checkbox" 
+                                    id="terms" 
+                                    name="terms" 
+                                    class="h-4 w-4 text-cyan-600 focus:ring-cyan-500 border-gray-300 rounded"
+                                    x-model="formData.terms"
+                                    :disabled="!isFormValid"
+                                    x-on:change="if (!isFormValid) formData.terms = false"
+                                    required
+                                >
+                                <label for="terms" class="ml-2 block text-sm text-gray-700">
+                                    Acepto los <a href="#" class="text-cyan-600 hover:underline">términos y condiciones</a> y la <a href="#" class="text-cyan-600 hover:underline">política de privacidad</a>
+                                    <div x-show="errors.terms" class="text-red-500 text-xs mt-1" x-text="errors.terms"></div>
+                                     <!-- backend errors -->
+                                        {% if form.terms.errors %}
+                                        <div class="text-red-500 text-xs mt-1">
+                                            {% for error in form.terms.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </label>                                  
+                            </div>  
+
                             <div class="flex flex-col space-y-4">
                                 <button 
                                     type="submit"
@@ -434,6 +437,49 @@ Registrar | Expresate con señas
 
 <script src="{% static 'js/altcha.js' %}?v=2" type="module"></script>
 <script>
+    function altchaHandler() {
+        return {
+            state: 'unverified',
+            payload: '',
+            init() {
+                const widget = document.querySelector('#altcha');
+                
+                widget.addEventListener('statechange', (event) => {
+                    const { state, payload, error } = event.detail;
+                    this.state = state;
+                    
+                    if (state === 'verified' && payload) {
+                        this.payload = payload;
+                        
+                        // Actualiza el campo visible
+                        document.getElementById('token').value = payload;
+                        
+                        // Actualiza formData.token en el contexto del formulario
+                        // Usa Alpine.js global para encontrar el componente padre
+                        try {
+                            // Intentamos acceder al contexto del formulario
+                            const formElement = this.$el.closest('form');
+                            if (formElement && window.Alpine) {
+                                const parentComponent = Alpine.$data(formElement);
+                                if (parentComponent && parentComponent.formData) {
+                                    parentComponent.formData.token = payload;
+                                }
+                            }
+                        } catch (e) {
+                            console.warn("No se pudo acceder al formulario padre:", e);
+                        }
+                        
+                    } else {
+                        this.payload = '';
+                    }
+                    
+                    if (state === 'error') {
+                        console.error('Error verificando el captcha:', error);
+                    }
+                });
+            }
+        };
+    }
     function registrationForm() {
         return {
             formData: {
@@ -448,7 +494,9 @@ Registrar | Expresate con señas
                 pais: "{{ form.pais.value|default:''|escapejs }}",
                 edad: "{{ form.edad.value|default:''|escapejs }}",
                 rol: "{{ form.rol.value|default:''|escapejs }}",
-                terms: false
+                token: "{{ form.token.value|default:''|escapejs }}",
+                terms: false,
+                
                 
             },
             errors: {},
@@ -464,7 +512,8 @@ Registrar | Expresate con señas
                     this.formData.nombrePais.trim() &&
                     this.formData.edad >= 7 &&
                     this.formData.edad <= 120 &&
-                    this.formData.rol
+                    this.formData.rol &&
+                    this.formData.token.trim()
                 );
             },
             updateHiddenPaisId(){
@@ -538,11 +587,15 @@ Registrar | Expresate con señas
                     this.errors.rol = 'Por favor selecciona tu rol';
                     isValid = false;
                 }
+                if (!this.formData.token.trim()) {
+                    this.errors.token = 'Por favor completa el captcha';
+                    isValid = false;
+                }
 
                 if (!this.formData.terms) {
                     this.errors.terms = 'Debes aceptar los términos y condiciones';
                     isValid = false;
-                }
+                }               
 
                 if (!isValid) {
                     this.formData.terms = false;
