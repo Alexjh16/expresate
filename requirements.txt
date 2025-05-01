@@ -1,4 +1,5 @@
 psycopg
+psycopg2
 Pillow
 tailwind
 django-tailwind
