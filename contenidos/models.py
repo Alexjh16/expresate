@@ -51,6 +51,7 @@ class Videos(models.Model):
         db_table = 'videos'
 
 class Niveles(models.Model):
+    #comentario de marlon
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField(null=True, blank=True)
     icono = models.URLField()
