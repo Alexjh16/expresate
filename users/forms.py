@@ -1,7 +1,7 @@
 from django import forms
 from altcha import verify_solution
 from django.conf import settings
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Users, Paises, RolesUser
 
 
@@ -107,3 +107,52 @@ class registrarUserForm(UserCreationForm):
             raise forms.ValidationError("Las contraseñas no coinciden.")
 
         return cleaned_data
+
+
+class loginUserForm(AuthenticationForm):
+    error_messages = {
+        'invalid_login': "Por favor ingresa un nombre de usuario y contraseña correctos.",
+        'inactive': "Esta cuenta está inactiva.",
+    }
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if not username or not username.strip():
+            raise forms.ValidationError("El nombre de usuario es requerido.")
+        
+        # Validar que el username no contenga caracteres especiales
+        if not username.isalnum():
+            raise forms.ValidationError("El nombre de usuario solo puede contener letras y números.")
+            
+        return username.lower()  # Normalizar username a minúsculas
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if not password:
+            raise forms.ValidationError("La contraseña es requerida.")
+        
+        if len(password) < 8:
+            raise forms.ValidationError("La contraseña debe tener al menos 8 caracteres.")
+            
+        return password
+
+    def clean(self):
+        cleaned_data = super().clean()
+        username = cleaned_data.get('username')
+        password = cleaned_data.get('password')
+
+        if username and password:
+            try:
+                user = Users.objects.get(username=username)
+                if not user.is_active:
+                    raise forms.ValidationError("Esta cuenta está desactivada.")
+            except Users.DoesNotExist:
+                # No revelamos si el usuario existe o no por seguridad
+                pass
+
+        return cleaned_data
+
+    def get_user(self):
+        user = super().get_user()
+        if user and not user.is_active:
+            return None
+        return user
