@@ -66,11 +66,12 @@ def registrarUser(request):
     })
 
 def loginUser(request):
+
     if request.user.is_authenticated:
         return redirect('clases')  # Redirige si ya está autenticado
         
     if request.method == 'POST':
-        form = loginUserForm(request, data=request.POST)
+        form = loginUserForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -78,14 +79,12 @@ def loginUser(request):
             
             if user is not None:
                 login(request, user)
-                messages.success(request, f'¡Bienvenido {user.first_name}!')
-                
+                messages.success(request, f'¡Bienvenido {user.first_name}!')                
                 # Obtener la URL de redirección, si existe
                 next_url = request.GET.get('next')
                 if next_url:
                     return redirect(next_url)
                 return redirect('clases')  # O la URL que desees después del login
-            
         else:
             # Si el formulario no es válido, mostramos los errores
             print(form.errors)
