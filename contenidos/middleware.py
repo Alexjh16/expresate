@@ -8,11 +8,7 @@ class AuthRequiredMiddleware:
     def __call__(self, request):
         # URLs que requieren autenticación
         protected_routes = [
-            '/models/contenidos/create/categoria/clase/',
-            '/models/contenidos/video/clase/',
-            '/models/contenidos/create/video/clase/',
             '/models/contenidos/categoria/',
-            '/models/contenidos/clase/seletc/idVideo/',
             ]
         
         # Comprueba si la URL actual está en las rutas protegidas
