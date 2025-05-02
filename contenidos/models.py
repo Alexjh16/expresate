@@ -19,7 +19,7 @@ class CategoriaClases(models.Model):
     
     class Meta:
         db_table = 'categoria_clases'
-
+        
 class Niveles(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField(null=True, blank=True)
