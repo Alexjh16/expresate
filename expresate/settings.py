@@ -87,8 +87,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'contenidos.middleware.AuthRequiredMiddleware',
-    
+
     #config for django reload, cors headers : Jhon Alexander
     "django_browser_reload.middleware.BrowserReloadMiddleware",
     'corsheaders.middleware.CorsMiddleware',
@@ -124,7 +123,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "expresate",
         "USER": "postgres",
-        "PASSWORD": "123456789",
+        "PASSWORD": "12345678",
         "HOST": "127.0.0.1",
         "PORT": "5432",
     }

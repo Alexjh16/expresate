@@ -26,7 +26,7 @@ class Niveles(models.Model):
     icono = models.URLField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     
-    def __str__(self):
+    def _str_(self):
         return f'{self.nombre} - {self.descripcion}'
     
     class Meta:
@@ -41,7 +41,9 @@ class Cursos(models.Model):
     estado_curso = models.BooleanField(default=False)
  
     categoria_clase = models.ForeignKey(CategoriaClases, on_delete=models.CASCADE, null=True, blank=True)
-    cuestionario = models.ForeignKey(Cuestionarios, on_delete=models.CASCADE, null=True, blank=True)   
+    
+    cuestionario = models.ForeignKey(Cuestionarios, on_delete=models.CASCADE, null=True, blank=True)
+    
     nivel = models.ForeignKey(Niveles, on_delete=models.CASCADE, null=True, blank=True)
     
     class Meta:
@@ -61,3 +63,4 @@ class Videos(models.Model):
     
     class Meta:
         db_table = 'videos'
+
