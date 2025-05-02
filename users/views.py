@@ -8,8 +8,10 @@ from altcha import ChallengeOptions
 from datetime import datetime, timedelta
 from django.conf import settings
 from django.http import JsonResponse
+from django.contrib.sessions.models import Session
+from django.utils import timezone
 from altcha import create_challenge, verify_solution
-from django.contrib.auth import authenticate, logout as auth_logout, login as auth_login
+from django.contrib.auth import authenticate, logout as auth_logout, login
 
 # Clave secreta (guárdala en settings.py en producción)
 SECRET_KEY = settings.ALTCHA_SECRET_KEY
@@ -65,25 +67,25 @@ def registrarUser(request):
     })
 
 def loginUser(request):
-
     if request.user.is_authenticated:
-        return redirect('clases')  # Redirige si ya está autenticado
+        return redirect('home')  # Redirige si ya está autenticado
         
     if request.method == 'POST':
-        form = loginUserForm(request.POST)
+        form = loginUserForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             
             if user is not None:
-                auth_login(request, user)
-                messages.success(request, f'¡Bienvenido {user.first_name}!')                
+                login(request, user)
+                
                 # Obtener la URL de redirección, si existe
                 next_url = request.GET.get('next')
                 if next_url:
                     return redirect(next_url)
                 return redirect('clases')  # O la URL que desees después del login
+            
         else:
             # Si el formulario no es válido, mostramos los errores
             print(form.errors)
@@ -100,4 +102,5 @@ def loginUser(request):
     
 def logoutUser(request):
     auth_logout(request)
-    return redirect('login')
+    response = redirect('index')
+    return response
