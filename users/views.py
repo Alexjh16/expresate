@@ -9,9 +9,8 @@ from datetime import datetime, timedelta
 from django.conf import settings
 from django.http import JsonResponse
 from altcha import create_challenge, verify_solution
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout as auth_logout
 from django.contrib.auth.decorators import login_required
-
 
 # Clave secreta (guárdala en settings.py en producción)
 SECRET_KEY = settings.ALTCHA_SECRET_KEY
@@ -68,7 +67,7 @@ def registrarUser(request):
 
 def loginUser(request):
     if request.user.is_authenticated:
-        return redirect('home')  # Redirige si ya está autenticado
+        return redirect('clases')  # Redirige si ya está autenticado
         
     if request.method == 'POST':
         form = loginUserForm(request, data=request.POST)
@@ -85,7 +84,7 @@ def loginUser(request):
                 next_url = request.GET.get('next')
                 if next_url:
                     return redirect(next_url)
-                return redirect('home')  # O la URL que desees después del login
+                return redirect('clases')  # O la URL que desees después del login
             
         else:
             # Si el formulario no es válido, mostramos los errores
@@ -100,3 +99,7 @@ def loginUser(request):
         'form': form,
         'title': 'Iniciar Sesión'
     })
+    
+def logoutUser(request):
+    auth_logout(request)
+    return redirect('login')

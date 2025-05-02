@@ -61,15 +61,3 @@ class Videos(models.Model):
     
     class Meta:
         db_table = 'videos'
-
-class Niveles(models.Model):
-    nombre = models.CharField(max_length=100)
-    descripcion = models.TextField(null=True, blank=True)
-    icono = models.URLField()
-    fecha_creacion = models.DateTimeField(auto_now_add=True)
-    
-    def _str_(self):
-        return f'{self.nombre} - {self.descripcion}'
-    
-    class Meta:
-        db_table = 'niveles'
