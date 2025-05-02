@@ -311,6 +311,7 @@ Descripción Categorias | Expresate con señas
         <!-- Grid de videos -->
         <div class="mt-12 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
             <!-- Video 1 -->
+            <a href="{% url 'categoria.clase' NM='Familia' %}">
             <div class="group relative video-card transition-all duration-300">
                 <div class="w-full min-h-80 bg-gray-200 aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-md group-hover:shadow-xl">
                     <img src="{% static 'img/video-thumbnail02.jpg' %}" alt="Yoga para principiantes" class="w-full h-full object-cover">
@@ -324,15 +325,13 @@ Descripción Categorias | Expresate con señas
                 <div class="mt-4 flex justify-between">
                     <div>
                         <h3 class="text-lg font-medium text-gray-900">
-                            <a href="#">
-                                Yoga para Principiantes: Primeros Pasos
-                            </a>
+                            Yoga para Principiantes: Primeros Pasos
                         </h3>
                         <p class="mt-1 text-sm text-gray-600">Ana Martínez • 25 minutos</p>
                     </div>
                 </div>
             </div>
-            
+            </a>
             <!-- Video 2 -->
             <div class="group relative video-card transition-all duration-300">
                 <div class="w-full min-h-80 bg-gray-200 aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-md group-hover:shadow-xl">

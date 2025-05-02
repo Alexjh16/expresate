@@ -51,9 +51,9 @@ urlpatterns = [
     path('agregar/clase', TemplateView.as_view(template_name='view_admin/agregar_categoriaClase.html'), name='categoria.clase'),
     
     #Ruta a los modulos
-    path('models/expresate/', include('modelos_expresate.urls')),
+    path('models/contenidos/', include('contenidos.urls')),
     path('models/evaluacion/estudiante/', include('modulo_evaluacionEstudiante.urls')), #modulo evaliacion
-
+    path('models/user/', include('users.urls')), #modulo de usuarios
     #Rutas anteriores
     path('indexOld/', views.indexOld, name='indexOld'),
 
