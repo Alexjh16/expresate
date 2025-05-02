@@ -32,18 +32,6 @@ class Niveles(models.Model):
     class Meta:
         db_table = 'niveles'
         
-class Niveles(models.Model):
-    nombre = models.CharField(max_length=100)
-    descripcion = models.TextField(null=True, blank=True)
-    icono = models.URLField()
-    fecha_creacion = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return f'{self.nombre} - {self.descripcion}'
-    
-    class Meta:
-        db_table = 'niveles'
-        
 class Cursos(models.Model):
     titulo = models.CharField(max_length=100)
     descripcion = models.TextField(null=True, blank=True)
@@ -53,8 +41,8 @@ class Cursos(models.Model):
     estado_curso = models.BooleanField(default=False)
  
     categoria_clase = models.ForeignKey(CategoriaClases, on_delete=models.CASCADE, null=True, blank=True)
+    
     cuestionario = models.ForeignKey(Cuestionarios, on_delete=models.CASCADE, null=True, blank=True)
-    nivele = models.ForeignKey(Niveles, on_delete=models.CASCADE, null=True, blank=True)
     
     nivel = models.ForeignKey(Niveles, on_delete=models.CASCADE, null=True, blank=True)
     
@@ -75,3 +63,4 @@ class Videos(models.Model):
     
     class Meta:
         db_table = 'videos'
+

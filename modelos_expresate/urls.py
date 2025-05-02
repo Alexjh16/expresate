@@ -10,8 +10,8 @@ urlpatterns = [
     path('create/video/clase/', views.createVideoClases, name='create.videoClases'),
     path('modulo/family/<str:NM>/', views.moduloClase, name='modulo.family'),
     path("clase/seletc/idVideo/", views.seletcVideo, name="clase.select"),
-    #path('login/session/', views.login, name='login.session'),
-    #path('cerrar/session/', views.logout, name='logout.session'),
+    path('login/session/', views.login, name='login.session'),
+    path('cerrar/session/', views.logout, name='logout.session'),
     
     #Ruta evaluacion de modulos
     
