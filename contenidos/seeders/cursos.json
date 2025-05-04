@@ -1,0 +1,13 @@
+[
+    {
+        "titulo": "Introducción a la Lengua de Señas",
+        "descripcion": "Aprende los conceptos básicos de la lengua de señas, incluyendo el alfabeto dactilológico y los números del 1 al 10.",
+        "icono": "media/imagenes/icono-curso1.jpg",
+        "duracion": 1900,
+        "fecha_creacion": "",
+        "estado_curso": true,
+        "categoria_clase_id": 1,
+        "cuestionario_id": 2,
+        "nivel_id": 1
+    }
+]
