@@ -6,6 +6,7 @@ from evaluacion.models import Cuestionarios
 #video
 #categoria_clase
 #curso
+#niveles
 
 class CategoriaClases(models.Model):
     nombre_categoria = models.CharField(max_length=100)

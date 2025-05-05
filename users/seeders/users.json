@@ -1,0 +1,19 @@
+[
+    {
+        "password": "/*-789456a",
+        "last_login": null,
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "admin",
+        "last_name": "admin",
+        "email": "admin@mail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-05-05 14:07:50.324764-05",
+        "foto": null,
+        "edad": 30,
+        "dispositivo": "smartphone",
+        "pais_id": 42,
+        "rol_id": 2
+    }
+]
