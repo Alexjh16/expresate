@@ -1,0 +1,32 @@
+[
+   {
+    "pregunta": "¿Cuál es la capital de Francia?",
+    "fecha_creacion": "",
+    "autor_id": 1,
+    "tipo_pregunta_id": 5
+   },
+   {
+    "pregunta": "¿Cuál es la capital de España?",
+    "fecha_creacion": "",
+    "autor_id": 1,
+    "tipo_pregunta_id": 4
+   },
+   {
+    "pregunta": "¿Cuál es la capital de Italia?",
+    "fecha_creacion": "",
+    "autor_id": 1,
+    "tipo_pregunta_id": 7
+   },
+   {
+    "pregunta": "¿Cuál es la capital de Alemania?",
+    "fecha_creacion": "",
+    "autor_id": 1,
+    "tipo_pregunta_id": 3
+   },
+   {
+    "pregunta": "¿Cuál es la capital de Portugal?",
+    "fecha_creacion": "",
+    "autor_id": 1,
+    "tipo_pregunta_id": 4
+   }
+]

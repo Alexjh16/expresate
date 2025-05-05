@@ -1,0 +1,37 @@
+[
+   {
+      "calificacion": 75,
+      "fecha_realizacion": "",
+      "tiempo_empleado": 480,
+      "user_id": 2,
+      "cuestionario_id": 2
+   },
+   {
+      "calificacion": 85,
+      "fecha_realizacion": "",
+      "tiempo_empleado": 300,
+      "user_id": 16,
+      "cuestionario_id": 3
+   },
+   {
+      "calificacion": 90,
+      "fecha_realizacion": "",
+      "tiempo_empleado": 600,
+      "user_id": 14,
+      "cuestionario_id": 2
+   },
+   {
+      "calificacion": 95,
+      "fecha_realizacion": "",
+      "tiempo_empleado": 720,
+      "user_id": 9,
+      "cuestionario_id": 3
+   },
+   {
+      "calificacion": 80,
+      "fecha_realizacion": "",
+      "tiempo_empleado": 540,
+      "user_id": 7,
+      "cuestionario_id": 2
+   }
+]

@@ -30,7 +30,7 @@ class Cuestionarios(models.Model):
         db_table = 'cuestionarios'
 
 class TiposPregunta(models.Model):
-    nombre_tipo_pregunta = models.CharField(max_length=50)
+    nombre_tipo_pregunta = models.CharField(max_length=100)
 
     def __str__(self):
         return f'{self.nombre_tipo_pregunta}'
@@ -60,7 +60,7 @@ class CuestionarioPreguntas(models.Model):
 class Respuestas(models.Model):
     respuesta = models.CharField(max_length=250)
     es_correcta = models.BooleanField(default=False)
-    veces_seleccionada = models.BooleanField(default=False)    
+    veces_seleccionada = models.IntegerField(null=True, blank=True)
     pregunta = models.ForeignKey(Preguntas, on_delete=models.CASCADE)
 
     def __str__(self):

@@ -1,0 +1,29 @@
+[
+   {
+      "fecha_inicio":"2024-01-01 10:00:00",
+      "fecha_fin":"2024-01-01 10:20:00",
+      "calificacion_obtenida":90,
+      "estado":"completo",
+      "tiempo_empleado":1200,
+      "user_id":2,
+      "cuestionario_id":2
+   },
+   {
+      "fecha_inicio":"2024-01-02 11:00:00",
+      "fecha_fin":"2024-01-02 11:30:00",
+      "calificacion_obtenida":85,
+      "estado":"completo",
+      "tiempo_empleado":1800,
+      "user_id":7,
+      "cuestionario_id":3
+   },
+   {
+      "fecha_inicio":"2024-01-03 12:00:00",
+      "fecha_fin":"2024-01-03 12:15:00",
+      "calificacion_obtenida":95,
+      "estado":"completo",
+      "tiempo_empleado":900,
+      "user_id":9,
+      "cuestionario_id":5
+   }
+]

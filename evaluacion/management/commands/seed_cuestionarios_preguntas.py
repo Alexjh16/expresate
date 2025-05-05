@@ -2,7 +2,7 @@ import json
 from django.conf import settings
 from django_seed import Seed
 from django.core.management.base import BaseCommand, CommandParser
-from evaluacion.models import Cuestionarios
+from evaluacion.models import CuestionarioPreguntas
 
 class Command(BaseCommand):
     help = 'Seeder inicial de Cuestionarios, Data: seeders/cuestionarios.json'
@@ -17,21 +17,18 @@ class Command(BaseCommand):
         
 
     def handle(self, *args, **options):
-        json_path = settings.BASE_DIR / 'evaluacion' / 'seeders' / 'cuestionarios.json'
+        json_path = settings.BASE_DIR / 'evaluacion' / 'seeders' / 'cuestionarios_preguntas.json'
 
         try:
             with open(json_path, 'r', encoding='utf-8') as f:
-                cuestionarios_data = json.load(f)
+                cuestionarios_pregunta_data = json.load(f)
 
-                for cuestionario_data in cuestionarios_data:
-                    Cuestionarios.objects.get_or_create(
-                        titulo=cuestionario_data['titulo'],
-                        defaults=cuestionario_data
-                    )
-                self.stdout.write(self.style.SUCCESS(f'{len(cuestionarios_data)} cuestionarios cargados desde JSON : seeders/cuestionarios.json'))
+                for cuestionario_pregunta_data in cuestionarios_pregunta_data:
+                     CuestionarioPreguntas.objects.create(**cuestionario_pregunta_data)
+                self.stdout.write(self.style.SUCCESS(f'{len(cuestionarios_pregunta_data)} cuestionarios_preguntas cargados desde JSON : seeders/cuestionarios_preguntas.json'))
                 
         except FileNotFoundError:
-            self.stdout.write(self.style.WARNING('Archivo cuestionarios.json no encontrado'))
+            self.stdout.write(self.style.WARNING('Archivo cuestionarios_preguntas.json no encontrado'))
         except json.JSONDecodeError:
             self.stdout.write(self.style.ERROR('Error al leer el archivo JSON'))
             
