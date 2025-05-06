@@ -24,7 +24,7 @@ urlpatterns = [
     path('login-admin/', views.adminLogin, name='login-admin'),
     path('dashboard-admin/', views.adminDashboard, name='dashboard-admin'),
 
-    #Ruta a al modulo de Registro de usuarios
+    #Ruta al modulo de Registro de usuarios
     path('altcha-challenge/', altcha_challenge, name='altcha_challenge'),
     path('users/', include('users.urls')),
     
@@ -39,17 +39,18 @@ urlpatterns = [
     path('modulo/clases', views.moduloClases, name='modulo.clase'),
     
     #Rutas Administrativas 
-    path('base/admin/', TemplateView.as_view(template_name='view_admin/app_admin/base_admin.html'), name='base_admin'),
+    #path('base/admin/', TemplateView.as_view(template_name='view_admin/app_admin/base_admin.html'), name='base_admin'),
     path('agregar/clase', TemplateView.as_view(template_name='view_admin/agregar_categoriaClase.html'), name='categoria.clase'),
     
     #Ruta a los modulos
     path('models/contenidos/', include('contenidos.urls')),
-    
+    path('models/administrador/', include('administrador.urls')),
     path('models/evaluacion/estudiante/', include('modulo_evaluacionEstudiante.urls')), #modulo evaliacion
+    path("__reload__/", include("django_browser_reload.urls")),
 
     #Rutas anteriores
     path('indexOld/', views.indexOld, name='indexOld'),
 
-    path("__reload__/", include("django_browser_reload.urls")),
+    
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

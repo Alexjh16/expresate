@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'seguimiento',
     'evaluacion',
     'expresate',
+    'administrador',
 
     #Django-seed, altcha, corsheader : Jhon Alexander
     'django_seed',
@@ -124,7 +125,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "expresate",
         "USER": "postgres",
-        "PASSWORD": "12345678",
+        "PASSWORD": "123456789",
         "HOST": "127.0.0.1",
         "PORT": "5432",
     }

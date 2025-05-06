@@ -14,6 +14,9 @@
       <form action="{% url "create.categoriaClases" %}" method="POST">
         {% csrf_token %}
         <input type="text" name="nombre" id="nombre" placeholder="Nombre categoria*:" required />
+        <input type="text" name="descripcion" id="descripcion" placeholder="Descripción categoria*:" required />
+        <input type="text" name="edad_minima" id="edad_minima" placeholder="Edad minina*:" required />
+        <input type="text" name="icono" id="icono" placeholder="Icono categoria:"/>
         <button type="submit">Agregar categoria</button>
       </form>
 

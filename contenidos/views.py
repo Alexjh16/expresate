@@ -12,6 +12,7 @@ def curso(request, nombreCurso):
     # Filtra las categorías por el nombre de la categoría
     print(nombreCurso)
     categorias = CategoriaClases.objects.all()
+    print('nc', categorias)
     cursos = Cursos.objects.filter(titulo=nombreCurso)
     nombre_categoria = categorias[0].nombre_categoria if categorias.exists() else None
     return render(request, 'curso.html', {
