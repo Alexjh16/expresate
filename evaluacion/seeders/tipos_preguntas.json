@@ -1,0 +1,26 @@
+[
+   {
+      "nombre_tipo_pregunta":"Opción unica"
+   },
+   {
+      "nombre_tipo_pregunta" : "Opción Múltiple"
+   },
+   {
+      "nombre_tipo_pregunta" : "Respuesta Abierta"
+   },
+   {
+      "nombre_tipo_pregunta" : "Verdadero o Falso"
+   },
+   {
+      "nombre_tipo_pregunta" : "Opción Múltiple con Respuesta Abierta"
+   },
+   {
+      "nombre_tipo_pregunta" : "Respuesta Abierta con Opción Múltiple"
+   },
+   {
+      "nombre_tipo_pregunta" : "Opción Múltiple con Respuesta Abierta y Verdadero o Falso"
+   },
+   {
+      "nombre_tipo_pregunta" : "Respuesta Abierta con Opción Múltiple y Verdadero o Falso"
+   }
+]

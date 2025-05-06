@@ -1,0 +1,9 @@
+[
+    {
+        "nombre_categoria": "Famila",
+        "descripcion": "Abecedario en lenguaje de señas - Familia",
+        "icono": "media/imagenes/icon-familia.jpg",
+        "fecha_creacion":"2024-04-28",
+        "edad_minima": 7
+    }
+]

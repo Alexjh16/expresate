@@ -25,7 +25,7 @@ class UserVideosCursos(models.Model):
 
 class Comentarios(models.Model):
     comentario = models.TextField()
-    parent_id = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     cantidad_likes = models.IntegerField(default=0)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     video = models.ForeignKey(Videos, on_delete=models.CASCADE)

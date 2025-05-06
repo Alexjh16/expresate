@@ -1,0 +1,22 @@
+[
+    {
+        "cuestionario_id": 2,
+        "pregunta_id": 1
+    },
+    {
+        "cuestionario_id": 3,
+        "pregunta_id": 2
+    },
+    {
+        "cuestionario_id": 5,
+        "pregunta_id": 3
+    },
+    {
+        "cuestionario_id": 3,
+        "pregunta_id": 4
+    },
+    {
+        "cuestionario_id": 2,
+        "pregunta_id": 5
+    }
+]

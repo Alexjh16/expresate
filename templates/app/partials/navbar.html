@@ -27,7 +27,7 @@
 
 
             {% if user.is_authenticated %}
-            <li><a href="{% url 'logout.session' %}" class="nav-link">Cerrar sesión</a></li>
+            <li><a href="{% url 'logoutUser' %}" class="nav-link">Cerrar sesión</a></li>
             {% else %}
             <li><a href="{% url 'registrar' %}" class="nav-link">Registrar</a></li>
             <li>

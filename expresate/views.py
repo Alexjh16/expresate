@@ -57,8 +57,13 @@ def clases(request):
 def nosotros(request):
     return render(request, 'nosotros.html', {})
 
-def descripcionCategoria(request):
-    return render(request, 'descripcion-categoria.html', {})
+def cursos(request):
+    return render(request, 'cursos.html', {})
+def curso(request):
+    return render(request, 'curso.html', {})
+
+def descripcionCurso(request):
+    return render(request, 'descripcion-curso.html', {})
 
 def registrar(request):
     listRoles = RolesUser.objects.all().order_by('nombre')

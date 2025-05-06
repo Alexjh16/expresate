@@ -1,0 +1,32 @@
+[
+   {
+      "respuesta":"La vocal a",
+      "es_correcta":true,
+      "veces_seleccionada":0,
+      "pregunta_id":1
+   },
+   {
+      "respuesta":"La vocal e",
+      "es_correcta":false,
+      "veces_seleccionada":0,
+      "pregunta_id":1
+   },
+   {
+      "respuesta":"La vocal i",
+      "es_correcta":false,
+      "veces_seleccionada":0,
+      "pregunta_id":1
+   },
+   {
+      "respuesta":"La vocal o",
+      "es_correcta":false,
+      "veces_seleccionada":0,
+      "pregunta_id":1
+   },
+   {
+      "respuesta":"La vocal u",
+      "es_correcta":false,
+      "veces_seleccionada":0,
+      "pregunta_id":1
+   }
+]

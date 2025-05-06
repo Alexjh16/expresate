@@ -1,0 +1,23 @@
+[
+   {
+    "titulo": "Cuestionario de Evaluación de la Capacitación I",
+    "descripcion": "Este cuestionario tiene como objetivo evaluar la capacitación en el uso de la lengua de señas. Por favor, responde a las siguientes preguntas de ma honesta y reflexiva.",
+    "limite_intentos": 3,
+    "estado": "activo",
+    "calificacion_aprobacion": 55,
+    "fecha_creacion": "",
+    "duracion_estimada": 3600,
+    "autor_id": 1
+   },
+   {
+    "titulo": "Cuestionario de Evaluación de la Capacitación II",
+    "descripcion": "Este cuestionario tiene como objetivo evaluar la capacitación en el uso de la lengua de señas. Por favor, responde a las siguientes preguntas de ma honesta y reflexiva.",
+    "limite_intentos": 3,
+    "estado": "activo",
+    "calificacion_aprobacion": 55,
+    "fecha_creacion": "",
+    "duracion_estimada": 3600,
+    "autor_id": 40
+   }
+
+]

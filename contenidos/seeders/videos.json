@@ -1,0 +1,11 @@
+[
+    {
+        "video_url": "media/videos/leccion2.mp4",
+        "descripcion": "Abecedario en lenguaje de señas",
+        "edad_minima": 10,
+        "duracion": 900,
+        "imagen_portada": "media/imagenes/portada-leccion2.jpg",
+        "fecha_subida":"2024-04-28",
+        "curso_id" : 1
+    }
+]

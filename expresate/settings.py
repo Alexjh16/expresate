@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'contenidos',
     'seguimiento',
     'evaluacion',
+    'expresate',
 
     #Django-seed, altcha, corsheader : Jhon Alexander
     'django_seed',
@@ -70,11 +71,11 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 #para windows : Jhon Alexander
-#NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 
 #para linux manjaro : Jhon Alexander
 
-NPM_BIN_PATH = '/usr/bin/npm'
+#NPM_BIN_PATH = '/usr/bin/npm'
 
 
 
@@ -123,7 +124,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "expresate",
         "USER": "postgres",
-        "PASSWORD": "123456789",
+        "PASSWORD": "12345678",
         "HOST": "127.0.0.1",
         "PORT": "5432",
     }
@@ -178,11 +179,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
-
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
+TIME_ZONE = 'America/Bogota'  # Cambia esto a tu zona horaria deseada
 
 
 # Static files (CSS, JavaScript, Images)

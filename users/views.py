@@ -8,6 +8,8 @@ from altcha import ChallengeOptions
 from datetime import datetime, timedelta
 from django.conf import settings
 from django.http import JsonResponse
+from django.contrib.sessions.models import Session
+from django.utils import timezone
 from altcha import create_challenge, verify_solution
 from django.contrib.auth import authenticate, logout as auth_logout, login
 

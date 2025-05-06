@@ -12,7 +12,7 @@
         <li><a href="#" class="nav-link">Vision</a></li>
 
         {% if user.is_authenticated %}
-            <li><a href="{% url "logout.session" %}" class="nav-link">Cerrar sesion</a></li>
+            <li><a href="{% url 'logoutUser' %}" class="nav-link">Cerrar sesion</a></li>
         {% else %}
             <li><a href="{% url 'registrar' %}" class="nav-link">Registrar</a></li>
             <li><a href="{% url 'login' %}" class="nav-link">Iniciar sesion</a></li>
