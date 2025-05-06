@@ -7,18 +7,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-urlpatterns = [
-    
-    #Rutas a clases y a usuarios 
-
-
-    
+urlpatterns = [   
     #ruta de inicio para / y para /index
     path('', views.index, name='index'),
 
     #path('bds/', views.dbs, name='bds'),
     
-
     #Rutas agregadas por Jhon Alexander
     path('index/', views.index, name='index'),
     path('clases/', views.clases, name='clases'),
@@ -29,13 +23,10 @@ urlpatterns = [
     path('login-admin/', views.adminLogin, name='login-admin'),
     path('dashboard-admin/', views.adminDashboard, name='dashboard-admin'),
 
-
-
     #Ruta a al modulo de Registro de usuarios
     path('altcha-challenge/', altcha_challenge, name='altcha_challenge'),
     path('users/', include('users.urls')),
     
-    #
     path('menu/clases/', views.clasesOld, name='menu.clase'),
     
     path('menu/nosotros/', views.nosotrosOld, name='menu.nosotros'),
