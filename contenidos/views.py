@@ -8,10 +8,14 @@ from .models import *
 import json
 
 #Metodo para selecionar i enviar todas las categoria o modulos al formulario de creacion de video  
-def moduloClase(request, NM):    
+def curso(request, nombreCurso):    
     # Filtra las categorías por el nombre de la categoría
-    print(NM)
+    print(nombreCurso)
     categorias = CategoriaClases.objects.all()
-    cursos = Cursos.objects.filter(categoria_clase__nombre_categoria=NM)
+    cursos = Cursos.objects.filter(titulo=nombreCurso)
     nombre_categoria = categorias[0].nombre_categoria if categorias.exists() else None
-    return render(request, 'modulo_clase.html', {'categorias':categorias, 'cursos':cursos, 'nombre_categoria': nombre_categoria})
+    return render(request, 'curso.html', {
+        'categorias':categorias, 
+        'cursos':cursos, 
+        'nombre_categoria': nombre_categoria
+    })

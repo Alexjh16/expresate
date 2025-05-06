@@ -1,0 +1,540 @@
+{% extends "app/base.html" %}
+
+{% block title %}
+Cursos | Expresate con señas
+{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<style>
+    .gradient-overlay {
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7));
+    }
+    
+    .course-card {
+        transition: all 0.3s ease;
+    }
+    
+    .course-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .category-pill.active {
+        background-color: #0d9488;
+        color: white;
+    }
+    
+    .category-pill:hover:not(.active) {
+        background-color: #f0fdfa;
+    }
+    
+    .search-input:focus {
+        box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2);
+    }
+    
+    .instructor-badge {
+        bottom: -12px;
+    }
+</style>
+
+
+<!-- Hero Section -->
+<div class="relative bg-gradient-to-r from-teal-500 to-cyan-600">
+    <div class="absolute inset-0">
+        <img class="w-full h-full object-cover mix-blend-multiply filter brightness-75" src="https://www.fundaciontelefonica.com/wp-content/uploads/2017/05/programacion-web-empleo-digital.jpg" alt="Cursos de bienestar">
+        <div class="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-600 mix-blend-multiply"></div>
+    </div>
+    <div class="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
+        <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">Explora Nuestros Cursos</h1>
+        <p class="mt-6 max-w-3xl text-xl text-teal-50">Descubre una amplia variedad de cursos diseñados para mejorar tu bienestar físico y mental. Encuentra el camino perfecto para tu desarrollo personal.</p>
+        
+        <!-- Buscador de cursos -->
+        <div class="mt-10 max-w-xl">
+            <div class="relative rounded-md shadow-sm">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <input type="text" name="search" id="search" class="search-input focus:ring-teal-500 focus:border-teal-500 block w-full pl-10 pr-12 py-3 sm:text-sm border-white rounded-md bg-white/20 backdrop-blur-sm text-white placeholder-white/70" placeholder="Buscar cursos, instructores o temas...">
+                <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
+                    <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-teal-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                        Buscar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Estadísticas rápidas -->
+<div class="bg-white shadow-md -mt-10 relative z-20 max-w-7xl mx-auto rounded-lg overflow-hidden">
+    <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200">
+        <div class="p-6 text-center">
+            <p class="text-sm font-medium text-gray-500 truncate">Total de Cursos</p>
+            <p class="mt-1 text-3xl font-semibold text-gray-900">48</p>
+        </div>
+        <div class="p-6 text-center">
+            <p class="text-sm font-medium text-gray-500 truncate">Categorías</p>
+            <p class="mt-1 text-3xl font-semibold text-gray-900">6</p>
+        </div>
+        <div class="p-6 text-center">
+            <p class="text-sm font-medium text-gray-500 truncate">Instructores</p>
+            <p class="mt-1 text-3xl font-semibold text-gray-900">12</p>
+        </div>
+    </div>
+</div>
+
+<!-- Navegación por categorías -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+    <div class="sm:flex sm:items-center sm:justify-between">
+        <h2 class="text-2xl font-bold text-gray-900">Categorías</h2>
+        <div class="mt-4 sm:mt-0">
+            <div class="flex items-center space-x-2">
+                <span class="text-sm text-gray-500">Ordenar por:</span>
+                <select class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md">
+                    <option>Popularidad</option>
+                    <option>Más recientes</option>
+                    <option>Mejor valorados</option>
+                    <option>Precio: menor a mayor</option>
+                    <option>Precio: mayor a menor</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-6 flex flex-wrap gap-2" x-data="{ activeCategory: 'todos' }">
+        <button @click="activeCategory = 'todos'" 
+                :class="{'bg-teal-600 text-white': activeCategory === 'todos', 'bg-white text-gray-700 hover:bg-gray-100': activeCategory !== 'todos'}" 
+                class="category-pill px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-all duration-300">
+            Todos
+        </button>
+        <button @click="activeCategory = 'yoga'" 
+                :class="{'bg-teal-600 text-white': activeCategory === 'yoga', 'bg-white text-gray-700 hover:bg-gray-100': activeCategory !== 'yoga'}" 
+                class="category-pill px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-all duration-300">
+            Yoga
+        </button>
+        <button @click="activeCategory = 'meditacion'" 
+                :class="{'bg-teal-600 text-white': activeCategory === 'meditacion', 'bg-white text-gray-700 hover:bg-gray-100': activeCategory !== 'meditacion'}" 
+                class="category-pill px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-all duration-300">
+            Meditación
+        </button>
+        <button @click="activeCategory = 'nutricion'" 
+                :class="{'bg-teal-600 text-white': activeCategory === 'nutricion', 'bg-white text-gray-700 hover:bg-gray-100': activeCategory !== 'nutricion'}" 
+                class="category-pill px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-all duration-300">
+            Nutrición
+        </button>
+        <button @click="activeCategory = 'fitness'" 
+                :class="{'bg-teal-600 text-white': activeCategory === 'fitness', 'bg-white text-gray-700 hover:bg-gray-100': activeCategory !== 'fitness'}" 
+                class="category-pill px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-all duration-300">
+            Fitness
+        </button>
+        <button @click="activeCategory = 'mindfulness'" 
+                :class="{'bg-teal-600 text-white': activeCategory === 'mindfulness', 'bg-white text-gray-700 hover:bg-gray-100': activeCategory !== 'mindfulness'}" 
+                class="category-pill px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-all duration-300">
+            Mindfulness
+        </button>
+        <button @click="activeCategory = 'respiracion'" 
+                :class="{'bg-teal-600 text-white': activeCategory === 'respiracion', 'bg-white text-gray-700 hover:bg-gray-100': activeCategory !== 'respiracion'}" 
+                class="category-pill px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-all duration-300">
+            Técnicas de Respiración
+        </button>
+    </div>
+</div>
+
+<!-- Cursos destacados -->
+<section class="py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-8">Cursos Destacados</h2>
+        
+        <div class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+            <!-- Curso 1 -->
+            
+            <div class="cursor-pointer course-card group relative bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="relative h-60 w-full overflow-hidden">
+                    <img src="https://bitinstitute.online/images/Cursos-Paginas-Web-800x900-90-3.webp" alt="Yoga para principiantes" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div class="absolute bottom-4 left-4 right-4 flex justify-between items-center">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
+                            
+                            Yoga
+                        </span>
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <span class="ml-1 text-sm font-medium text-white">4.8</span>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 right-4 instructor-badge">
+                        <div class="h-10 w-10 rounded-full border-2 border-white overflow-hidden">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNt9UpcsobJNOGFHPeBt-88iRmqjflBnIjhw&s" alt="Ana Martínez" class="h-full w-full object-cover">
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-medium text-gray-900">Yoga para Principiantes: Primeros Pasos</h3>
+                    <p class="mt-1 text-sm text-gray-500 line-clamp-2">Aprende las posturas básicas y técnicas de respiración para iniciar tu práctica de yoga de manera segura y efectiva.</p>
+                    <div class="mt-3 flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span class="ml-1 text-sm text-gray-500">8 semanas</span>
+                            </div>
+                            <div class="flex items-center mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                                </svg>
+                                <span class="ml-1 text-sm text-gray-500">12 lecciones</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-lg font-bold text-teal-600">$49.99</p>
+                            <p class="text-sm text-gray-500 line-through">$69.99</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <a href="{% url 'descripcion-curso' %}" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                            Ver Detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Curso 2 -->
+            <div class="cursor-pointer course-card group relative bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="relative h-60 w-full overflow-hidden">
+                    <img src="https://bitinstitute.online/images/Cursos-Paginas-Web-800x900-90-3.webp" alt="Meditación para reducir estrés" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div class="absolute bottom-4 left-4 right-4 flex justify-between items-center">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800">
+                            Meditación
+                        </span>
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <span class="ml-1 text-sm font-medium text-white">4.9</span>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 right-4 instructor-badge">
+                        <div class="h-10 w-10 rounded-full border-2 border-white overflow-hidden">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNt9UpcsobJNOGFHPeBt-88iRmqjflBnIjhw&s" alt="Carlos Ruiz" class="h-full w-full object-cover">
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-medium text-gray-900">Meditación para Reducir el Estrés</h3>
+                    <p class="mt-1 text-sm text-gray-500 line-clamp-2">Técnicas de meditación mindfulness para reducir el estrés y la ansiedad en tu vida diaria. Aprende a estar presente.</p>
+                    <div class="mt-3 flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span class="ml-1 text-sm text-gray-500">4 semanas</span>
+                            </div>
+                            <div class="flex items-center mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                                </svg>
+                                <span class="ml-1 text-sm text-gray-500">8 lecciones</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-lg font-bold text-teal-600">$39.99</p>
+                            <p class="text-sm text-gray-500 line-through">$59.99</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <a href="#" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                            Ver Detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Curso 3 -->
+            <div class="cursor-pointer course-card group relative bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="relative h-60 w-full overflow-hidden">
+                    <img src="https://bitinstitute.online/images/Cursos-Paginas-Web-800x900-90-3.webp" alt="Nutrición balanceada" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div class="absolute bottom-4 left-4 right-4 flex justify-between items-center">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            Nutrición
+                        </span>
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <span class="ml-1 text-sm font-medium text-white">4.7</span>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 right-4 instructor-badge">
+                        <div class="h-10 w-10 rounded-full border-2 border-white overflow-hidden">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNt9UpcsobJNOGFHPeBt-88iRmqjflBnIjhw&s" alt="Laura Gómez" class="h-full w-full object-cover">
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-medium text-gray-900">Nutrición Balanceada y Consciente</h3>
+                    <p class="mt-1 text-sm text-gray-500 line-clamp-2">Aprende a crear planes de alimentación saludables y sostenibles. Incluye recetas y guías de compras semanales.</p>
+                    <div class="mt-3 flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span class="ml-1 text-sm text-gray-500">6 semanas</span>
+                            </div>
+                            <div class="flex items-center mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                                </svg>
+                                <span class="ml-1 text-sm text-gray-500">15 lecciones</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-lg font-bold text-teal-600">$59.99</p>
+                            <p class="text-sm text-gray-500 line-through">$79.99</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <a href="#" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                            Ver Detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Curso 4 -->
+            <div class="cursor-pointer course-card group relative bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="relative h-60 w-full overflow-hidden">
+                    <img src="https://bitinstitute.online/images/Cursos-Paginas-Web-800x900-90-3.webp" alt="Fitness en casa" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div class="absolute bottom-4 left-4 right-4 flex justify-between items-center">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                            Fitness
+                        </span>
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <span class="ml-1 text-sm font-medium text-white">4.6</span>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 right-4 instructor-badge">
+                        <div class="h-10 w-10 rounded-full border-2 border-white overflow-hidden">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNt9UpcsobJNOGFHPeBt-88iRmqjflBnIjhw&s" alt="Miguel Sánchez" class="h-full w-full object-cover">
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-medium text-gray-900">Fitness en Casa: Rutinas Efectivas</h3>
+                    <p class="mt-1 text-sm text-gray-500 line-clamp-2">Entrena desde la comodidad de tu hogar con rutinas de ejercicio efectivas que no requieren equipamiento especializado.</p>
+                    <div class="mt-3 flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span class="ml-1 text-sm text-gray-500">4 semanas</span>
+                            </div>
+                            <div class="flex items-center mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                                </svg>
+                                <span class="ml-1 text-sm text-gray-500">10 lecciones</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-lg font-bold text-teal-600">$44.99</p>
+                            <p class="text-sm text-gray-500 line-through">$64.99</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <a href="#" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                            Ver Detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Ver más cursos destacados -->
+        <div class="mt-8 text-center">
+            <a href="#" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                Ver Más Cursos Destacados
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Categorías de cursos -->
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h2 class="text-3xl font-extrabold text-gray-900">Explora por Categoría</h2>
+            <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                Descubre cursos especializados en cada área de bienestar para encontrar el que mejor se adapte a tus necesidades.
+            </p>
+        </div>
+        
+        <div class="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <!-- Categoría: Yoga -->
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="relative h-48">
+                    <img class="w-full h-full object-cover" src="https://economis.com.ar/wp-content/uploads/2022/03/WhatsApp-Image-2022-03-14-at-18.05.02.jpeg" alt="Yoga">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 class="text-2xl font-bold text-white">Yoga</h3>
+                        <p class="mt-1 text-sm text-white/80">24 cursos disponibles</p>
+                    </div>
+                </div>
+                <div class="px-6 py-4">
+                    <p class="text-base text-gray-500">Desde posturas básicas hasta secuencias avanzadas, encuentra el estilo de yoga que mejor se adapte a ti.</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
+                            Hatha Yoga
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
+                            Vinyasa
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
+                            Yin Yoga
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
+                            Ashtanga
+                        </span>
+                    </div>
+                    <div class="mt-6">
+                        <a href="#" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-teal-600 hover:bg-teal-700">
+                            Ver todos los cursos
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Categoría: Meditación -->
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="relative h-48">
+                    <img class="w-full h-full object-cover" src="https://economis.com.ar/wp-content/uploads/2022/03/WhatsApp-Image-2022-03-14-at-18.05.02.jpeg" alt="Meditación">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 class="text-2xl font-bold text-white">Meditación</h3>
+                        <p class="mt-1 text-sm text-white/80">18 cursos disponibles</p>
+                    </div>
+                </div>
+                <div class="px-6 py-4">
+                    <p class="text-base text-gray-500">Aprende técnicas de meditación para reducir el estrés, mejorar la concentración y encontrar paz interior.</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800">
+                            Mindfulness
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800">
+                            Meditación Guiada
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800">
+                            Visualización
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800">
+                            Zen
+                        </span>
+                    </div>
+                    <div class="mt-6">
+                        <a href="#" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-cyan-600 hover:bg-cyan-700">
+                            Ver todos los cursos
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Categoría: Nutrición -->
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="relative h-48">
+                    <img class="w-full h-full object-cover" src="https://economis.com.ar/wp-content/uploads/2022/03/WhatsApp-Image-2022-03-14-at-18.05.02.jpeg" alt="Nutrición">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 class="text-2xl font-bold text-white">Nutrición</h3>
+                        <p class="mt-1 text-sm text-white/80">15 cursos disponibles</p>
+                    </div>
+                </div>
+                <div class="px-6 py-4">
+                    <p class="text-base text-gray-500">Descubre cómo alimentarte de forma saludable y equilibrada para optimizar tu bienestar físico y mental.</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            Alimentación Consciente
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            Dieta Balanceada
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            Cocina Saludable
+                        </span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            Superalimentos
+                        </span>
+                    </div>
+                    <div class="mt-6">
+                        <a href="#" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700">
+                            Ver todos los cursos
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Ver todas las categorías -->
+        <div class="mt-12 text-center">
+            <a href="#" class="inline-flex items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                Ver Todas las Categorías
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- CTA -->
+<section class="bg-gradient-to-r from-teal-500 to-cyan-600 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="lg:flex lg:items-center lg:justify-between">
+            <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                <span class="block">¿Listo para comenzar tu viaje?</span>
+                <span class="block text-cyan-100">Inscríbete hoy y obtén un 20% de descuento en tu primer curso.</span>
+            </h2>
+            <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+                <div class="inline-flex rounded-md shadow">
+                    <a href="#" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-teal-600 bg-white hover:bg-gray-50">
+                        Explorar Cursos
+                    </a>
+                </div>
+                <div class="ml-3 inline-flex rounded-md shadow">
+                    <a href="#" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-teal-700 hover:bg-teal-800">
+                        Registrarse
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
