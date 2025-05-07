@@ -17,7 +17,7 @@ class Cuestionarios(models.Model):
     titulo = models.CharField(max_length=200)
     descripcion = models.TextField(null=True, blank=True)
     limite_intentos = models.IntegerField(null=True, blank=True)
-    estado = models.CharField(choices=[('completo', 'Completo'), ('incompleto', 'Incompleto')])
+    estado = models.CharField(choices=[('completo', 'Completo'), ('incompleto', 'Incompleto'), ('en_proceso', 'En proceso'), ('activo', 'Activo'), ('inactivo', 'Inactivo')], max_length=50)
     calificacion_aprobacion = models.FloatField(null=True, blank=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     duracion_estimada = models.IntegerField(null=True, blank=True)

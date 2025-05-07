@@ -1,0 +1,27 @@
+{% extends "app/base.html" %}
+
+{% block title  %}
+    Crear nivele
+{% endblock  %}
+
+{% load static %}
+{% block content %}
+<section>
+    <div class="registro-admin">
+      <img src="{% static "/img/logo-proyecto.png" %}" alt="logo proyecto" class="login-logo" />
+      <h2>Agregar categoria de clase</h2>
+
+      <form action="{% url "create.nivel" %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="nombre" id="nombre" placeholder="Nombre nivel*:" required />
+        <input type="text" name="descripcion" id="descripcion" placeholder="Descripción nivel*:" required />
+        <input type="text" name="icono" id="icono" placeholder="Icono nivel:"/>
+        <button type="submit">Agregar nivel</button>
+      </form>
+
+      <div class="login-link">
+        Ya tengo cuenta <a href=" {% url "login" %}">Iniciar sesión</a>
+      </div>
+    </div>
+</section>
+{% endblock %}

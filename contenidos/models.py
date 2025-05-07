@@ -40,11 +40,12 @@ class Cursos(models.Model):
     duracion = models.FloatField(null=True, blank=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     estado_curso = models.BooleanField(default=False)
- 
+    
+    # Se relaciona con la tabla de categorias_clases
     categoria_clase = models.ForeignKey(CategoriaClases, on_delete=models.CASCADE, null=True, blank=True)
-    
+    # Se relaciona con la tabla de cuestionarios
     cuestionario = models.ForeignKey(Cuestionarios, on_delete=models.CASCADE, null=True, blank=True)
-    
+    # Se relaciona con la tabla de niveles
     nivel = models.ForeignKey(Niveles, on_delete=models.CASCADE, null=True, blank=True)
     
     class Meta:

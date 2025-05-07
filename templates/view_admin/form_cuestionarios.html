@@ -1,0 +1,37 @@
+{% extends "app/base.html" %}
+
+{% block title  %}
+    Crear cuestionario
+{% endblock  %}
+
+{% load static %}
+{% block content %}
+<section>
+    <div class="registro-admin">
+      <img src="{% static "/img/logo-proyecto.png" %}" alt="logo proyecto" class="login-logo" />
+      <h2>Agregar cuestionario</h2>
+
+      <form action="{% url "form.create.cuestionario" %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="titulo" id="titulo" placeholder="Nombre cuestionario*:" required />
+        <input type="text" name="descripcion" id="descripcion" placeholder="Descripción cuestionario*:" required />
+        <input type="text" name="limite_intentos" id="limite_intentos" placeholder="Limite intentos*:" required />
+        <select name="estado" id="estado" required>
+          <option value="0" select>Seleccione un estado</option>
+          <option value="completo">Completo</option>
+          <option value="incompleto">Incompleto</option>
+          <option value="en_proceso">En proceso</option>
+          <option value="activo">Activo</option>
+          <option value="inactivo">Inactivo</option>
+        </select>
+        <input type="text" name="calificacion_aprobacion" id="calificacion_aprobacion" placeholder="Calificación de aprobación*:" required />
+        <input type="text" name="duracion_estimada" id="duracion_estimada" placeholder="Duración estimada*:" required />
+        <button type="submit">Agregar cuestionario</button>
+      </form>
+
+      <div class="login-link">
+        Ya tengo cuenta <a href=" {% url "login" %}">Iniciar sesión</a>
+      </div>
+    </div>
+</section>
+{% endblock %}
