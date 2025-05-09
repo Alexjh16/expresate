@@ -139,4 +139,12 @@ Preguntas(
     fechaModificacion=datetime.datetime.now()
 ).save()
 
+Paises(
+    nombre="Colombia",
+    codigo="COL",
+    indicativo="+57",
+    codigo_iso="CO",
+    idioma_principal="Español"
+).save()
+
 """
