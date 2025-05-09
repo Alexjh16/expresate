@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'seguimiento',
     'evaluacion',
     'expresate',
+    'mongoData',
 
     #Django-seed, altcha, corsheader : Jhon Alexander
     'django_seed',

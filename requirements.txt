@@ -11,3 +11,4 @@ django-seed
 django-altcha
 django-cors-headers
 tqdm
+mongoengine

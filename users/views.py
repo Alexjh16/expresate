@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import registrarUserForm, loginUserForm
-from django.core.cache import cache as redis #redis: Jhon Alexander
+from django.core.cache import cache as redis  # redis: Jhon Alexander
 from .models import Paises, RolesUser
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -12,9 +12,14 @@ from django.contrib.sessions.models import Session
 from django.utils import timezone
 from altcha import create_challenge, verify_solution
 from django.contrib.auth import authenticate, logout as auth_logout, login
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 # Clave secreta (guárdala en settings.py en producción)
 SECRET_KEY = settings.ALTCHA_SECRET_KEY
+
 
 
 
@@ -43,14 +48,19 @@ def altcha_challenge(request):
 
 
 def registrarUser(request):
+    
+    # Obtener datos de PostgreSQL
     listPaises = Paises.objects.all() 
     listRoles = RolesUser.objects.all()
+    
+   
+
     if request.method == 'POST':
         form = registrarUserForm(request.POST)
         if form.is_valid():
-            #guardar el usuario en la base de datos pgsql
+            # guardar el usuario en la base de datos pgsql
             user = form.save()
-            #guardar el usuario en la base de datos redis
+            # guardar el usuario en la base de datos redis
             redis.set(user.username, user.password, timeout=300, version='')  # 5 minutos
             messages.success(request, 'Usuario registrado, por favor inicia sesión')
             return redirect('login') 
@@ -65,6 +75,7 @@ def registrarUser(request):
         'listPaises': listPaises,
         'listRoles': listRoles,
     })
+
 
 def loginUser(request):
     if request.user.is_authenticated:
@@ -100,6 +111,7 @@ def loginUser(request):
         'title': 'Iniciar Sesión'
     })
     
+
 def logoutUser(request):
     auth_logout(request)
     response = redirect('index')

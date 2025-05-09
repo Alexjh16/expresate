@@ -283,13 +283,15 @@ Registrar | Expresate con señas
                                         required
                                     >
                                     
-                                    <input type="hidden" x-model="formData.pais" id="pais" name="pais" /><!--pais id-->
+                                    <input type="text" x-model="formData.pais" id="pais" name="pais" /><!--pais id-->
                                     <datalist id="countriesList">
-                                        {% for pais in listPaises %}
+                                        {% for pais in paisCollection %}
                                             <option value="{{ pais.nombre }}" data-id="{{ pais.id }}">{{ pais.nombre }}</option>
                                         {% endfor %}
-                                    </datalist>
-
+                                    </datalist>                                   
+                                    
+                                    
+                                    
                                     <!-- backend errors -->
                                     {% if form.pais.errors %}
                                         <div class="text-red-500 text-xs mt-1">
