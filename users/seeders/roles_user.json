@@ -1,26 +1,26 @@
 [
     {
-        "nombre": "Estudiante",
+        "nombre": "estudiante",
         "descripcion": "Usuario con perfil de estudiante"
     },
     {
-        "nombre": "Docente",
+        "nombre": "docente",
         "descripcion": "Usuario con perfil de docente o educador"
     },
     {
-        "nombre": "Universitario",
+        "nombre": "universitario",
         "descripcion": "Estudiante de educación superior"
     },
     {
-        "nombre": "Niño",
+        "nombre": "niño",
         "descripcion": "Usuario menor de edad"
     },
     {
-        "nombre": "Solo Madre",
+        "nombre": "madre",
         "descripcion": "Usuario con rol de madre"
     },
     {
-        "nombre": "Solo Padre",
+        "nombre": "padre",
         "descripcion": "Usuario con rol de padre"
     }
 ]

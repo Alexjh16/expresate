@@ -2,6 +2,9 @@ import time
 from django.core.management.base import BaseCommand
 from django.contrib.auth.hashers import make_password
 from users.models import Users
+from expresate.redisUtil import redisClient
+from mongoData.models import Paises as MongoPaises
+from mongoData.models import Users as MongoUsers
 from faker import Faker
 import random
 import string
@@ -26,7 +29,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING('Eliminando todos los usuarios existentes...'))
             Users.objects.all().delete()
 
-        dispositivos = ['smartphone', 'tablet', 'laptop', 'desktop', 'other']
+        dispositivos = ['smartphone', 'tablet', 'laptop', 'escritorio', 'other']
 
         if not Users.objects.filter(username='admin').exists():
             Users.objects.create(
@@ -44,6 +47,24 @@ class Command(BaseCommand):
                 rol_id=2,
                 date_joined=timezone.now()
             )
+
+            # Guardar el usuario admin en MongoDB
+            MongoUsers(
+                first_name='Admin',
+                last_name='Principal',
+                username='admin',
+                email='admin@mail.com',
+                password=make_password('admin123456'),
+                foto_perfil="https://example.com/admin.jpg",  # Foto de perfil predeterminada
+                edad=30,
+                rol="admin",
+                idPais=None,  # Si no tienes un país específico para el admin
+                dispositivo='smartphone'
+            ).save()
+
+            # Guardar en Redis el administrador
+             
+            redisClient.set('admin', make_password('admin123456'), ex=3000)  # 5 minutos de expiración
             self.stdout.write(self.style.SUCCESS('Usuario admin creado'))
 
         def generar_usuario(i):
@@ -51,7 +72,33 @@ class Command(BaseCommand):
             last_name = fake.last_name()
             username = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
             email = f'{first_name.lower()}.{last_name.lower()}{i}@mail.com'
-            password = make_password(f'Password{i}@')  # Esto es lo costoso
+            password = make_password('123456789a*')
+
+            # Guardar en Redis
+            redisClient.set(username, password, ex=3000)
+
+            # Guardar en MongoDB
+            # Contar el total de países
+            total_paises = MongoPaises.objects.count()
+
+            # Seleccionar un índice aleatorio
+            random_index = random.randint(0, total_paises - 1)
+
+            # Obtener el país aleatorio
+            MongoPais = MongoPaises.objects[random_index]
+            
+            MongoUsers(
+                first_name=first_name,
+                last_name=last_name,
+                username=username,
+                email=email,
+                password=password,
+                foto_perfil="https://example.com/foto.jpg",
+                edad=random.randint(7, 120),
+                rol=random.choice(["estudiante", "docente", "niño", "universitario", "madre", "padre"]),
+                idPais=MongoPais,
+                dispositivo=random.choice(["smartphone", "tablet", "laptop", "escritorio", "otro"]),
+            ).save()
 
             return Users(
                 username=username,
@@ -84,4 +131,4 @@ class Command(BaseCommand):
         Users.objects.bulk_create(users_to_create, batch_size=1000)
 
         elapsed_time = time.time() - start_time
-        self.stdout.write(self.style.SUCCESS(f'\n{total} usuarios creados exitosamente en {elapsed_time:.2f} segundos.'))
+        self.stdout.write(self.style.SUCCESS(f'\n{total} usuarios creados exitosamente [mongo, pgsql, redis] en {elapsed_time:.2f} segundos.'))

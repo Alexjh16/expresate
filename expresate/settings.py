@@ -143,12 +143,19 @@ CACHES = {
     "default":{
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/0",
-        "KEY_PREFIX": "user",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
 }
+
+REDIS = {
+    "HOST": "127.0.0.1",
+    "PORT": 6379,
+    "DB": 0,
+    "PASSWORD": None,
+}
+
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
 

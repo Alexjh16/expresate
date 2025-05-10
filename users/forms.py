@@ -29,7 +29,6 @@ class registrarUserForm(UserCreationForm):
         
     def clean_altcha_token(self):
         token = self.cleaned_data.get('altcha_token')
-        print(token)
         if not token:
             raise forms.ValidationError("El captcha es obligatorio.")
         
@@ -93,7 +92,7 @@ class registrarUserForm(UserCreationForm):
 
     def clean_dispositivo(self):
         dispositivo = self.cleaned_data.get('dispositivo')
-        dispositivos_permitidos = ['smartphone', 'tablet', 'laptop', 'desktop']
+        dispositivos_permitidos = ['smartphone', 'tablet', 'laptop', 'escritorio', 'otro']
         if dispositivo not in dispositivos_permitidos:
             raise forms.ValidationError("Por favor selecciona un dispositivo válido.")
         return dispositivo
@@ -146,7 +145,7 @@ class loginUserForm(AuthenticationForm):
                 if not user.is_active:
                     raise forms.ValidationError("Esta cuenta está desactivada.")
             except Users.DoesNotExist:
-                # No revelamos si el usuario existe o no por seguridad
+                
                 pass
 
         return cleaned_data

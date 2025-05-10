@@ -6,6 +6,13 @@ mongoengine.connect('expresate')
 
 
 #Clases embeddeds : Jhon Alexander Ramos
+# Definir un EmbeddedDocument para los videos
+class VideoInfo(EmbeddedDocument):
+    nombre = StringField(required=True)  # Nombre del video
+    ruta = StringField(required=True)    # Ruta del video
+    fecha_visualizacion = DateTimeField(required=True)  # Fecha de visualización
+
+
 class Respuestas(EmbeddedDocument):
     respuesta = StringField(required=True)
     esCorrecta = BooleanField(default=False)
@@ -50,7 +57,7 @@ class Users(Document):
     password = StringField(required=True)
     foto_perfil = StringField()
     edad = IntField()
-    rol = StringField(choices=["admin", "estudiante", "docente", "niño", "universitario", "madre", "padre"], default="user")
+    rol = StringField(choices=["admin", "estudiante", "docente", "niño", "universitario", "madre", "padre"], default="estudiante")
     idPais = ReferenceField(Paises)
     dispositivo = StringField(choices=["smartphone", "tablet", "laptop", "escritorio", "otro"], default="escritorio")
 
@@ -91,14 +98,28 @@ class Videos(Document):
     cantidad_likes = IntField(default=0)
 
 #coleccion para seguimiento de videos por cursos de los usuarios : Jhon Alexander Ramos
-class User_Videos_Cursos(Document):
+class UserVideosCurso(Document):
     categoria_clase = StringField(required=True)
-    video = ListField(StringField()) #nombre, ruta
+    idCurso = ReferenceField(Cursos)
+    video = ListField(EmbeddedDocumentField(VideoInfo))  # Lista de videos con información estructurada#nombre, ruta, fecha_video_visualizado
     usuario = ListField(StringField()) #username, nombres, email
     estado = StringField(choices=["bloqueado", "desbloqueado"], default="bloqueado")
-    fecha_video_visualizado = DateTimeField()
-    porcentaje_visto = IntField(default=0) #porcentaje visto del video
+    porcentaje_visto = IntField(default=0) #porcentaje visto pero del curso
+    
 
+#Ejemplo de uso : Jhon Alexander Ramos
+now = datetime.datetime.now()
+now_str = now.strftime("%Y-%m-%d %H:%M:%S")  # Formato: Año-Mes-Día Hora:Minuto:Segundo
+
+
+UserVideosCurso(
+    categoria_clase="Animales",
+    idCurso='64b8f13e8f1b2c3d4e5f6789',  # Reemplaza con el ID del curso correspondiente ej: Señas en 5 minutos
+    video=[],
+    usuario=["alexander196", "Alexander Ramos", "alexx@mail.com"],
+    estado="bloqueado",
+    porcentaje_visto=15
+).save()
 """
 
 Users(

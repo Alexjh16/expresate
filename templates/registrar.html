@@ -253,8 +253,8 @@ Registrar | Expresate con señas
                                         <option value="smartphone">Smartphone</option>
                                         <option value="tablet">Tablet</option>
                                         <option value="laptop">Laptop</option>
-                                        <option value="desktop">Computadora de escritorio</option>
-                                        <option value="other">Otro</option>
+                                        <option value="escritorio">Computadora de escritorio</option>
+                                        <option value="otro">Otro</option>
                                     </select>
                                     <!-- backend errors -->
                                     {% if form.dispositivo.errors %}
@@ -283,9 +283,9 @@ Registrar | Expresate con señas
                                         required
                                     >
                                     
-                                    <input type="text" x-model="formData.pais" id="pais" name="pais" /><!--pais id-->
+                                    <input type="hidden" x-model="formData.pais" id="pais" name="pais" /><!--pais id-->
                                     <datalist id="countriesList">
-                                        {% for pais in paisCollection %}
+                                        {% for pais in listPaises %}
                                             <option value="{{ pais.nombre }}" data-id="{{ pais.id }}">{{ pais.nombre }}</option>
                                         {% endfor %}
                                     </datalist>                                   
@@ -338,7 +338,7 @@ Registrar | Expresate con señas
                                     <select 
                                         id="rol" 
                                         name="rol" 
-                                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                                        class="capitalize w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                                         x-model="formData.rol"
                                         required
                                     >
