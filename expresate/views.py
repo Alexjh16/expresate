@@ -1,9 +1,14 @@
 from django.shortcuts import render
 #prueba para redis
 from django.core.cache import cache
+from django.shortcuts import get_object_or_404 as findObject
 from django.http import JsonResponse
 from users.models import Paises, RolesUser
+from contenidos.models import CategoriaClases
 from mongoData.models import Paises as MongoPaises
+from mongoData.models import Cursos as MongoCursos
+from mongoData.models import Cuestionario as MongoCuestionarios
+from django.core.paginator import Paginator
 
 
 
@@ -12,13 +17,42 @@ def index(request):
     return render(request, 'index.html', {})
 
 def clases(request):
-    return render(request, 'clases.html', {})
+    #Retornar las clases
+    listCategoriasClases = CategoriaClases.objects.all().order_by('nombre_categoria');
+    return render(request, 'clases.html', {
+        'listCategoriasClases': listCategoriasClases
+    })
 #
 def nosotros(request):
     return render(request, 'nosotros.html', {})
 
-def cursos(request):
-    return render(request, 'cursos.html', {})
+def cursos(request, categoria):
+    categoriaActual = findObject(CategoriaClases, nombre_categoria=categoria)
+    listCategoriasClases = CategoriaClases.objects.all().order_by('nombre_categoria');
+
+    otrasCategorias = CategoriaClases.objects.exclude(nombre_categoria=categoria).order_by('?')[:3]
+
+
+    #paginar los cursos para no saturar el DOM : Jhon Alexander
+    listCursos = MongoCursos.objects.filter(categoria_clase=categoria)
+    paginator = Paginator(listCursos, 8) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    totalCursos = MongoCursos.objects.filter(categoria_clase=categoria).count()
+    totalCuestionarios = MongoCursos.objects.filter(
+        categoria_clase=categoria,
+        idCuestionario__ne=None
+    ).count()
+    return render(request, 'cursos.html', {
+        'categoriaActual': categoriaActual,
+        'listCategoriasClases': listCategoriasClases,
+        'listCursos': listCursos,
+        'totalCursos': totalCursos,
+        'totalCuestionarios': totalCuestionarios,
+        'otrasCategorias': otrasCategorias,
+        'page_obj': page_obj,
+    })
 def curso(request):
     return render(request, 'curso.html', {})
 

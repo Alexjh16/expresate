@@ -1,5 +1,6 @@
 import mongoengine
 from mongoengine import Document, StringField, ListField, DateTimeField, EmbeddedDocument, IntField, EmbeddedDocumentField, ReferenceField, BooleanField
+from bson import ObjectId
 import datetime
 
 mongoengine.connect('expresate')
@@ -76,9 +77,9 @@ class Cursos(Document):
     titulo = StringField(required=True)
     descripcion = StringField()
     icono = StringField()
-    duracion = StringField()
+    duracion = IntField()
     fecha_creacion = DateTimeField()
-    estado = StringField(choices=["completo", "incompleto"], default="incompleto")
+    estado = StringField(choices=["activo", "inactivo"], default="incompleto")
     categoria_clase = StringField(required=True)
     idCuestionario = ReferenceField(Cuestionario)
     nivel = StringField(choices=["introductorio", "básico", "intermedio", "avanzado", "experto"], default="introductorio")
@@ -111,16 +112,33 @@ class UserVideosCurso(Document):
 now = datetime.datetime.now()
 now_str = now.strftime("%Y-%m-%d %H:%M:%S")  # Formato: Año-Mes-Día Hora:Minuto:Segundo
 
+"""
+
+Cursos(
+    titulo="Curso de Python",
+    descripcion="Aprende Python desde cero",
+    icono="https://example.com/icono.png",
+    duracion=1024,
+    fecha_creacion=now,
+    estado="incompleto",
+    categoria_clase="Programación",
+    idCuestionario=ObjectId(),
+    nivel="básico"
+).save()
 
 UserVideosCurso(
     categoria_clase="Animales",
     idCurso='64b8f13e8f1b2c3d4e5f6789',  # Reemplaza con el ID del curso correspondiente ej: Señas en 5 minutos
-    video=[],
+    video=[
+        VideoInfo(nombre="Señas en 5 minutos", ruta="media/videos/video2.mp4", fecha_visualizacion=now_str),
+        VideoInfo(nombre="Señas en 10 minutos", ruta="media/videos/video3.mp4", fecha_visualizacion=now_str),
+        VideoInfo(nombre="Señas en 15 minutos", ruta="media/videos/video4.mp4", fecha_visualizacion=now_str)
+    ],
     usuario=["alexander196", "Alexander Ramos", "alexx@mail.com"],
     estado="bloqueado",
-    porcentaje_visto=15
+    porcentaje_visto=3
 ).save()
-"""
+
 
 Users(
     first_name="Jhon",

@@ -7,6 +7,7 @@ Cursos | Expresate con señas
 {% block content %}
 
 {% load static %}
+{% load splitfilters %}
 
 <section>
   <!--heading-->
@@ -15,14 +16,15 @@ Cursos | Expresate con señas
 <div class="mx-auto max-w-7xl sm:px-6 sm:py-7 lg:px-8">
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-    <a href="{% url 'cursos' %}">
-    <article class="relative bg-gray-100 group flex rounded-lg max-w-sm flex-col overflow-hidden border border-outline text-on-surface">
+    {% for categoria in listCategoriasClases %}
+    <a href="{% url 'cursos' categoria.nombre_categoria %}">
+      <article class="relative bg-gray-100 group flex rounded-lg max-w-sm flex-col overflow-hidden border border-outline text-on-surface">
       
       <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle,#7775D6_0%,#E935C1_100%)] opacity-50"></div>
 
       <!-- Imagen -->
       <div class="h-44 md:h-64 overflow-hidden">
-          <img src="https://mejorconsalud.as.com/wp-content/uploads/2018/07/pasar-tiempo-familia-768x512.jpg?auto=webp&quality=60&width=1920&crop=16:9,smart,safe" 
+          <img src="{{ MEDIA_URL }}/{{ categoria.icono }}"
                class="object-cover transition duration-700 ease-out group-hover:scale-105" 
                alt="a penguin robot talking with a human" />
       </div>
@@ -32,181 +34,21 @@ Cursos | Expresate con señas
 
        
       <div class="flex flex-col gap-4 p-6 relative">
-          <span class="text-sm font-medium">Familia</span>
-          <h3 class="text-gray-700 text-balance font-bold text-xl text-on-surface-strong">
-              Educación accesible para toda la familia
+          <span class="text-sm font-medium">{{ categoria.nombre_categoria }}</span>
+          <h3 class="text-gray-700 text-balance font-bold text-sm text-on-surface-strong">
+              {{ categoria.descripcion|split_before:"-" }}
           </h3>
           <p class="text-gray-500 text-pretty text-sm">
-            Aprende desde tu casa, a tu ritmo y sin horarios fijos. Accede al contenido en cualquier momento del día, sin restricciones, y disfruta de una experiencia de aprendizaje flexible y personalizada. Disponible las 24/7.
+            {{ categoria.descripcion|split_after:"-" }}
           </p>
       </div>
 
-    </article>
-  </a>
+      </article>
+    </a>
+    {% endfor %}
 
     
-    <article class="relative bg-gray-100 group flex rounded-lg max-w-sm flex-col overflow-hidden border border-outline text-on-surface">
-      <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle,#7775D6_0%,#E935C1_100%)] opacity-50"></div>
-      <div class="h-44 md:h-64 overflow-hidden">
-          <img src="https://s3.animalia.bio/animals/photos/full/1.25x1/shutterstock-1312588787jpg.webp?id=d5eb3aa0968bd8c4c4da40c8243f2e4d" 
-               class="object-cover transition duration-700 ease-out group-hover:scale-105" 
-               alt="a penguin robot talking with a human" />
-      </div>
-      <div class="flex flex-col gap-4 p-6 relative">
-          <span class="text-sm font-medium">Animales</span>
-          <h3 class="text-gray-700 text-balance text-xl lg:text-medium font-bold text-on-surface-strong">
-              Explora el mundo animal en señas
-          </h3>
-          <p class="text-gray-500 text-pretty text-sm">
-            Aprende a identificar y comunicar los nombres de distintos animales en lengua de señas de manera fácil y rápida. Explora una forma accesible y dinámica de mejorar tu comunicación, ampliando tu vocabulario con signos específicos para cada especie.
-          </p>
-      </div>
-    </article>
-
-    <article class="relative bg-gray-100 group flex rounded-lg max-w-sm flex-col overflow-hidden border border-outline text-on-surface">
-      <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle,#7775D6_0%,#E935C1_100%)] opacity-50"></div>
-      <div class="h-44 md:h-64 overflow-hidden">
-          <img src="https://cdn.uanews.arizona.edu/s3fs-public/styles/az_large/public/story-images/math-shutterstock465195854-web.jpg.webp?VersionId=_ROCd.R3ysI8XO6BbSOuLBbh9RC1taL1&itok=9qrKXkK1" 
-               class="object-cover transition duration-700 ease-out group-hover:scale-105" 
-               alt="a penguin robot talking with a human" />
-      </div>
-      <div class="flex flex-col gap-4 p-6 relative">
-          <span class="text-sm font-medium">Números</span>
-          <h3 class="text-gray-700 text-balance text-xl font-bold text-on-surface-strong">
-              Expresa cantidades y cifras con claridad en señas
-          </h3>
-          <p class="text-gray-500 text-pretty text-sm">
-            Aprende a contar, sumar y reconocer los números en lengua de señas con facilidad. Mejora tu comprensión y expresión numérica de manera práctica y accesible, desarrollando habilidades esenciales para la comunicación en diferentes situaciones.
-          </p>
-      </div>
-    </article>
-
-    <article class="relative bg-gray-100 group flex rounded-lg max-w-sm flex-col overflow-hidden border border-outline text-on-surface">
-      <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle,#7775D6_0%,#E935C1_100%)] opacity-50"></div>
-      <div class="h-44 md:h-64 overflow-hidden">
-          <img src="https://www.coldelvalle.edu.mx/wp-content/uploads/2022/01/2.-Co%CC%81mo-aprender-las-vocales-para-nin%CC%83os-min-scaled.jpg" 
-               class="object-cover transition duration-700 ease-out group-hover:scale-105" 
-               alt="a penguin robot talking with a human" />
-      </div>
-      <div class="flex flex-col gap-4 p-6 relative">
-          <span class="text-sm font-medium">Vocales</span>
-          <h3 class="text-gray-700 text-balance text-xlfont-bold text-on-surface-strong">
-              Educación accesible para toda la familia
-          </h3>
-          <p class="text-gray-500 text-pretty text-sm">
-            Aprende desde tu casa, a tu ritmo y sin horarios fijos. Accede al contenido en cualquier momento del día, sin restricciones, y disfruta de una experiencia de aprendizaje flexible y personalizada. Disponible las 24/7.
-          </p>
-      </div>
-    </article>
-
-    <article class="relative bg-gray-100 group flex rounded-lg max-w-sm flex-col overflow-hidden border border-outline text-on-surface">
-      <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle,#7775D6_0%,#E935C1_100%)] opacity-50"></div>
-      <div class="h-44 md:h-64 overflow-hidden">
-          <img src="https://captureatrip-cms-storage.s3.ap-south-1.amazonaws.com/Holi_the_Festival_of_Colors_21373178f5.webp" 
-               class="object-cover transition duration-700 ease-out group-hover:scale-105" 
-               alt="a penguin robot talking with a human" />
-      </div>
-      <div class="flex flex-col gap-4 p-6 relative">
-          <span class="text-sm font-medium">Colores</span>
-          <h3 class="text-gray-700 text-balance text-xl font-bold text-on-surface-strong">
-              Educación accesible para toda la familia
-          </h3>
-          <p class="text-gray-500 text-pretty text-sm">
-            Aprende desde tu casa, a tu ritmo y sin horarios fijos. Accede al contenido en cualquier momento del día, sin restricciones, y disfruta de una experiencia de aprendizaje flexible y personalizada. Disponible las 24/7.
-          </p>
-      </div>
-    </article>
-
-    <article class="relative bg-gray-100 group flex rounded-lg max-w-sm flex-col overflow-hidden border border-outline text-on-surface">
-      <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle,#7775D6_0%,#E935C1_100%)] opacity-50"></div>
-      <div class="h-44 md:h-64 overflow-hidden">
-          <img src="https://restaurantecasaantonio.net/wp-content/uploads/2018/08/10-consejos-para-una-alimentaci%C3%B3n-saludable-1200x900.jpg" 
-               class="object-cover transition duration-700 ease-out group-hover:scale-105" 
-               alt="a penguin robot talking with a human" />
-      </div>
-      <div class="flex flex-col gap-4 p-6 relative">
-          <span class="text-sm font-medium">Alimentos</span>
-          <h3 class="text-gray-700 text-balance text-xl font-bold text-on-surface-strong">
-              Educación accesible para toda la familia
-          </h3>
-          <p class="text-gray-500 text-pretty text-sm">
-            Aprende desde tu casa, a tu ritmo y sin horarios fijos. Accede al contenido en cualquier momento del día, sin restricciones, y disfruta de una experiencia de aprendizaje flexible y personalizada. Disponible las 24/7.
-          </p>
-      </div>
-    </article>
-
-    <article class="relative bg-gray-100 group flex rounded-lg max-w-sm flex-col overflow-hidden border border-outline text-on-surface">
-      <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle,#7775D6_0%,#E935C1_100%)] opacity-50"></div>
-      <div class="h-44 md:h-64 overflow-hidden">
-          <img src="https://omologic.es/wp-content/uploads/2024/06/marcado-jugetes.jpg-1-1024x683.webp" 
-               class="object-cover transition duration-700 ease-out group-hover:scale-105" 
-               alt="a penguin robot talking with a human" />
-      </div>
-      <div class="flex flex-col gap-4 p-6 relative">
-          <span class="text-sm font-medium">Juguetes</span>
-          <h3 class="text-gray-700 text-balance text-xl font-bold text-on-surface-strong">
-              Educación accesible para toda la familia
-          </h3>
-          <p class="text-gray-500 text-pretty text-sm">
-            Aprende desde tu casa, a tu ritmo y sin horarios fijos. Accede al contenido en cualquier momento del día, sin restricciones, y disfruta de una experiencia de aprendizaje flexible y personalizada. Disponible las 24/7.
-          </p>
-      </div>
-    </article>
-
-    <article class="relative bg-gray-100 group flex rounded-lg max-w-sm flex-col overflow-hidden border border-outline text-on-surface">
-      <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle,#7775D6_0%,#E935C1_100%)] opacity-50"></div>
-      <div class="h-44 md:h-64 overflow-hidden">
-          <img src="https://static.vecteezy.com/system/resources/previews/008/202/456/non_2x/cute-children-kids-font-letter-cartoon-style-hand-drawing-drawn-colorful-all-cap-english-alphabet-numeric-number-character-doodle-outline-set-collection-isolated-illustration-black-background-free-vector.jpg" 
-               class="object-cover transition duration-700 ease-out group-hover:scale-105" 
-               alt="a penguin robot talking with a human" />
-      </div>
-      <div class="flex flex-col gap-4 p-6 relative">
-          <span class="text-sm font-medium">Abecedario</span>
-          <h3 class="text-gray-700 text-balance text-xl font-bold text-on-surface-strong">
-              Educación accesible para toda la familia
-          </h3>
-          <p class="text-gray-500 text-pretty text-sm">
-            Aprende desde tu casa, a tu ritmo y sin horarios fijos. Accede al contenido en cualquier momento del día, sin restricciones, y disfruta de una experiencia de aprendizaje flexible y personalizada. Disponible las 24/7.
-          </p>
-      </div>
-    </article>
-
-    <article class="relative bg-gray-100 group flex rounded-lg max-w-sm flex-col overflow-hidden border border-outline text-on-surface">
-      <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle,#7775D6_0%,#E935C1_100%)] opacity-50"></div>
-      <div class="h-44 md:h-64 overflow-hidden">
-          <img src="https://www.gottman.com/wp-content/uploads/2024/11/Mindfulness-Tips-2-1024x683.webp" 
-               class="object-cover transition duration-700 ease-out group-hover:scale-105" 
-               alt="a penguin robot talking with a human" />
-      </div>
-      <div class="flex flex-col gap-4 p-6 relative">
-          <span class="text-sm font-medium">Conversación</span>
-          <h3 class="text-gray-700 text-balance text-xl font-bold text-on-surface-strong">
-              Educación accesible para toda la familia
-          </h3>
-          <p class="text-gray-500 text-pretty text-sm">
-            Aprende desde tu casa, a tu ritmo y sin horarios fijos. Accede al contenido en cualquier momento del día, sin restricciones, y disfruta de una experiencia de aprendizaje flexible y personalizada. Disponible las 24/7.
-          </p>
-      </div>
-    </article>
-
-    <article class="relative bg-gray-100 group flex rounded-lg max-w-sm flex-col overflow-hidden border border-outline text-on-surface">
-      <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle,#7775D6_0%,#E935C1_100%)] opacity-50"></div>
-      <div class="h-44 md:h-64 overflow-hidden">
-          <img src="https://www.wradio.com.co/resizer/v2/42EEYRUXZFBFZFQUQDUSGQDV2U.jpg?auth=890f470fbd6ee277eb8d00f5158ed2d4108eab2ed55b3edb68971a3ae749d23c&width=650&height=488&quality=70&smart=true" 
-               class="object-cover transition duration-700 ease-out group-hover:scale-105" 
-               alt="a penguin robot talking with a human" />
-      </div>
-      <div class="flex flex-col gap-4 p-6 relative">
-          <span class="text-sm font-medium">Paises</span>
-          <h3 class="text-gray-700 text-balance text-xl font-bold text-on-surface-strong">
-              Educación accesible para toda la familia
-          </h3>
-          <p class="text-gray-500 text-pretty text-sm">
-            Aprende desde tu casa, a tu ritmo y sin horarios fijos. Accede al contenido en cualquier momento del día, sin restricciones, y disfruta de una experiencia de aprendizaje flexible y personalizada. Disponible las 24/7.
-          </p>
-      </div>
-    </article>
-
+    
     
   </div>
 </div>
