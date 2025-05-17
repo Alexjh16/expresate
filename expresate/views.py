@@ -31,7 +31,12 @@ def cursos(request, categoria):
     listCategoriasClases = CategoriaClases.objects.all().order_by('nombre_categoria');
 
     otrasCategorias = CategoriaClases.objects.exclude(nombre_categoria=categoria).order_by('?')[:3]
+    totalCursosOtros = []
+    for otraCategoria in otrasCategorias:
+        countCurso = MongoCursos.objects.filter(categoria_clase=otraCategoria.nombre_categoria).count()
+        totalCursosOtros.append(countCurso)
 
+    print(totalCursosOtros)
 
     #paginar los cursos para no saturar el DOM : Jhon Alexander
     listCursos = MongoCursos.objects.filter(categoria_clase=categoria)
@@ -52,6 +57,7 @@ def cursos(request, categoria):
         'totalCuestionarios': totalCuestionarios,
         'otrasCategorias': otrasCategorias,
         'page_obj': page_obj,
+        'totalCursosOtros': totalCursosOtros
     })
 def curso(request):
     return render(request, 'curso.html', {})
