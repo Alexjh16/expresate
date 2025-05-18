@@ -8,7 +8,7 @@ Descripción Categorias | Expresate con señas
 
 {% load static %}
 
-
+{% load duracionfilters %}
 {% block extra_css %}
 <style>
     .gradient-overlay {
@@ -43,13 +43,13 @@ Descripción Categorias | Expresate con señas
     <!-- Contenido del hero -->
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
         <div class="text-center md:text-left md:max-w-2xl">
-            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-teal-100 text-teal-800">
+            <span class="capitalize inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-teal-100 text-teal-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                Categoría Destacada
+                {{ descripcionCurso.nivel }}
             </span>
-            <h1 class="mb-4 text-4xl md:text-5xl font-extrabold text-white tracking-tight">Vocales: Primer nivel</h1>
+            <h1 class="mb-4 text-4xl md:text-5xl font-extrabold text-white tracking-tight">{{ descripcionCurso.titulo }}</h1>
             
             <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
                 <a href="#videos" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 shadow-md hover:shadow-lg transition-all duration-300">
@@ -74,15 +74,15 @@ Descripción Categorias | Expresate con señas
     <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200">
         <div class="p-6 text-center">
             <p class="text-sm font-medium text-gray-500 truncate">Videos Disponibles</p>
-            <p class="mt-1 text-3xl font-semibold text-gray-900">24</p>
+            <p class="mt-1 text-3xl font-semibold text-gray-900">{{ countVideos }}</p>
         </div>
         <div class="p-6 text-center">
             <p class="text-sm font-medium text-gray-500 truncate">Duración Total</p>
-            <p class="mt-1 text-3xl font-semibold text-gray-900">12h 45m</p>
+            <p class="mt-1 text-3xl font-semibold text-gray-900">{{ descripcionCurso.duracion|duracion_legible }}</p>
         </div>
         <div class="p-6 text-center">
             <p class="text-sm font-medium text-gray-500 truncate">Nivel de Dificultad</p>
-            <p class="mt-1 text-3xl font-semibold text-gray-900">Todos los niveles</p>
+            <p class="capitalize mt-1 text-3xl font-semibold text-gray-900">{{ descripcionCurso.nivel }}</p>
         </div>
     </div>
 </div>
@@ -93,17 +93,13 @@ Descripción Categorias | Expresate con señas
         <div class="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
             <div>
                 <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                    Sobre esta categoría
+                    Sobre este curso
                 </h2>
                 <p class="mt-4 text-lg text-gray-600">
-                    Nuestra categoría de Yoga y Meditación está diseñada para ayudarte a encontrar equilibrio, 
-                    flexibilidad y paz interior. A través de prácticas guiadas por expertos instructores, 
-                    aprenderás técnicas milenarias adaptadas al mundo moderno.
+                    {{ descripcionCurso.descripcion }}
                 </p>
                 <p class="mt-4 text-lg text-gray-600">
-                    Ya sea que estés comenzando tu viaje en el yoga o buscando profundizar tu práctica, 
-                    encontrarás contenido adaptado a tu nivel y necesidades específicas. Desde posturas básicas 
-                    hasta secuencias avanzadas, meditaciones guiadas y técnicas de respiración.
+                    {{ descripcionCurso.descripcion }}
                 </p>
                 <div class="mt-8">
                     <h3 class="text-xl font-bold text-gray-900">¿Qué aprenderás?</h3>
@@ -114,7 +110,7 @@ Descripción Categorias | Expresate con señas
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
-                            <p class="ml-3 text-base text-gray-600">Posturas básicas y avanzadas de yoga</p>
+                            <p class="ml-3 text-base text-gray-600">lorem ipsum dolores </p>
                         </li>
                         <li class="flex items-start">
                             <div class="flex-shrink-0">
@@ -122,7 +118,7 @@ Descripción Categorias | Expresate con señas
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
-                            <p class="ml-3 text-base text-gray-600">Técnicas de respiración para reducir el estrés</p>
+                            <p class="ml-3 text-base text-gray-600">lorem ipsum dolores </p>
                         </li>
                         <li class="flex items-start">
                             <div class="flex-shrink-0">
@@ -130,7 +126,7 @@ Descripción Categorias | Expresate con señas
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
-                            <p class="ml-3 text-base text-gray-600">Meditaciones guiadas para principiantes y avanzados</p>
+                            <p class="ml-3 text-base text-gray-600">lorem ipsum dolores </p>
                         </li>
                         <li class="flex items-start">
                             <div class="flex-shrink-0">
@@ -138,7 +134,7 @@ Descripción Categorias | Expresate con señas
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
-                            <p class="ml-3 text-base text-gray-600">Secuencias para diferentes momentos del día</p>
+                            <p class="ml-3 text-base text-gray-600">lorem ipsum dolores </p>
                         </li>
                         <li class="flex items-start">
                             <div class="flex-shrink-0">
@@ -146,21 +142,21 @@ Descripción Categorias | Expresate con señas
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
-                            <p class="ml-3 text-base text-gray-600">Prácticas para aliviar dolores específicos</p>
+                            <p class="ml-3 text-base text-gray-600">lorem ipsum dolores </p>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="mt-10 lg:mt-0">
                 <div class="aspect-w-16 aspect-h-9 rounded-xl overflow-hidden shadow-xl">
-                    <img src="https://www.commandeducation.com/wp-content/uploads/2022/08/student-working-on-test-for-school.jpeg" alt="Práctica de yoga" class="w-full h-full object-cover">
+                    <img src="https://picsum.photos/536/354" class="w-full h-full object-cover">
                 </div>
                 <div class="mt-6 grid grid-cols-2 gap-4">
                     <div class="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden shadow-lg">
-                        <img src="https://images10.newegg.com/BizIntell/item/Input%20Output/Webcam/1EF-007G-00032/4.jpg" alt="Meditación" class="w-full h-full object-cover">
+                        <img src="https://picsum.photos/288/192" alt="Meditación" class="w-full h-full object-cover">
                     </div>
                     <div class="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden shadow-lg">
-                        <img src="https://t4.ftcdn.net/jpg/05/51/56/31/360_F_551563180_lOD3NKsxifWkCohVThXAaCdUN5nhAJoN.jpg" alt="Postura de yoga" class="w-full h-full object-cover">
+                        <img src="https://picsum.photos/288/193" alt="Postura de yoga" class="w-full h-full object-cover">
                     </div>
                 </div>
             </div>

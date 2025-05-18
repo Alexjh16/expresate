@@ -138,7 +138,7 @@ Cursos | Expresate con señas
                         <img src="{{ curso.icono }}" alt="Imagen del curso en relación" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                         <div class="absolute bottom-4 left-4 right-4 flex justify-between items-center">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
+                            <span class="capitalize inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
                                 
                                 {{ curso.nivel }}
                             </span>
@@ -170,7 +170,7 @@ Cursos | Expresate con señas
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
                                     </svg>
-                                    <span class="ml-1 text-sm text-gray-500">12 lecciones</span>
+                                    <span class="ml-1 text-sm text-gray-500">{{ curso.countVideos }} lecciones</span>
                                 </div>
                             </div>
                             <div class="text-right">
@@ -179,7 +179,7 @@ Cursos | Expresate con señas
                             </div>
                         </div>
                         <div class="mt-4">
-                            <a href="{% url 'descripcion-curso' %}" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                            <a href="{% url 'descripcion-curso' curso.id %}" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
                                 Ver Detalles
                             </a>
                         </div>

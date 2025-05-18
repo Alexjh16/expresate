@@ -7,6 +7,7 @@ from users.models import Paises, RolesUser
 from contenidos.models import CategoriaClases
 from mongoData.models import Paises as MongoPaises
 from mongoData.models import Cursos as MongoCursos
+from mongoData.models import Videos as MongoVideos
 from mongoData.models import Cuestionario as MongoCuestionarios
 from django.core.paginator import Paginator
 
@@ -36,13 +37,16 @@ def cursos(request, categoria):
         countCurso = MongoCursos.objects.filter(categoria_clase=otraCategoria.nombre_categoria).count()
         totalCursosOtros.append(countCurso)
 
-    print(totalCursosOtros)
+    
 
     #paginar los cursos para no saturar el DOM : Jhon Alexander
     listCursos = MongoCursos.objects.filter(categoria_clase=categoria)
     paginator = Paginator(listCursos, 8) 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    # Agregar countVideos a cada curso del page_obj
+    for curso in page_obj:
+        curso.countVideos = MongoVideos.objects.filter(idCurso=curso.id).count()
 
     totalCursos = MongoCursos.objects.filter(categoria_clase=categoria).count()
     totalCuestionarios = MongoCursos.objects.filter(
@@ -54,16 +58,23 @@ def cursos(request, categoria):
         'listCategoriasClases': listCategoriasClases,
         'listCursos': listCursos,
         'totalCursos': totalCursos,
+        'page_obj': page_obj,
         'totalCuestionarios': totalCuestionarios,
         'otrasCategorias': otrasCategorias,
-        'page_obj': page_obj,
         'totalCursosOtros': totalCursosOtros
+        
+        
     })
 def curso(request):
     return render(request, 'curso.html', {})
 
-def descripcionCurso(request):
-    return render(request, 'descripcion-curso.html', {})
+def descripcionCurso(request, idCurso):
+    descripcionCurso = MongoCursos.objects.get(id=idCurso)
+    countVideos = MongoVideos.objects.filter(idCurso=idCurso).count()
+    return render(request, 'descripcion-curso.html', {
+        'descripcionCurso': descripcionCurso,
+        'countVideos': countVideos
+    })
 
 def registrar(request):
     # Obtener datos de MongoDB

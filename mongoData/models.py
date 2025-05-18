@@ -91,7 +91,7 @@ class Videos(Document):
     descripcion = StringField()
     edadMinima = IntField()
     idCurso = ReferenceField(Cursos)
-    duracion = StringField() # en segundos
+    duracion = IntField() # en segundos
     fecha_creacion = DateTimeField()
     fecha_modificacion = DateTimeField()
     imagen = StringField() #url de la imagen
@@ -112,7 +112,25 @@ class UserVideosCurso(Document):
 now = datetime.datetime.now()
 now_str = now.strftime("%Y-%m-%d %H:%M:%S")  # Formato: Año-Mes-Día Hora:Minuto:Segundo
 
+
+
 """
+Videos(
+    nombre="Señas en 5 minutos",
+    ruta="media/videos/video2.mp4",
+    descripcion="Aprende las señas básicas en 5 minutos",
+    edadMinima=7,
+    idCurso=ObjectId(),  # Reemplaza con el ID del curso correspondiente
+    duracion=720,  # Duración en formato HH:MM:SS
+    fecha_creacion=now,
+    fecha_modificacion=now,
+    imagen="https://example.com/imagen.png",  # URL de la imagen
+    cantidad_vistas=100,
+    cantidad_likes=10
+).save()
+
+
+
 
 Cursos(
     titulo="Curso de Python",

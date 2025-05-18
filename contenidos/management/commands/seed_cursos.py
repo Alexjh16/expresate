@@ -19,7 +19,8 @@ class Command(BaseCommand):
         start_time = time.time()
 
         fake = Faker('es_ES')
-        categorias = ["Animales", "Familia", "Paises", "Números"]
+        #categorias = ["Animales", "Familia", "Paises", "Números"]
+        categorias = ["Colores"]
         niveles = [
             "introductorio",
             "básico",
