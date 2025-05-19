@@ -8,16 +8,39 @@
 {% block content %}
 <section>
     <div class="registro-admin">
-      <img src="{% static "/img/logo-proyecto.png" %}" alt="logo proyecto" class="login-logo" />
-      <h2>Agregar categoria de clase</h2>
-
-      <form action="{% url "create.categoriaClases" %}" method="POST">
+      <div class="login-admin">
+        <img src="{% static "/img/logo-proyecto.png" %}" alt="logo proyecto" class="w-20"/>
+        <h2>Agregar curso</h2>
+      </div>
+      <!--  -->
+      <form action="{% url "create.curso" %}" method="POST">
         {% csrf_token %}
-        <input type="text" name="nombre" id="nombre" placeholder="Nombre categoria*:" required />
-        <input type="text" name="descripcion" id="descripcion" placeholder="Descripción categoria*:" required />
-        <input type="text" name="edad_minima" id="edad_minima" placeholder="Edad minina*:" required />
-        <input type="text" name="icono" id="icono" placeholder="Icono categoria:"/>
-        <button type="submit">Agregar categoria</button>
+        <input type="text" name="titulo" id="titulo" placeholder="Titulo curso*:" required />
+        <input type="text" name="descripcion" id="descripcion" placeholder="Descripción curso*:" required />
+        <input type="text" name="icono" id="icono" placeholder="Icono curso:"/>
+        <input type="number" name="duracion" id="duracion" placeholder="Duracion curso:" required/>
+        <!-- Agregar nivel -->
+        <select name="nivel" id="nivel" required>
+          <option value="" disabled selected>Seleccione un nivel</option>
+          {% for nivel in niveles %}
+            <option value="{{ nivel.id }}">{{ nivel.nombre }}</option>
+          {% endfor %}
+        </select>
+        <!-- Agregar categoria -->
+        <select name="categoria" id="categorias" required>
+          <option value="" disabled selected>Seleccione una categoria</option>
+          {% for categoria in categorias %}
+            <option value="{{ categoria.id }}">{{ categoria.nombre_categoria }}</option>
+          {% endfor %}
+        </select>
+        <!-- Agregar cuestionario -->
+        <select name="cuestionario" id="cuestionarios" required>  <!-- Fixed id here -->
+          <option value="" disabled selected>Seleccione cuestionario</option>
+          {% for cuestionario in cuestionarios %}
+            <option value="{{ cuestionario.id }}">{{ cuestionario.titulo }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit">Agregar curso</button>
       </form>
 
       <div class="login-link">

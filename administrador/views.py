@@ -1,6 +1,6 @@
+from django.http import HttpResponse
 from django.shortcuts import render
-
-from contenidos.models import CategoriaClases, Cursos, Niveles
+from contenidos.models import CategoriaClases, Cursos, Niveles, Videos
 from evaluacion.models import Cuestionarios
 
 def index(request):
@@ -29,27 +29,31 @@ def createNivele(request):
             icono = request.POST['icono']
         )
         return render(request, 'view_admin/form_niveles.html', {})
-#CRUD de cuestionarios
-def formCreateCuestionario(request):
-    print('formCreateCuestionario', request)
-    return render(request, 'view_admin/form_cuestionarios.html', {})
-
-def createCuestionario(request):
-    print('createCuestionario', request)
+#CRUD de videos
+def formCreateVideo(request):    
+    #print('curso', curso[4])
+    #nombre_categoria = categorias[0].nombre_categoria if categorias.exists() else None
+    return render(request, 'view_admin/form_videos.html', {'cursos': Cursos.objects.all()})
+def createVideo(request):
+    print('createVideo', request)
     if request.method == 'POST':
-        cuestionario = Cuestionarios.objects.create(
-            titulo = request.POST['titulo'],
+        video = Videos.objects.create(
             descripcion = request.POST['descripcion'],
-            limite_intentos = request.POST['limite_intentos'],
-            estado = request.POST['estado'],
-            calificacion_aprobacion = request.POST['calificacion_aprobacion'],
-            duracion_estimada = request.POST['duracion_estimada']
+            edad_minima = request.POST['edad_minima'],
+            duracion = request.POST['duracion'],
+            video_url = request.FILES.get('video_url'),
+            imagen_portada = request.FILES.get('imagen_portada'),
         )
-        return render(request, 'view_admin/form_cuestionarios.html', {})
+        return render(request, 'view_admin/form_videos.html', {'cursos': Cursos.objects.all()})
+        
 #CRUD de cursos
 def formCreateCurso(request):
     print('formCreateCurso', request)
-    return render(request, 'view_admin/form_cursos.html', {})
+    categorias = CategoriaClases.objects.all()
+    niveles = Niveles.objects.all()
+    cuestionarios = Cuestionarios.objects.all()
+    videos = Videos.objects.all()
+    return render(request, 'view_admin/form_cursos.html', {'videos':videos,'categorias': categorias, 'niveles': niveles, 'cuestionarios': cuestionarios})
 
 def createCurso(request):
     print('createCurso', request)
@@ -59,9 +63,14 @@ def createCurso(request):
             descripcion = request.POST['descripcion'],
             duracion = request.POST['duracion'],
             icono = request.POST['icono'],
-            estado_curso = request.POST['estado_curso'],
-            categoria_clase = request.POST['categoria_clase'],
-            cuestionario = request.POST['cuestionario'],
-            nivel = request.POST['nivel']
+            #estado_curso = request.POST['estado_curso'],
+            categoria_clase = CategoriaClases.objects.get(id=request.POST['categoria']),
+            cuestionario = Cuestionarios.objects.get(id=request.POST['cuestionario']),
+            nivel = Niveles.objects.get(id=request.POST['nivel']),
+            #video = Videos.objects.get(id=request.POST['video'])
         )
-        return render(request, 'view_admin/agregar_cursos.html', {})
+        categorias = CategoriaClases.objects.all()
+        niveles = Niveles.objects.all()
+        cuestionarios = Cuestionarios.objects.all()
+        #videos = Videos.objects.all()
+        return render(request, 'view_admin/form_cursos.html', {''''videos': videos,''' 'categorias': categorias, 'niveles': niveles, 'cuestionarios': cuestionarios})

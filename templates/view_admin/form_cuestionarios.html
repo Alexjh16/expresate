@@ -11,7 +11,7 @@
       <img src="{% static "/img/logo-proyecto.png" %}" alt="logo proyecto" class="login-logo" />
       <h2>Agregar cuestionario</h2>
 
-      <form action="{% url "form.create.cuestionario" %}" method="POST">
+      <form action="{% url "create.cuestionario" %}" method="POST">
         {% csrf_token %}
         <input type="text" name="titulo" id="titulo" placeholder="Nombre cuestionario*:" required />
         <input type="text" name="descripcion" id="descripcion" placeholder="Descripción cuestionario*:" required />

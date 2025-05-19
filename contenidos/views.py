@@ -1,22 +1,62 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, logout as auth_logout, login as auth_login #aca se se coloca un alias al metodo login se manda a llamar esto se hace porqeu hay una funcion llamada login y causa conflitos. lo mismo se hace con logout
-from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse, JsonResponse
-from django.core.exceptions import ObjectDoesNotExist
 from .models import *
 import json
 
-#Metodo para selecionar i enviar todas las categoria o modulos al formulario de creacion de video  
-def curso(request, nombreCurso):    
-    # Filtra las categorías por el nombre de la categoría
-    print(nombreCurso)
-    categorias = CategoriaClases.objects.all()
-    print('nc', categorias)
-    cursos = Cursos.objects.filter(titulo=nombreCurso)
-    nombre_categoria = categorias[0].nombre_categoria if categorias.exists() else None
-    return render(request, 'curso.html', {
-        'categorias':categorias, 
-        'cursos':cursos, 
-        'nombre_categoria': nombre_categoria
-    })
+# Método para seleccionar y enviar todas las categorías o módulos al formulario de creación de video
+def selectCategoria(request, nombreCurso):
+    try:
+        categorias = CategoriaClases.objects.all()
+        cursos_videos = Videos.objects.filter(curso__categoria_clase__nombre_categoria=nombreCurso).values(
+            'id', 'edad_minima', 'descripcion', 'duracion', 'video_url', 'imagen_portada', 'curso__id',
+            'curso__titulo', 'curso__descripcion', 'curso__icono', 'curso__duracion', 'curso__estado_curso',
+            'curso__cuestionario__titulo', 'curso__cuestionario__id', 'curso__nivel__nombre')
+       
+        #print('contenidos_categorias', cursos_videos)
+        nombre_categoria = categorias.first().nombre_categoria if categorias.exists() else None
+        return render(request, 'curso.html', {
+            'categorias': categorias,
+            'nombre_categoria': nombreCurso,
+            'cursos_videos': cursos_videos
+        })
+    except Exception as e:
+        print(f"Error en selectCategoria: {e}")
+        return HttpResponse('Error en selectCategoria', {'error_message': 'Ocurrió un error al cargar las categorías.'})
+
+def selectContenidos(request):
+    try:
+        cursos = Videos.objects.filter(curso__categoria_clase__nombre_categoria='Familia').values(
+            'id',
+            'edad_minima',
+            'descripcion',
+            'duracion',
+            'video_url',
+            'imagen_portada',
+            'curso__id',
+            'curso__titulo',
+            'curso__descripcion',
+            'curso__icono',
+            'curso__duracion',
+            'curso__estado_curso',
+            'curso__cuestionario__titulo',
+            'curso__cuestionario__id',
+            'curso__nivel__nombre'
+        )
+        return HttpResponse(json.dumps(list(cursos)), content_type="application/json")
+    except Exception as e:
+        print(f"Error en contenidos: {e}")
+        return HttpResponse(json.dumps({'error_message': 'Ocurrió un error al cargar los contenidos.'}), content_type="application/json")
+    
+# Método para seleccionar un video por su ID
+def selectVideo(request, idVideo):
+    print(idVideo)
+    selectVideo = Videos.objects.get(id = idVideo)
+    atributosVideo = {
+        'selectVideo' : selectVideo,
+        'video_url' : selectVideo.video_url,
+        'descripcion' : selectVideo.descripcion,
+        'duracion' : selectVideo.duracion
+    }
+    print(atributosVideo)
+    return render(request, 'components/play_video.html', {'atributosVideo':atributosVideo})

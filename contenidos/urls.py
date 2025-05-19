@@ -4,5 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-       path('curso/<str:nombreCurso>/', views.curso, name='curso'),   
+       path('select-categorias/<str:nombreCurso>/', views.selectCategoria, name='selec.categorias'),   
+       path('contenidos/', views.selectContenidos, name='select.contenidos'),
+       path('select-video/<int:idVideo>', views.selectVideo, name='select.video')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

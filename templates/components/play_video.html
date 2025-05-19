@@ -1,0 +1,12 @@
+<div id="video-playerent-fragment">
+    <!-- Contenido del reproductor -->
+    <video id="video" class="w-full h-full object-cover rounded" controls autoplay playsinline>
+        <source id="videoSelect" src="{{atributosVideo.video_url.url}}" type="video/mp4">
+        Tu navegador no soporta la reproducción de video.
+    </video>
+</div>
+
+<div id="leccion-fragment">
+    <h2 class="text-xl font-bold text-gray-900">descripcion: {{ atributosVideo.descripcion }}</h2>
+    <p class="mt-1 text-sm text-gray-500">Publicado el 15 de marzo, 2023</p>
+</div>

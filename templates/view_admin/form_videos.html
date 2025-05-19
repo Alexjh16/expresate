@@ -1,0 +1,38 @@
+{% extends "app/base.html" %}
+
+{% block title  %}
+    Crear videos
+{% endblock  %}
+
+{% load static %}
+{% block content %}
+<section>
+    <div class="registro-admin">
+      <img src="{% static "/img/logo-proyecto.png" %}" alt="logo proyecto" class="w-20" />
+      <h2>Agregar video</h2>
+
+      <br action="{% url "create.video" %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="descripcion" id="descripcion" placeholder="Descripción del video*:" required />
+        <input type="text" name="edad_minima" id="edad_minima" placeholder="Edad mínima*:"/>
+        <input type="text" name="duracion" id="duracion" placeholder="Duración*:" required/>
+        <!-- Agregar curso -->
+        <select name="curso" id="curso" required>
+          <option value="" disabled selected>Selecciona un video</option>
+          {% for curso in cursos %}
+            <option value="{{ curso.id }}">{{ curso.titulo }}</option>
+          {% endfor %}
+        </select><br>
+        <label for="Selecciona_video">Selecciona un video:</label><br>
+        <input type="file" name="video_url" id="video_url"/><br>
+        <label for="Selecciona_imagen">Selecciona una imagen:</label><br>
+        <input type="file" name="imagen_portada" id="imagen_portada"/>
+        <button type="submit">Agregar video</button>
+      </form>
+
+      <div class="login-link">
+        Ya tengo cuenta <a href=" {% url "login" %}">Iniciar sesión</a>
+      </div>
+    </div>
+</section>
+{% endblock %}
