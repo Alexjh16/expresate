@@ -33,6 +33,10 @@ urlpatterns = [
     path('dashboard-admin/', views.adminDashboard, name='dashboard-admin'),
     path('dashboard-admin/usuarios/', views.adminUsuarios, name='admin-usuarios'),
     path('dashboard-admin/categorias/', views.adminCategorias, name='admin-categorias'),
+    #ruta para listar categorias
+    path('admin/categorias/json/', views.categoriasJson, name='admin-categorias-json'),
+    #ruta para crear categorias
+    path('admin/categorias/crear/', views.crearCategoria, name='admin-categorias-crear'),
     path('dashboard-admin/niveles/', views.adminNiveles, name='admin-niveles'),
     path('dashboard-admin/cursos/', views.adminCursos, name='admin-cursos'),
     path('dashboard-admin/videos/', views.adminVideos, name='admin-videos'),    

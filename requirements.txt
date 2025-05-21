@@ -12,3 +12,4 @@ django-altcha
 django-cors-headers
 tqdm
 mongoengine
+django-htmx

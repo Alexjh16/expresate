@@ -8,8 +8,9 @@ from contenidos.models import CategoriaClases
 from mongoData.models import Paises as MongoPaises
 from mongoData.models import Cursos as MongoCursos
 from mongoData.models import Videos as MongoVideos
-from mongoData.models import Cuestionario as MongoCuestionarios
+from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
+from expresate.templatetags import splitfilters
 
 
 
@@ -108,6 +109,46 @@ def adminCategorias(request):
     return render(request, 'admin/app/categorias.html', {
         'listCategorias': listCategorias
     })
+
+#read categorias
+def categoriasJson(request):
+    categorias = CategoriaClases.objects.all().order_by('id')
+    data = []
+    for categoria in categorias:
+        subtitulo = splitfilters.split_before(categoria.descripcion, '-')
+        descripcion = splitfilters.split_after(categoria.descripcion, '-')
+        icono = "/" + categoria.icono if categoria.icono else None
+        data.append({
+            'id': categoria.id,
+            'nombre': categoria.nombre_categoria,
+            'subtitulo': subtitulo,
+            'descripcion': descripcion,
+            'icono': icono,
+            'edad_minima': categoria.edad_minima,
+        })
+    return JsonResponse({'categorias': data})
+
+#create categorias
+@csrf_exempt  # Solo para pruebas, en producción usa CSRF correctamente
+def crearCategoria(request):
+    if request.method == "POST":
+        nombre = request.POST.get("nombre")
+        subtitulo = request.POST.get("subtitulo")
+        descripcion = request.POST.get("descripcion")
+        edad_minima = request.POST.get("edad_minima")
+        categoria = CategoriaClases.objects.create(
+            nombre_categoria=nombre,
+            descripcion=subtitulo + "-" + descripcion,
+            edad_minima=edad_minima,
+        )
+        return JsonResponse({
+            "id": categoria.id,
+            "nombre": categoria.nombre_categoria,
+            "subtitulo": categoria.subtitulo,
+            "descripcion": categoria.descripcion,
+            "edad_minima": categoria.edad_minima,
+        })
+    return JsonResponse({"error": "Método no permitido"}, status=405)
 
 def adminNiveles(request):
     return render(request, 'admin/app/niveles.html', {})
