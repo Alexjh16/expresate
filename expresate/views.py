@@ -71,9 +71,11 @@ def curso(request):
 def descripcionCurso(request, idCurso):
     descripcionCurso = MongoCursos.objects.get(id=idCurso)
     countVideos = MongoVideos.objects.filter(idCurso=idCurso).count()
+    videos = MongoVideos.objects.filter(idCurso=idCurso)[:3]
     return render(request, 'descripcion-curso.html', {
         'descripcionCurso': descripcionCurso,
-        'countVideos': countVideos
+        'countVideos': countVideos,
+        'videos': videos
     })
 
 def registrar(request):
@@ -98,7 +100,23 @@ def adminLogin(request):
 def adminDashboard(request):
     return render(request, 'admin/app/dashboard.html', {})
 
+def adminUsuarios(request):
+    return render(request, 'admin/app/usuarios.html', {})
 
+def adminCategorias(request):
+    listCategorias = CategoriaClases.objects.all().order_by('id')
+    return render(request, 'admin/app/categorias.html', {
+        'listCategorias': listCategorias
+    })
+
+def adminNiveles(request):
+    return render(request, 'admin/app/niveles.html', {})
+
+def adminCursos(request):   
+    return render(request, 'admin/app/cursos.html', {})
+
+def adminVideos(request):
+    return render(request, 'admin/app/videos.html', {})
 
 #funciones para archivos anteriores
 def indexOld(request):

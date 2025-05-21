@@ -27,11 +27,16 @@ urlpatterns = [
     path('descripcion-curso/<str:idCurso>/', views.descripcionCurso, name='descripcion-curso'),
     path('registrar/', views.registrar, name='registrar'),
     path('login/', views.login, name='login'),
+
+    #Ruta a la vista de admin
     path('login-admin/', views.adminLogin, name='login-admin'),
     path('dashboard-admin/', views.adminDashboard, name='dashboard-admin'),
-
-
-
+    path('dashboard-admin/usuarios/', views.adminUsuarios, name='admin-usuarios'),
+    path('dashboard-admin/categorias/', views.adminCategorias, name='admin-categorias'),
+    path('dashboard-admin/niveles/', views.adminNiveles, name='admin-niveles'),
+    path('dashboard-admin/cursos/', views.adminCursos, name='admin-cursos'),
+    path('dashboard-admin/videos/', views.adminVideos, name='admin-videos'),    
+    
     #Ruta a al modulo de Registro de usuarios
     path('altcha-challenge/', altcha_challenge, name='altcha_challenge'),
     path('users/', include('users.urls')),

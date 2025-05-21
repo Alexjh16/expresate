@@ -64,7 +64,7 @@
                 <span class="ml-2 text-sm font-medium text-teal-800">Conexión segura</span>
             </div>
             
-            <form class="space-y-6" action="" method="post" x-data="{ username: '', password: '', code: '', formValid: false, showTwoFactor: false }" x-on:submit="return formValid">
+            <form class="space-y-6" action="{% url 'dashboard-admin' %}" method="post" x-data="{ username: '', password: '', code: '', formValid: false, showTwoFactor: false }" x-on:submit="return formValid">
                 {% csrf_token %}
                 
                 {% if messages %}
