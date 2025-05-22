@@ -1,5 +1,6 @@
 from django.db import models
 from evaluacion.models import Cuestionarios
+
 # Create your models here.
 #tablas o entidades
 
@@ -11,7 +12,7 @@ from evaluacion.models import Cuestionarios
 class CategoriaClases(models.Model):
     nombre_categoria = models.CharField(max_length=100)
     descripcion = models.TextField(null=True, blank=True)
-    icono = models.URLField()
+    icono = models.ImageField(upload_to='imagenes/', null=True, blank=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     edad_minima = models.IntegerField(null=True, blank=True)
 

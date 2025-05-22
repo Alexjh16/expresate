@@ -45,7 +45,7 @@ Cursos | Expresate con señas
 <!-- Hero Section -->
 <div class="relative bg-gradient-to-r from-teal-500 to-cyan-600">
     <div class="absolute inset-0">
-        <img class="w-full h-full object-cover mix-blend-multiply filter brightness-75" src="{{ MEDIA_URL }}/{{ categoriaActual.icono }}" alt="Imagen del curso">
+        <img class="w-full h-full object-cover mix-blend-multiply filter brightness-75" src="{{ categoriaActual.icono.url }}" alt="Imagen del curso">
         <div class="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-600 mix-blend-multiply"></div>
     </div>
     <div class="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
@@ -254,7 +254,7 @@ Cursos | Expresate con señas
                 <!-- Categoría: Yoga -->
                 <div class="bg-white overflow-hidden shadow rounded-lg">
                     <div class="relative h-48">
-                        <img class="w-full h-full object-cover" src="{{ MEDIA_URL }}/{{ otraCategoria.icono }}" alt="Yoga">
+                        <img class="w-full h-full object-cover" src="{{ otraCategoria.icono.url }}" alt="Yoga">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-6">
                             <h3 class="text-2xl font-bold text-white">{{ otraCategoria.nombre_categoria }}</h3>

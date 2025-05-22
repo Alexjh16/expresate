@@ -42,7 +42,7 @@ class Command(BaseCommand):
             now = datetime.datetime.now()
             video = Videos(
                 nombre=fake.sentence(nb_words=4),
-                ruta=f"media/videos/video{random.randint(1, 20)}.mp4",
+                ruta=f"videos/video{random.randint(1, 20)}.mp4",
                 descripcion=fake.paragraph(nb_sentences=3),
                 edadMinima=random.randint(7, 120),
                 idCurso=IdCurso,

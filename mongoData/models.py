@@ -117,7 +117,7 @@ now_str = now.strftime("%Y-%m-%d %H:%M:%S")  # Formato: Año-Mes-Día Hora:Minut
 """
 Videos(
     nombre="Señas en 5 minutos",
-    ruta="media/videos/video2.mp4",
+    ruta="videos/video2.mp4",
     descripcion="Aprende las señas básicas en 5 minutos",
     edadMinima=7,
     idCurso=ObjectId(),  # Reemplaza con el ID del curso correspondiente
@@ -148,9 +148,9 @@ UserVideosCurso(
     categoria_clase="Animales",
     idCurso='64b8f13e8f1b2c3d4e5f6789',  # Reemplaza con el ID del curso correspondiente ej: Señas en 5 minutos
     video=[
-        VideoInfo(nombre="Señas en 5 minutos", ruta="media/videos/video2.mp4", fecha_visualizacion=now_str),
-        VideoInfo(nombre="Señas en 10 minutos", ruta="media/videos/video3.mp4", fecha_visualizacion=now_str),
-        VideoInfo(nombre="Señas en 15 minutos", ruta="media/videos/video4.mp4", fecha_visualizacion=now_str)
+        VideoInfo(nombre="Señas en 5 minutos", ruta="videos/video2.mp4", fecha_visualizacion=now_str),
+        VideoInfo(nombre="Señas en 10 minutos", ruta="videos/video3.mp4", fecha_visualizacion=now_str),
+        VideoInfo(nombre="Señas en 15 minutos", ruta="videos/video4.mp4", fecha_visualizacion=now_str)
     ],
     usuario=["alexander196", "Alexander Ramos", "alexx@mail.com"],
     estado="bloqueado",
@@ -173,7 +173,7 @@ Users(
 
 Comentarios(
     comentario="Este es un comentario de prueba",
-    video=["Señas en 5 minutos", "media/videos/video2.mp4"],
+    video=["Señas en 5 minutos", "videos/video2.mp4"],
     usuario=["alexander196", "Alexander Ramos", "alexx@mail.com"],
     # parent_id=Comentarios.objects.first(),  # Referencia a otro comentario (opcional)
     #partent_id=None,  # Referencia a otro comentario (opcional)

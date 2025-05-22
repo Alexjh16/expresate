@@ -268,7 +268,7 @@
                 <div class="bg-teal-600 px-6 py-4">
                     <div class="flex items-center justify-between">
                         <h3 id="textModal" class="text-lg font-medium text-white" x-text="isEditing ? 'Editar Categoría' : 'Nueva Categoría'"></h3>
-                        <h3 id="modalDetalles" class="text-lg font-medium text-white">Ver detalles</h3>
+                        <h3 id="modalDetalles" style="display: none" class="text-lg font-medium text-white">Ver detalles</h3>
                         <button @click="closeModal()" class="text-white hover:text-gray-200">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -471,8 +471,8 @@
             searchTerm: "",
             sortBy: "name",
             currentPage: 1,
-            itemsPerPage: 10,
-            totalPages: 2,
+            itemsPerPage: 8,
+            totalPages: 1,
             pagesArray: [],
             
             // Estado de modales
@@ -503,7 +503,6 @@
                     .then(data => {
                         this.categorias = data.categorias;
                         this.filtercategorias();
-                        this.calculatePagination();
                 })
                 .catch(error => {
                     console.error('Error fetching categories:', error);
@@ -556,7 +555,7 @@
             
             // Métodos para paginación
             calculatePagination() {
-                this.totalPages = Math.ceil(this.filteredcategorias.length / this.itemsPerPage);
+                this.totalPages = Math.ceil(this.filteredcategorias.length / this.itemsPerPage || 1);
                 this.pagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
             },
             
@@ -628,23 +627,91 @@
                 setTimeout(() => {
                     if (this.isEditing) {
                         // Actualizar categoría existente
-                        const index = this.categorias.findIndex(c => c.id === this.form.id);
-                        if (index !== -1) {
-                            this.categorias[index] = { ...this.form };
-                            this.showStatusMessage("Categoría actualizada correctamente", "success");
+                         const formData = new FormData();
+                        formData.append('id', this.form.id);
+                        formData.append('nombre', this.form.nombre);
+                        formData.append('subtitulo', this.form.subtitulo);
+                        formData.append('descripcion', this.form.descripcion);
+                        formData.append('edad_minima', this.form.edad_minima);
+
+                        // Solo agrega la imagen si el usuario seleccionó una nueva
+                        if (this.form.icono instanceof File) {
+                            formData.append('icono', this.form.icono);
                         }
+
+                        fetch(`/admin/categorias/editar/${this.form.id}/`, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.id) {
+                                // Actualiza la categoría en el array
+                                const index = this.categorias.findIndex(c => c.id === data.id);
+                                if (index !== -1) {
+                                    this.categorias[index] = data;
+                                    this.showStatusMessage("Categoría actualizada correctamente", "success");
+                                    this.filtercategorias();
+                                    this.showModal = false;
+                                }
+                            } else {
+                                let error = data.error || "Error al actualizar la categoría";
+                                this.showStatusMessage(error, "error");
+                            }
+                        })
+                        .catch(error => {
+                            this.showStatusMessage("Error al actualizar la categoría", "error");
+                        })
+                        .finally(() => {
+                            this.isLoading = false;
+                        });
                     } else {
                         // Crear nueva categoría
-                        const newId = Math.max(...this.categorias.map(c => c.id), 0) + 1;
-                        this.categorias.push({
-                            ...this.form,
-                            id: newId
-                        });
+                            const formData = new FormData();
+                            formData.append('nombre', this.form.nombre);
+                            formData.append('subtitulo', this.form.subtitulo);
+                            formData.append('descripcion', this.form.descripcion);
+                            formData.append('edad_minima', this.form.edad_minima);
+                            formData.append('icono', this.form.icono);
+
+                            fetch('/admin/categorias/crear/',{
+                                
+                                method: 'POST',
+                                body: formData,
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if(data.id){
+                                    this.categorias.push(data);
+                                    this.showStatusMessage("Categoría creada correctamente", "success");
+                                    this.filtercategorias();
+                                    this.showModal = false;
+                                }
+                                else{
+                                    this.showModal = false;
+                                    let error = data.error || "Error al crear la categoría";
+                                    this.showStatusMessage(error, "error");
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error al crear la categoría:', error);
+                                this.showModal = false;
+                                this.showStatusMessage("Error al crear la categoría", "error");
+                                this.showStatusMessage(error, "error");
+                            })
+                            .finally(() => {
+                                this.isLoading = false;
+                            });   
+                        }
                         this.showStatusMessage("Categoría creada correctamente", "success");
-                    }
-                    
-                    this.isLoading = false;
-                    this.showModal = false;
                     //ocultar texto del modal
                     document.getElementById("textModal").style.display = "block";
                     // mostrar texto de detalles
@@ -655,19 +722,38 @@
             
             deleteCategory() {
                 if (!this.selectedCategory) return;
-                
-                // Simulación de eliminación (aquí iría la llamada AJAX real)
-                setTimeout(() => {
-                    const index = this.categorias.findIndex(c => c.id === this.selectedCategory.id);
-                    if (index !== -1) {
-                        this.categorias.splice(index, 1);
-                        this.showStatusMessage("Categoría eliminada correctamente", "success");
+                this.isLoading = true;
+                fetch(`/admin/categorias/eliminar/${this.selectedCategory.id}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
                     }
-                    
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const index = this.categorias.findIndex(c => c.id === this.selectedCategory.id);
+                        if (index !== -1) {
+                            this.categorias.splice(index, 1);
+                            this.showStatusMessage("Categoría eliminada correctamente", "success");
+                        }
+                    } else {
+                        let error = data.error || "Error al eliminar la categoría";
+                        this.showStatusMessage(error, "error");
+                    }
                     this.showDeleteModal = false;
                     this.selectedCategory = null;
                     this.filtercategorias();
-                }, 500);
+                })
+                .catch(error => {
+                    this.showStatusMessage("Error al eliminar la categoría", "error");
+                    this.showDeleteModal = false;
+                    this.selectedCategory = null;
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
             },
 
             closeModal(){
@@ -684,8 +770,6 @@
             },
             
             viewDetails(category) {
-                // Aquí iría la navegación a la página de detalles
-                console.log("Ver detalles de:", category.nombre);
                 //ocultar texto del modal
                 document.getElementById("textModal").style.display = "none";
                 // mostrar texto de detalles
@@ -705,15 +789,24 @@
                 const file = event.target.files[0];
                 if (!file) return;
                 
-                if (file.size > 2 * 1024 * 1024) {
-                    this.showStatusMessage("La imagen no debe superar los 2MB", "error");
+                if (file.size > 10 * 1024 * 1024) {
+                    this.showStatusMessage("La imagen no debe superar los 10MB", "error");
                     return;
                 }
+                // Validar extensión
+                const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif', 'image/svg+xml'];
+                if (!validTypes.includes(file.type)) {
+                    this.showModal = false;
+                    this.showStatusMessage("Solo se permiten imágenes JPG, PNG, GIF o WEBP", "error");
+                    return;
+                }
+
+                // Guardar el archivo real para el FormData
+                this.form.icono = file;
                 
                 const reader = new FileReader();
                 reader.onload = e => {
                     this.imagePreview = e.target.result;
-                    this.form.icono = e.target.result; // En un caso real, esto sería el archivo para subir
                 };
                 reader.readAsDataURL(file);
             },

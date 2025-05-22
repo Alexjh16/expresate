@@ -1,47 +1,47 @@
 [
     {
-        "video": "media/videos/leccion2.mp4",
+        "video": "videos/leccion2.mp4",
         "descripcion": "Abecedario en lenguaje de señas",
         "edadMinima": 10,
         "_idcurso": {"$oid": "607f1f77bcf86cd799439913"},
         "duracion": 900,
         "fecha_subida": {"$date": "2024-04-28T09:15:00Z"},
-        "imagen_portada": "media/imagenes/portada-leccion2.jpg"
+        "imagen_portada": "imagenes/portada-leccion2.jpg"
     },
     {
-        "video": "media/videos/leccion3.mp4",
+        "video": "videos/leccion3.mp4",
         "descripcion": "Saludos básicos en señas",
         "edadMinima": 8,
         "_idcurso": {"$oid": "607f1f77bcf86cd799439914"},
         "duracion": 720,
         "fecha_subida": {"$date": "2024-04-25T16:45:30Z"},
-        "imagen_portada": "media/imagenes/portada-leccion3.jpg"
+        "imagen_portada": "imagenes/portada-leccion3.jpg"
     },
     {
-        "video": "media/videos/leccion4.mp4",
+        "video": "videos/leccion4.mp4",
         "descripcion": "Números del 1 al 20 en señas",
         "edadMinima": 10,
         "_idcurso": {"$oid": "607f1f77bcf86cd799439915"},
         "duracion": 1100,
         "fecha_subida": {"$date": "2024-04-20T11:20:15Z"},
-        "imagen_portada": "media/imagenes/portada-leccion4.jpg"
+        "imagen_portada": "imagenes/portada-leccion4.jpg"
     },
     {
-        "video": "media/videos/leccion5.mp4",
+        "video": "videos/leccion5.mp4",
         "descripcion": "Colores en lenguaje de señas",
         "edadMinima": 6,
         "_idcurso": {"$oid": "607f1f77bcf86cd799439916"},
         "duracion": 800,
         "fecha_subida": {"$date": "2024-04-15T13:10:45Z"},
-        "imagen_portada": "media/imagenes/portada-leccion5.jpg"
+        "imagen_portada": "imagenes/portada-leccion5.jpg"
     },
     {
-        "video": "media/videos/leccion6.mp4",
+        "video": "videos/leccion6.mp4",
         "descripcion": "Familia y relaciones en señas",
         "edadMinima": 12,
         "_idcurso": {"$oid": "607f1f77bcf86cd799439917"},
         "duracion": 1500,
         "fecha_subida": {"$date": "2024-04-10T10:05:20Z"},
-        "imagen_portada": "media/imagenes/portada-leccion6.jpg"
+        "imagen_portada": "imagenes/portada-leccion6.jpg"
     }
 ]

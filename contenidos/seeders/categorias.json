@@ -2,63 +2,63 @@
     {
         "nombre_categoria": "Famila",
         "descripcion": "Educación accesible para todos-Aprende desde tu casa, a tu ritmo y sin horarios fijos. Accede al contenido en cualquier momento del día, sin restricciones, y disfruta de una experiencia de aprendizaje flexible y personalizada. Disponible las 24/7.",
-        "icono": "media/imagenes/familia.webp",
+        "icono": "imagenes/familia.webp",
         "fecha_creacion":"2024-04-28",
         "edad_minima": 7
     },
     {
         "nombre_categoria": "Animales",
         "descripcion": "Explora el mundo animal en señas-Aprende a identificar y comunicar los nombres de distintos animales en lengua de señas de manera fácil y rápida. Explora una forma accesible y dinámica de mejorar tu comunicación, ampliando tu vocabulario con signos específicos para cada especie.",
-        "icono": "media/imagenes/animales.webp",
+        "icono": "imagenes/animales.webp",
         "fecha_creacion":"2024-04-28",
         "edad_minima": 7
     },
     {
         "nombre_categoria": "Números",
         "descripcion": "Expresa cantidades y cifras con claridad-Aprende a contar, sumar y reconocer los números en lengua de señas con facilidad. Mejora tu comprensión y expresión numérica de manera práctica y accesible, desarrollando habilidades esenciales para la comunicación en diferentes situaciones.",
-        "icono": "media/imagenes/numeros.webp",
+        "icono": "imagenes/numeros.webp",
         "fecha_creacion":"2024-04-28",
         "edad_minima": 7
     },
     {
         "nombre_categoria": "Vocales",
         "descripcion": "Educación accesible para todos-Aprende desde tu casa, a tu ritmo y sin horarios fijos. Accede al contenido en cualquier momento del día, sin restricciones, y disfruta de una experiencia de aprendizaje flexible y personalizada. Disponible las 24/7.",
-        "icono": "media/imagenes/vocales.jpg",
+        "icono": "imagenes/vocales.jpg",
         "fecha_creacion":"2024-04-28",
         "edad_minima": 7
     },
     {
         "nombre_categoria": "Colores",
         "descripcion": "Educación accesible para todos-Aprende desde tu casa, a tu ritmo y sin horarios fijos. Accede al contenido en cualquier momento del día, sin restricciones, y disfruta de una experiencia de aprendizaje flexible y personalizada. Disponible las 24/7.",
-        "icono": "media/imagenes/colores.webp",
+        "icono": "imagenes/colores.webp",
         "fecha_creacion":"2024-04-28",
         "edad_minima": 7
     },
     {
         "nombre_categoria": "Juguetes",
         "descripcion": "Educación accesible para todos-Aprende desde tu casa, a tu ritmo y sin horarios fijos. Accede al contenido en cualquier momento del día, sin restricciones, y disfruta de una experiencia de aprendizaje flexible y personalizada. Disponible las 24/7.",
-        "icono": "media/imagenes/juguetes.webp",
+        "icono": "imagenes/juguetes.webp",
         "fecha_creacion":"2024-04-28",
         "edad_minima": 7
     },
     {
         "nombre_categoria": "Abecedario",
         "descripcion": "Educación accesible para todos-Aprende desde tu casa, a tu ritmo y sin horarios fijos. Accede al contenido en cualquier momento del día, sin restricciones, y disfruta de una experiencia de aprendizaje flexible y personalizada. Disponible las 24/7.",
-        "icono": "media/imagenes/abecedario.jpg",
+        "icono": "imagenes/abecedario.jpg",
         "fecha_creacion":"2024-04-28",
         "edad_minima": 7
     },
     {
         "nombre_categoria": "Conversación",
         "descripcion": "Educación accesible para todos-Aprende desde tu casa, a tu ritmo y sin horarios fijos. Accede al contenido en cualquier momento del día, sin restricciones, y disfruta de una experiencia de aprendizaje flexible y personalizada. Disponible las 24/7.",
-        "icono": "media/imagenes/conversacion.webp",
+        "icono": "imagenes/conversacion.webp",
         "fecha_creacion":"2024-04-28",
         "edad_minima": 7
     },
     {
         "nombre_categoria": "Paises",
         "descripcion": "Educación accesible para todos-Aprende desde tu casa, a tu ritmo y sin horarios fijos. Accede al contenido en cualquier momento del día, sin restricciones, y disfruta de una experiencia de aprendizaje flexible y personalizada. Disponible las 24/7.",
-        "icono": "media/imagenes/paises.avif",
+        "icono": "imagenes/paises.avif",
         "fecha_creacion":"2024-04-28",
         "edad_minima": 7
     }

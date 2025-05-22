@@ -47,7 +47,7 @@ class Command(BaseCommand):
                 videos = [
                     VideoInfo(
                         nombre=f"Video {j + 1} - {fake.word()}",
-                        ruta=f"media/videos/video{j + 1}.mp4",
+                        ruta=f"videos/video{j + 1}.mp4",
                         fecha_visualizacion=fake.date_time_between(start_date='-1y', end_date='now')
                     )
                     for j in range(num_videos)

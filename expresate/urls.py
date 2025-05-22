@@ -37,9 +37,14 @@ urlpatterns = [
     path('admin/categorias/json/', views.categoriasJson, name='admin-categorias-json'),
     #ruta para crear categorias
     path('admin/categorias/crear/', views.crearCategoria, name='admin-categorias-crear'),
+    #ruta para editar categorias
+    path('admin/categorias/editar/<int:id>/', views.editarCategoria, name='admin-categorias-editar'),
+    #ruta para eliminar categorias
+    path('admin/categorias/eliminar/<int:id>/', views.eliminarCategoria, name='admin-categorias-eliminar'),
     path('dashboard-admin/niveles/', views.adminNiveles, name='admin-niveles'),
     path('dashboard-admin/cursos/', views.adminCursos, name='admin-cursos'),
-    path('dashboard-admin/videos/', views.adminVideos, name='admin-videos'),    
+    path('dashboard-admin/videos/', views.adminVideos, name='admin-videos'),  
+      
     
     #Ruta a al modulo de Registro de usuarios
     path('altcha-challenge/', altcha_challenge, name='altcha_challenge'),

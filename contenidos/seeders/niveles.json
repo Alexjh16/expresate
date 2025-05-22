@@ -2,31 +2,31 @@
     {
         "nombre": "Nivel Introductorio",
         "descripcion": "Conceptos básicos del lenguaje de señas, Alfabeto dactilológico (abecedario), Números del 1 al 10, Saludos y presentaciones simples, Vocabulario esencial (sí, no, gracias, por favor)",
-        "icono": "media/imagenes/icono-nivel1.jpg",
+        "icono": "imagenes/icono-nivel1.jpg",
         "fecha_creacion":""
     },
     {
         "nombre": "Nivel Básico",
         "descripcion": "Familia y relaciones personales, Colores y formas básicas, Partes del cuerpo, Expresiones de tiempo (días, meses, horas), Verbos de acción comunes (comer, beber, dormir)",
-        "icono": "media/imagenes/icono-nivel2.jpg",
+        "icono": "imagenes/icono-nivel2.jpg",
         "fecha_creacion":""
     },
     {
         "nombre": "Nivel Intermedio",
         "descripcion": "Descripción de personas y objetos, Actividades diarias y rutinas, Emociones y sentimientos básicos, Compras y transacciones simples, Estructuras gramaticales más complejas",
-        "icono": "media/imagenes/icono-nivel3.jpg",
+        "icono": "imagenes/icono-nivel3.jpg",
         "fecha_creacion":""
     },
     {
         "nombre": "Nivel Avanzado",
         "descripcion": "Profesiones y lugares de trabajo, Educación y sistema escolar, Salud y visitas médicas, Eventos culturales y sociales, Narración de historias simples",
-        "icono": "media/imagenes/icono-nivel4.jpg",
+        "icono": "imagenes/icono-nivel4.jpg",
         "fecha_creacion":""
     },
     {
         "nombre": "Nivel Experto",
         "descripcion": "Temas especializados (tecnología, ciencia, arte), Expresiones idiomáticas y regionalismos, Debate y argumentación, Interpretación simultánea, Cultura sorda y aspectos sociolingüísticos",
-        "icono": "media/imagenes/icono-nivel5.jpg",
+        "icono": "imagenes/icono-nivel5.jpg",
         "fecha_creacion":""
     }
 

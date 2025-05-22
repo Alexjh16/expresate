@@ -1,6 +1,5 @@
 from django.shortcuts import render
 #prueba para redis
-from django.core.cache import cache
 from django.shortcuts import get_object_or_404 as findObject
 from django.http import JsonResponse
 from users.models import Paises, RolesUser
@@ -11,6 +10,9 @@ from mongoData.models import Videos as MongoVideos
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from expresate.templatetags import splitfilters
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+import os
 
 
 
@@ -117,13 +119,18 @@ def categoriasJson(request):
     for categoria in categorias:
         subtitulo = splitfilters.split_before(categoria.descripcion, '-')
         descripcion = splitfilters.split_after(categoria.descripcion, '-')
-        icono = "/" + categoria.icono if categoria.icono else None
+
+        # Obtener la URL de la imagen si existe
+        if categoria.icono and hasattr(categoria.icono, 'url'):
+            icono_url = categoria.icono.url
+        else:
+            icono_url = None
         data.append({
             'id': categoria.id,
             'nombre': categoria.nombre_categoria,
             'subtitulo': subtitulo,
             'descripcion': descripcion,
-            'icono': icono,
+            'icono': icono_url,
             'edad_minima': categoria.edad_minima,
         })
     return JsonResponse({'categorias': data})
@@ -132,22 +139,110 @@ def categoriasJson(request):
 @csrf_exempt  # Solo para pruebas, en producción usa CSRF correctamente
 def crearCategoria(request):
     if request.method == "POST":
-        nombre = request.POST.get("nombre")
-        subtitulo = request.POST.get("subtitulo")
-        descripcion = request.POST.get("descripcion")
-        edad_minima = request.POST.get("edad_minima")
+        nombre = request.POST.get("nombre", "").strip()
+        subtitulo = request.POST.get("subtitulo", "")
+        descripcion = request.POST.get("descripcion", "")
+        edad_minima = request.POST.get("edad_minima", "")
+
+        # Validar edad mínima
+        try:
+            edad_minima_int = int(edad_minima)
+            if edad_minima_int < 7 or edad_minima_int > 120:
+                return JsonResponse({"error": "La edad mínima debe estar entre 7 y 120."}, status=400)
+        except ValueError:
+            return JsonResponse({"error": "La edad mínima debe ser un número válido."}, status=400)
+
+        # Validar nombre único (case-insensitive)
+        if CategoriaClases.objects.filter(nombre_categoria__iexact=nombre).exists():
+            return JsonResponse({"error": "Ya existe una categoría con ese nombre."}, status=400)
+        
+
+        # Validar y guardar imagen
+        icono = request.FILES.get('icono')
+        icono_url = None
+        if icono:
+            # Validar tamaño (10MB)
+            if icono.size > 10 * 1024 * 1024:
+                return JsonResponse({"error": "La imagen no debe superar los 10MB."}, status=400)
+            # Validar extensión
+            ext = os.path.splitext(icono.name)[1].lower()
+            if ext not in ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.avif', '.svg']:
+                return JsonResponse({"error": "Solo se permiten imágenes JPG, PNG, GIF, WEBP, AVIF o SVG."}, status=400)
+            filename = default_storage.save(f"imagenes/{icono.name}", ContentFile(icono.read()))
+            icono_url = filename 
+
         categoria = CategoriaClases.objects.create(
             nombre_categoria=nombre,
             descripcion=subtitulo + "-" + descripcion,
-            edad_minima=edad_minima,
+            edad_minima=edad_minima_int,
+            icono=icono_url
         )
         return JsonResponse({
             "id": categoria.id,
             "nombre": categoria.nombre_categoria,
-            "subtitulo": categoria.subtitulo,
-            "descripcion": categoria.descripcion,
+            "subtitulo": splitfilters.split_before(categoria.descripcion, '-'),
+            "descripcion": splitfilters.split_after(categoria.descripcion, '-'),
             "edad_minima": categoria.edad_minima,
+            "icono": categoria.icono.url if categoria.icono else None
         })
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
+#update categorias
+@csrf_exempt
+def editarCategoria(request, id):
+    if request.method == "POST":
+        nombre = request.POST.get("nombre", "").strip()
+        subtitulo = request.POST.get("subtitulo", "")
+        descripcion = request.POST.get("descripcion", "")
+        edad_minima = request.POST.get("edad_minima", "")
+
+        # Validar edad mínima
+        try:
+            edad_minima_int = int(edad_minima)
+            if edad_minima_int < 7 or edad_minima_int > 120:
+                return JsonResponse({"error": "La edad mínima debe estar entre 7 y 120."}, status=400)
+        except ValueError:
+            return JsonResponse({"error": "La edad mínima debe ser un número válido."}, status=400)
+
+        if CategoriaClases.objects.filter(nombre_categoria__iexact=nombre).exclude(id=id).exists():
+            return JsonResponse({"error": "Ya existe una categoría con ese nombre."}, status=400)
+
+        categoria = CategoriaClases.objects.get(id=id)
+        categoria.nombre_categoria = nombre
+        categoria.descripcion = subtitulo + "-" + descripcion
+        categoria.edad_minima = edad_minima_int
+
+        # Si hay nueva imagen, reemplaza; si no, deja la actual
+        icono = request.FILES.get('icono')
+        if icono:
+            ext = os.path.splitext(icono.name)[1].lower()
+            if ext not in ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.avif', '.svg']:
+                return JsonResponse({"error": "Solo se permiten imágenes JPG, PNG, GIF, WEBP, AVIF o SVG."}, status=400)
+            if icono.size > 10 * 1024 * 1024:
+                return JsonResponse({"error": "La imagen no debe superar los 10MB."}, status=400)
+            categoria.icono = icono  # Django se encarga de guardarla
+
+        categoria.save()
+        return JsonResponse({
+            "id": categoria.id,
+            "nombre": categoria.nombre_categoria,
+            "subtitulo": splitfilters.split_before(categoria.descripcion, '-'),
+            "descripcion": splitfilters.split_after(categoria.descripcion, '-'),
+            "edad_minima": categoria.edad_minima,
+            "icono": categoria.icono.url if categoria.icono else None
+        })
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
+#delete categorias
+@csrf_exempt
+def eliminarCategoria(request, id):
+    if request.method == "POST":
+        try:
+            categoria = CategoriaClases.objects.get(id=id)
+            categoria.delete()
+            return JsonResponse({"success": True})
+        except CategoriaClases.DoesNotExist:
+            return JsonResponse({"error": "Categoría no encontrada."}, status=404)
     return JsonResponse({"error": "Método no permitido"}, status=405)
 
 def adminNiveles(request):
