@@ -42,7 +42,17 @@ urlpatterns = [
     #ruta para eliminar categorias
     path('admin/categorias/eliminar/<int:id>/', views.eliminarCategoria, name='admin-categorias-eliminar'),
     path('dashboard-admin/niveles/', views.adminNiveles, name='admin-niveles'),
+    #ruta para listar niveles
+    path('admin/niveles/json/', views.nivelesJson, name='admin-niveles-json'),
+    #ruta para crear niveles
+    path('admin/niveles/crear/', views.crearNivel, name='admin-niveles-crear'),
+    #ruta para editar niveles
+    path('admin/niveles/editar/<int:id>/', views.editarNivel, name='admin-niveles-editar'),
+    #ruta para eliminar niveles
+    path('admin/niveles/eliminar/<int:id>/', views.eliminarNivel, name='admin-niveles-eliminar'),
     path('dashboard-admin/cursos/', views.adminCursos, name='admin-cursos'),
+    #ruta para listar cursos
+    path('admin/cursos/json/', views.cursosJson, name='admin-cursos-json'),
     path('dashboard-admin/videos/', views.adminVideos, name='admin-videos'),  
       
     

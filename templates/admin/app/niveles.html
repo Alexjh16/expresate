@@ -1,5 +1,6 @@
 {% extends 'admin/app/base.html' %}
 {% load static %}
+{% load django_htmx %}
 
 {% block title %}Dashboard Administrativo - Niveles{% endblock %}
 
@@ -16,12 +17,12 @@
                     Gestión de Niveles
                 </h2>
                 <p class="mt-1 text-sm text-gray-500">
-                    Administra los niveles de dificultad para los cursos y videos
+                    Administra los niveles de dificultad para los cursos
                 </p>
             </div>
             <div class="mt-4 flex md:mt-0 md:ml-4">
                 <button 
-                    @click="showCreateModal = true; newLevel = { name: '', description: '', color: 'bg-green-100 text-green-800' }" 
+                    @click="showCreateModal = true; newLevel = { name: '', description: '' }" 
                     type="button" 
                     class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
                 >
@@ -47,7 +48,7 @@
                     <input 
                         x-model="searchTerm" 
                         type="text" 
-                        class="pl-10 focus:ring-teal-500 focus:border-teal-500 block w-full sm:text-sm border-gray-300 rounded-md" 
+                        class="pl-10 focus:ring-teal-500 focus:border-teal-500 block w-1/2 sm:text-sm border-gray-300 rounded-md" 
                         placeholder="Buscar niveles..."
                     >
                 </div>
@@ -129,12 +130,13 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
                 <h3 class="mt-2 text-sm font-medium text-gray-900">No hay niveles</h3>
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                 <p class="mt-1 text-sm text-gray-500">
                     Comienza creando un nuevo nivel para tus cursos.
                 </p>
                 <div class="mt-6">
                     <button 
-                        @click="showCreateModal = true; newLevel = { name: '', description: '', color: 'bg-green-100 text-green-800' }" 
+                        @click="showCreateModal = true; newLevel = { name: '', description: '' }" 
                         type="button" 
                         class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
                     >
@@ -154,8 +156,7 @@
                             <div class="flex justify-between items-start">
                                 <div>
                                     <span 
-                                        :class="level.color" 
-                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium mr-2"
+                                        class="inline-flex capitalize items-center px-2.5 py-0.5 rounded-full text-xs font-medium mr-2"
                                         x-text="level.name"
                                     ></span>
                                 </div>
@@ -314,7 +315,7 @@
                                 type="text" 
                                 x-model="newLevel.name" 
                                 id="name" 
-                                class="mt-1 focus:ring-teal-500 focus:border-teal-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
+                                class="mt-1 focus:ring-teal-500 capitalize focus:border-teal-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
                                 placeholder="Ej: Principiante"
                             >
                         </div>
@@ -328,32 +329,20 @@
                                 placeholder="Describe este nivel de dificultad..."
                             ></textarea>
                         </div>
-                        <div>
-                            <label for="color" class="block text-sm font-medium text-gray-700">Color</label>
-                            <select 
-                                x-model="newLevel.color" 
-                                id="color" 
-                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md"
-                            >
-                                <template x-for="option in colorOptions" :key="option.value">
-                                    <option :value="option.value" x-text="option.label"></option>
-                                </template>
-                            </select>
-                        </div>
                     </div>
                 </div>
-                <div class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
+                <div class="mt-5 sm:mt-6 gap-2 sm:grid sm:grid-cols-2 sm:gap-3  sm:grid-flow-row-dense">
                     <button 
                         @click="createLevel()" 
                         type="button" 
-                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:col-start-2 sm:text-sm"
+                        class="w-full mb-3 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:col-start-2 sm:text-sm"
                     >
                         Crear
                     </button>
                     <button 
                         @click="showCreateModal = false" 
                         type="button" 
-                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:mt-0 sm:col-start-1 sm:text-sm"
+                        class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:mt-0 sm:col-start-1 sm:text-sm"
                     >
                         Cancelar
                     </button>
@@ -423,7 +412,7 @@
                                 type="text" 
                                 x-model="editingLevel.name" 
                                 id="edit-name" 
-                                class="mt-1 focus:ring-teal-500 focus:border-teal-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                class="mt-1 focus:ring-teal-500 capitalize focus:border-teal-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                             >
                         </div>
                         <div>
@@ -435,25 +424,13 @@
                                 class="mt-1 focus:ring-teal-500 focus:border-teal-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                             ></textarea>
                         </div>
-                        <div>
-                            <label for="edit-color" class="block text-sm font-medium text-gray-700">Color</label>
-                            <select 
-                                x-model="editingLevel.color" 
-                                id="edit-color" 
-                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md"
-                            >
-                                <template x-for="option in colorOptions" :key="option.value">
-                                    <option :value="option.value" x-text="option.label"></option>
-                                </template>
-                            </select>
-                        </div>
                     </div>
                 </div>
                 <div class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
                     <button 
                         @click="updateLevel()" 
                         type="button" 
-                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:col-start-2 sm:text-sm"
+                        class="w-full mb-3 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:col-start-2 sm:text-sm"
                     >
                         Guardar
                     </button>
@@ -526,7 +503,7 @@
                     <button 
                         @click="deleteLevel()" 
                         type="button" 
-                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:col-start-2 sm:text-sm"
+                        class="w-full mb-3 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:col-start-2 sm:text-sm"
                     >
                         Eliminar
                     </button>
@@ -545,14 +522,8 @@
 <script>
     function gestionNiveles(){
         return {
+            levels: [],
             // Datos iniciales
-            levels: [
-                { id: 1, name: 'Principiante', description: 'Para personas que están comenzando su viaje de bienestar sin experiencia previa.', color: 'bg-green-100 text-green-800' },
-                { id: 2, name: 'Intermedio', description: 'Para practicantes con conocimientos básicos que buscan profundizar en su práctica.', color: 'bg-blue-100 text-blue-800' },
-                { id: 3, name: 'Avanzado', description: 'Para personas con experiencia que buscan desafíos más intensos y técnicas avanzadas.', color: 'bg-purple-100 text-purple-800' },
-                { id: 4, name: 'Experto', description: 'Para practicantes de alto nivel que dominan las técnicas fundamentales y buscan perfeccionar su práctica.', color: 'bg-red-100 text-red-800' },
-                { id: 5, name: 'Todos los niveles', description: 'Contenido adaptable para cualquier nivel de experiencia, con modificaciones para diferentes habilidades.', color: 'bg-gray-100 text-gray-800' }
-            ],
             searchTerm: '',
             sortBy: 'name',
             sortDirection: 'asc',
@@ -561,22 +532,26 @@
             showCreateModal: false,
             showEditModal: false,
             showDeleteModal: false,
-            newLevel: { name: '', description: '', color: 'bg-green-100 text-green-800' },
-            editingLevel: null,
+            newLevel: { name: '', description: '' },
+            editingLevel: '',
             deletingLevel: null,
-            colorOptions: [
-                { value: 'bg-green-100 text-green-800', label: 'Verde (Principiante)' },
-                { value: 'bg-blue-100 text-blue-800', label: 'Azul (Intermedio)' },
-                { value: 'bg-purple-100 text-purple-800', label: 'Morado (Avanzado)' },
-                { value: 'bg-red-100 text-red-800', label: 'Rojo (Experto)' },
-                { value: 'bg-gray-100 text-gray-800', label: 'Gris (Todos los niveles)' },
-                { value: 'bg-yellow-100 text-yellow-800', label: 'Amarillo (Personalizado)' },
-                { value: 'bg-pink-100 text-pink-800', label: 'Rosa (Personalizado)' },
-                { value: 'bg-indigo-100 text-indigo-800', label: 'Índigo (Personalizado)' }
-            ],
             showAlert: false,
             alertMessage: '',
             alertType: 'success',
+
+            init() {
+            fetch('/admin/niveles/json/')
+                .then(response => response.json())
+                .then(data => {
+                    this.levels = data.niveles;
+                })
+                .catch(error => {
+                    this.showAlert = true;
+                    this.alertMessage = "Error al cargar los niveles";
+                    this.alertType = "error";
+                    setTimeout(() => this.showAlert = false, 3000);
+                });
+            },
 
             get filteredLevels() {
                 return this.levels.filter(level => 
@@ -628,29 +603,51 @@
                     return;
                 }
 
-                // Simulación de creación - en producción, esto sería una llamada AJAX
-                const newId = Math.max(...this.levels.map(l => l.id), 0) + 1;
-                this.levels.push({
-                    id: newId,
-                    name: this.newLevel.name,
-                    description: this.newLevel.description,
-                    color: this.newLevel.color
+                fetch('/admin/niveles/crear/', {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        name: this.newLevel.name,
+                        description: this.newLevel.description
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.id) {
+                        this.levels.push({
+                            id: data.id,
+                            name: data.name,
+                            description: data.description
+                        });
+                        this.showCreateModal = false;
+                        this.newLevel = { name: '', description: '' };
+                        this.showAlert = true;
+                        this.alertMessage = 'Nivel creado correctamente';
+                        this.alertType = 'success';
+                    } else {
+                        this.showCreateModal = false;
+                        this.showAlert = true;
+                        this.alertMessage = data.error || 'Error al crear el nivel';
+                        this.alertType = 'error';
+                    }
+                    setTimeout(() => this.showAlert = false, 3000);
+                })
+                .catch(() => {
+                    this.showModal = false;
+                    this.showAlert = true;                    
+                    this.alertMessage = 'Error de red al crear el nivel';
+                    this.alertType = 'error';
+                    setTimeout(() => this.showAlert = false, 3000);
                 });
-
-                this.showCreateModal = false;
-                this.newLevel = { name: '', description: '', color: 'bg-green-100 text-green-800' };
-                
-                this.showAlert = true;
-                this.alertMessage = 'Nivel creado correctamente';
-                this.alertType = 'success';
-                setTimeout(() => this.showAlert = false, 3000);
             },
-
-            editLevel(level) {
-                this.editingLevel = { ...level };
+            editLevel() {
+                this.editingLevel = { ...this.level };
                 this.showEditModal = true;
             },
-
             updateLevel() {
                 if (!this.editingLevel.name.trim()) {
                     this.showAlert = true;
@@ -660,19 +657,49 @@
                     return;
                 }
 
-                // Simulación de actualización - en producción, esto sería una llamada AJAX
-                const index = this.levels.findIndex(l => l.id === this.editingLevel.id);
-                if (index !== -1) {
-                    this.levels[index] = { ...this.editingLevel };
-                }
-
-                this.showEditModal = false;
-                this.editingLevel = null;
-                
-                this.showAlert = true;
-                this.alertMessage = 'Nivel actualizado correctamente';
-                this.alertType = 'success';
-                setTimeout(() => this.showAlert = false, 3000);
+                fetch(`/admin/niveles/editar/${this.editingLevel.id}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        name: this.editingLevel.name,
+                        description: this.editingLevel.description
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.id) {
+                        const index = this.levels.findIndex(l => l.id === data.id);
+                        if (index !== -1) {
+                            this.levels[index] = {
+                                id: data.id,
+                                name: data.name,
+                                description: data.description
+                            };
+                        }
+                        this.showEditModal = false;
+                        this.editingLevel = '';
+                        this.showAlert = true;
+                        this.alertMessage = 'Nivel actualizado correctamente';
+                        this.alertType = 'success';
+                    } else {
+                        this.showEditModal = false;
+                        this.showAlert = true;                        
+                        this.alertMessage = data.error || 'Error al actualizar el nivel';
+                        this.alertType = 'error';
+                    }
+                    setTimeout(() => this.showAlert = false, 3000);
+                })
+                .catch(() => {
+                    this.showEditModal = false;
+                    this.showAlert = true;
+                    this.alertMessage = 'Error de red al actualizar el nivel';
+                    this.alertType = 'error';
+                    setTimeout(() => this.showAlert = false, 3000);
+                });
             },
 
             confirmDelete(level) {
@@ -681,16 +708,38 @@
             },
 
             deleteLevel() {
-                // Simulación de eliminación - en producción, esto sería una llamada AJAX
-                this.levels = this.levels.filter(l => l.id !== this.deletingLevel.id);
-                
-                this.showDeleteModal = false;
-                this.deletingLevel = null;
-                
-                this.showAlert = true;
-                this.alertMessage = 'Nivel eliminado correctamente';
-                this.alertType = 'success';
-                setTimeout(() => this.showAlert = false, 3000);
+                if (!this.deletingLevel) return;
+                fetch(`/admin/niveles/eliminar/${this.deletingLevel.id}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        this.levels = this.levels.filter(l => l.id !== this.deletingLevel.id);
+                        this.showAlert = true;
+                        this.alertMessage = 'Nivel eliminado correctamente';
+                        this.alertType = 'success';
+                    } else {
+                        this.showAlert = true;
+                        this.alertMessage = data.error || 'Error al eliminar el nivel';
+                        this.alertType = 'error';
+                    }
+                    this.showDeleteModal = false;
+                    this.deletingLevel = null;
+                    setTimeout(() => this.showAlert = false, 3000);
+                })
+                .catch(() => {
+                    this.showDeleteModal = false;
+                    this.deletingLevel = null;
+                    this.showAlert = true;
+                    this.alertMessage = 'Error de red al eliminar el nivel';
+                    this.alertType = 'error';
+                    setTimeout(() => this.showAlert = false, 3000);
+                });
             },
         }
     }

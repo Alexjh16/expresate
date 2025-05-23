@@ -3,10 +3,12 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404 as findObject
 from django.http import JsonResponse
 from users.models import Paises, RolesUser
-from contenidos.models import CategoriaClases
+from contenidos.models import CategoriaClases, Niveles
 from mongoData.models import Paises as MongoPaises
 from mongoData.models import Cursos as MongoCursos
 from mongoData.models import Videos as MongoVideos
+from mongoData.models import Preguntas as MongoPreguntas
+from mongoData.models import UserVideosCurso as MongoUserVideosCurso
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from expresate.templatetags import splitfilters
@@ -37,13 +39,13 @@ def cursos(request, categoria):
     otrasCategorias = CategoriaClases.objects.exclude(nombre_categoria=categoria).order_by('?')[:3]
     totalCursosOtros = []
     for otraCategoria in otrasCategorias:
-        countCurso = MongoCursos.objects.filter(categoria_clase=otraCategoria.nombre_categoria).count()
+        countCurso = MongoCursos.objects.filter(categoria_clase=otraCategoria.nombre_categoria, estado="activo").count()
         totalCursosOtros.append(countCurso)
 
     
 
     #paginar los cursos para no saturar el DOM : Jhon Alexander
-    listCursos = MongoCursos.objects.filter(categoria_clase=categoria)
+    listCursos = MongoCursos.objects.filter(categoria_clase=categoria, estado="activo")
     paginator = Paginator(listCursos, 8) 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -51,9 +53,10 @@ def cursos(request, categoria):
     for curso in page_obj:
         curso.countVideos = MongoVideos.objects.filter(idCurso=curso.id).count()
 
-    totalCursos = MongoCursos.objects.filter(categoria_clase=categoria).count()
+    totalCursos = MongoCursos.objects.filter(categoria_clase=categoria, estado="activo").count()
     totalCuestionarios = MongoCursos.objects.filter(
         categoria_clase=categoria,
+        estado="activo",
         idCuestionario__ne=None
     ).count()
     return render(request, 'cursos.html', {
@@ -207,7 +210,15 @@ def editarCategoria(request, id):
         if CategoriaClases.objects.filter(nombre_categoria__iexact=nombre).exclude(id=id).exists():
             return JsonResponse({"error": "Ya existe una categoría con ese nombre."}, status=400)
 
+
+        
         categoria = CategoriaClases.objects.get(id=id)
+
+        #tambien actualizar en las colecciones de mongo, preguntas, user_videos_curso y cursos
+        MongoPreguntas.objects.filter(categoria_clase=categoria.nombre_categoria).update(categoria_clase=nombre)
+        MongoUserVideosCurso.objects.filter(categoria_clase=categoria.nombre_categoria).update(categoria_clase=nombre)
+        MongoCursos.objects.filter(categoria_clase=categoria.nombre_categoria).update(categoria_clase=nombre)
+
         categoria.nombre_categoria = nombre
         categoria.descripcion = subtitulo + "-" + descripcion
         categoria.edad_minima = edad_minima_int
@@ -222,7 +233,10 @@ def editarCategoria(request, id):
                 return JsonResponse({"error": "La imagen no debe superar los 10MB."}, status=400)
             categoria.icono = icono  # Django se encarga de guardarla
 
+        #actualizar data en postgres
         categoria.save()
+
+        
         return JsonResponse({
             "id": categoria.id,
             "nombre": categoria.nombre_categoria,
@@ -248,8 +262,132 @@ def eliminarCategoria(request, id):
 def adminNiveles(request):
     return render(request, 'admin/app/niveles.html', {})
 
+#read niveles
+def nivelesJson(request):
+    niveles = Niveles.objects.all().order_by('id')
+    data = []
+    for nivel in niveles:
+        data.append({
+            'id': nivel.id,
+            'name': nivel.nombre,  # Ajusta el campo según tu modelo
+            'description': nivel.descripcion,
+        })
+    return JsonResponse({'niveles': data})
+#create niveles
+@csrf_exempt
+def crearNivel(request):
+    if request.method == "POST":
+        name = request.POST.get("name", "").strip()
+        description = request.POST.get("description", "").strip()
+
+        # Validación básica
+        if not name:
+            return JsonResponse({"error": "El nombre del nivel es obligatorio."}, status=400)
+        # Validar nombre único (case-insensitive)
+        if Niveles.objects.filter(nombre__iexact=name).exists():
+            return JsonResponse({"error": "Ya existe un nivel con ese nombre."}, status=400)
+
+        #to lowercase
+        name = name.lower()
+        nivel = Niveles.objects.create(nombre=name, descripcion=description)
+        return JsonResponse({
+            "id": nivel.id,
+            "name": nivel.nombre,
+            "description": nivel.descripcion,
+        })
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
+#update niveles
+@csrf_exempt
+def editarNivel(request, id):
+    if request.method == "POST":
+        name = request.POST.get("name", "").strip()
+        description = request.POST.get("description", "").strip()
+
+        # Validación básica
+        if not name:
+            return JsonResponse({"error": "El nombre del nivel es obligatorio."}, status=400)
+        # Validar nombre único (case-insensitive), excluyendo el actual
+        if Niveles.objects.filter(nombre__iexact=name).exclude(id=id).exists():
+            return JsonResponse({"error": "Ya existe un nivel con ese nombre."}, status=400)
+
+        try:
+            nivel = Niveles.objects.get(id=id)
+        except Niveles.DoesNotExist:
+            return JsonResponse({"error": "Nivel no encontrado."}, status=404)
+
+        nivel.nombre = name.lower()
+        nivel.descripcion = description
+        nivel.save()
+
+        return JsonResponse({
+            "id": nivel.id,
+            "name": nivel.nombre,
+            "description": nivel.descripcion,
+        })
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+#delete niveles
+@csrf_exempt
+def eliminarNivel(request, id):
+    if request.method == "POST":
+        try:
+            nivel = Niveles.objects.get(id=id)
+            nivel.delete()
+            return JsonResponse({"success": True})
+        except Niveles.DoesNotExist:
+            return JsonResponse({"error": "Nivel no encontrado."}, status=404)
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
+
 def adminCursos(request):   
     return render(request, 'admin/app/cursos.html', {})
+
+#read cursos
+def cursosJson(request):
+    page = int(request.GET.get('page', 1))
+    page_size = int(request.GET.get('page_size', 80)) # Cambia a 80 para pruebas
+    search = request.GET.get('search', '').strip().lower()
+
+    # Filtrado por búsqueda (opcional)
+    cursos_qs = MongoCursos.objects.all()
+    if search:
+        cursos_qs = cursos_qs.filter(titulo__icontains=search)  # Ajusta el campo según tu modelo
+
+    cursos_qs = cursos_qs.order_by('-id')
+    paginator = Paginator(cursos_qs, page_size)
+    page_obj = paginator.get_page(page)
+
+    cursos_data = []
+    for curso in page_obj.object_list:
+        cursos_data.append({
+            'id': str(curso.id),
+            'title': curso.titulo if hasattr(curso, 'titulo') else curso.nombre,
+            'description': curso.descripcion,
+            'icon': curso.icono if hasattr(curso, 'icono') else None,
+            'status': curso.estado if hasattr(curso, 'estado') else "activo",
+            'category': curso.categoria_clase,
+            'level': curso.nivel if hasattr(curso, 'nivel') else None,
+            'students': getattr(curso, 'estudiantes', 0),
+            'videos': MongoVideos.objects.filter(idCurso=curso.id).count(),
+            'date': curso.fecha_creacion.strftime('%Y-%m-%d') if hasattr(curso, 'fecha_creacion') else "",
+        })
+
+    # Categorías y niveles igual que antes
+    categorias = CategoriaClases.objects.all().order_by('id')
+    categorias_data = [{'id': cat.id, 'name': cat.nombre_categoria} for cat in categorias]
+    niveles = Niveles.objects.all().order_by('id')
+    niveles_data = [{'id': nivel.id, 'name': nivel.nombre} for nivel in niveles]
+
+    return JsonResponse({
+        'cursos': cursos_data,
+        'categorias': categorias_data,
+        'niveles': niveles_data,
+        'total': paginator.count,
+        'num_pages': paginator.num_pages,
+        'current_page': page_obj.number,
+        'has_next': page_obj.has_next(),
+        'has_previous': page_obj.has_previous(),
+    })
 
 def adminVideos(request):
     return render(request, 'admin/app/videos.html', {})

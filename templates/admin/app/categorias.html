@@ -1,9 +1,9 @@
 {% extends 'admin/app/base.html' %}
 {% load static %}
 {% load django_htmx %}
-{% load splitfilters %}
 
-{% block title %}Dashboard Administrativo - Usuarios{% endblock %}
+
+{% block title %}Dashboard Administrativo - Categorias{% endblock %}
 
 {% block content %}
 
@@ -38,7 +38,7 @@
     <div class="flex flex-col md:flex-row md:items-center justify-between mb-8">
         <div>
             <h1 class="text-3xl font-bold text-gray-800">Categorías</h1>
-            <p class="text-gray-600 mt-1">Gestiona las categorías de contenido de bienestar</p>
+            <p class="text-gray-600 mt-1">Gestiona las categorías</p>
         </div>
         <button 
             @click="openCreateModal()" 
@@ -781,7 +781,7 @@
                 this.form = { ...category };
                 this.imagePreview = category.icono;
                 this.showModal = true;
-                // window.location.href = `/admin/categorias/${category.id}`;
+            
             },
             
             // Utilidades
