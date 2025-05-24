@@ -11,7 +11,7 @@
     <div class="flex flex-col md:flex-row md:items-center justify-between mb-8">
         <div>
             <h1 class="text-3xl font-bold text-gray-800">Cursos</h1>
-            <p class="text-gray-600 mt-1">Gestiona los cursos de contenido de bienestar</p>
+            <p class="text-gray-600 mt-1">Gestiona los cursos.</p>
         </div>
         <button 
             @click="openCreateModal()" 
@@ -118,7 +118,7 @@
                 <!-- Imagen del curso con overlay para acciones rápidas -->
                 <div class="relative h-48 bg-gray-200 overflow-hidden group">
                     <img 
-                        :src="course.icon || '/static/images/course-placeholder.jpg'" 
+                        :src="course.icon_type === 'external' ? course.icon : (course.icon ? course.icon : '/static/images/course-placeholder.jpg')" 
                         :alt="course.title"
                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                     
@@ -263,7 +263,7 @@
                 x-transition:leave-start="opacity-100"
                 x-transition:leave-end="opacity-0"
                 class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" 
-                @click="showModal = false">
+                @click="closeModal()">
             </div>
 
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
@@ -281,8 +281,9 @@
                 <!-- Cabecera del modal -->
                 <div class="bg-teal-600 px-6 py-4">
                     <div class="flex items-center justify-between">
-                        <h3 class="text-lg font-medium text-white" x-text="isEditing ? 'Editar Curso' : 'Nuevo Curso'"></h3>
-                        <button @click="showModal = false" class="text-white hover:text-gray-200">
+                        <h3 id="textModal" class="text-lg font-medium text-white" x-text="isEditing ? 'Editar Curso' : 'Nuevo Curso'"></h3>
+                        <h3 id="modalDetalles" style="display: none" class="text-lg font-medium text-white">Ver detalles</h3>
+                        <button @click="closeModal()" class="text-white hover:text-gray-200">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
@@ -293,6 +294,7 @@
                 <!-- Formulario -->
                 <div class="px-6 py-4">
                     <form id="courseForm" @submit.prevent="saveCourse()">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                         <div class="space-y-4">
                             <!-- Título -->
                             <div>
@@ -357,9 +359,8 @@
                                 <input 
                                     type="checkbox" 
                                     id="status" 
-                                    x-model="form.status" 
-                                    :true-value="'active'" 
-                                    :false-value="'inactive'"
+                                    :checked="form.status === 'activo'"
+                                    @change="form.status = $event.target.checked ? 'activo' : 'inactivo'"
                                     class="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded">
                                 <label for="status" class="ml-2 block text-sm text-gray-900">
                                     Activo
@@ -398,10 +399,10 @@
                         </div>
                         
                         <!-- Botones de acción -->
-                        <div class="mt-6 flex justify-end space-x-3">
+                        <div id="botonesModal"  class="mt-6 flex justify-end space-x-3">
                             <button 
                                 type="button" 
-                                @click="showModal = false" 
+                                @click="closeModal()" 
                                 class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg transition-colors">
                                 Cancelar
                             </button>
@@ -536,7 +537,7 @@
                 title: "",
                 description: "",
                 icon: null,
-                status: "active",
+                status: "activo",
                 category: "",
                 level: ""
             },
@@ -723,7 +724,7 @@
                     title: "",
                     description: "",
                     icon: null,
-                    status: "active",
+                    status: "activo",
                     category: "",
                     level: ""
                 };
@@ -735,7 +736,15 @@
                 this.isEditing = true;
                 this.form = { ...course };
                 this.iconPreview = course.icon;
+                this.form.status = course.status === 'activo' ? 'activo' : 'inactivo';
                 this.showModal = true;
+            },
+
+            get isActive() {
+                return this.form.status === 'activo';
+            },
+            set isActive(val) {
+                this.form.status = val ? 'activo' : 'inactivo';
             },
             
             confirmDelete(course) {
@@ -746,32 +755,57 @@
             // Métodos para operaciones CRUD
             saveCourse() {
                 this.isLoading = true;
-                
-                // Simulación de guardado (aquí iría la llamada AJAX real)
-                setTimeout(() => {
-                    if (this.isEditing) {
-                        // Actualizar curso existente
-                        const index = this.courses.findIndex(c => c.id === this.form.id);
-                        if (index !== -1) {
-                            this.courses[index] = { ...this.form };
-                            this.showStatusMessage("Curso actualizado correctamente", "success");
-                        }
-                    } else {
-                        // Crear nuevo curso
-                        const newId = Math.max(...this.courses.map(c => c.id), 0) + 1;
-                        this.courses.push({
-                            ...this.form,
-                            id: newId,
-                            videos: 0,
-                            date: new Date().toISOString().split('T')[0]
-                        });
-                        this.showStatusMessage("Curso creado correctamente", "success");
+                const formData = new FormData();
+                formData.append('title', this.form.title);
+                formData.append('description', this.form.description);
+                formData.append('status', this.form.status);
+                formData.append('category', this.form.category);
+                formData.append('level', this.form.level);
+                if (this.form.icono instanceof File) {
+                    formData.append('icon', this.form.icono);
+                }
+
+                let url, method;
+                if (this.isEditing) {
+                    url = `/admin/cursos/editar/${this.form.id}/`;
+                    method = 'POST';
+                } else {
+                    url = '/admin/cursos/crear/';
+                    method = 'POST';
+                }
+
+                fetch(url, {
+                    method: method,
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
                     }
-                    
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.id) {
+                        if (this.isEditing) {
+                            const idx = this.courses.findIndex(c => c.id === data.id);
+                            if (idx !== -1) this.courses[idx] = data;
+                            this.showStatusMessage("Curso actualizado correctamente", "success");
+                        } else {
+                            this.courses.unshift(data);
+                            this.showStatusMessage("Curso creado correctamente", "success");
+                        }
+                        this.showModal = false;
+                        this.filterCourses();
+                    } else {
+                        this.showModal = false;
+                        this.showStatusMessage(data.error || "Error al guardar el curso", "error");
+                    }
+                })
+                .catch(() => {
+                    this.showStatusMessage("Error de red al guardar el curso", "error");
+                })
+                .finally(() => {
                     this.isLoading = false;
-                    this.showModal = false;
-                    this.filterCourses();
-                }, 800);
+                });
             },
             
             deleteCourse() {
@@ -790,12 +824,31 @@
                     this.filterCourses();
                 }, 500);
             },
-            
+            closeModal(){
+                //ocultar texto del modal
+                document.getElementById("textModal").style.display = "block";
+                // mostrar texto de detalles
+                document.getElementById("botonesModal").style.display = "flex";
+                // mostrar texto de detalles
+                document.getElementById("modalDetalles").style.display = "none";
+                
+                this.showModal = false;
+                this.showDeleteModal = false;
+                this.selectedCourse = null;
+            },
             viewDetails(course) {
                 // Redirigir a la página de detalles del curso
+
+                 //ocultar texto del modal
+                document.getElementById("textModal").style.display = "none";
+                // mostrar texto de detalles
+                document.getElementById("modalDetalles").style.display = "block";
+
+                document.getElementById("botonesModal").style.display = "none"; //ocultar
+
                 this.isEditing = false;
                 this.form = { ...course };
-                this.imagePreview = category.icono;
+                this.iconPreview = course.icon;
                 this.showModal = true;
             },
             
@@ -813,16 +866,27 @@
             imagePreview(event) {
                 const file = event.target.files[0];
                 if (!file) return;
-                
-                if (file.size > 2 * 1024 * 1024) {
-                    this.showStatusMessage("La imagen no debe superar los 2MB", "error");
+
+                // Validar tamaño
+                if (file.size > 10 * 1024 * 1024) {
+                    this.showStatusMessage("La imagen no debe superar los 10MB", "error");
                     return;
                 }
-                
+                // Validar extensión
+                const validTypes = [
+                    'image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif', 'image/svg+xml'
+                ];
+                if (!validTypes.includes(file.type)) {
+                    this.showModal = false;
+                    this.showStatusMessage("Solo se permiten imágenes JPG, PNG, GIF, WEBP, AVIF o SVG.", "error");
+                    return;
+                }
+
+                this.form.icono = file;
+
                 const reader = new FileReader();
                 reader.onload = e => {
                     this.iconPreview = e.target.result;
-                    this.form.icon = e.target.result; // En un caso real, esto sería el archivo para subir
                 };
                 reader.readAsDataURL(file);
             },

@@ -53,8 +53,21 @@ urlpatterns = [
     path('dashboard-admin/cursos/', views.adminCursos, name='admin-cursos'),
     #ruta para listar cursos
     path('admin/cursos/json/', views.cursosJson, name='admin-cursos-json'),
+    #ruta para crear cursos
+    path('admin/cursos/crear/', views.crearCurso, name='admin-cursos-crear'),
+    #ruta para editar cursos
+    path('admin/cursos/editar/<str:id>/', views.editarCurso, name='admin-cursos-editar'),
     path('dashboard-admin/videos/', views.adminVideos, name='admin-videos'),  
-      
+    #ruta para listar videos
+    path('admin/videos/json/', views.videosJson, name='admin-videos-json'),
+    #ruta para cursos por categoria para admin de videos
+    path('admin/cursos/categoria/json/', views.cursos_por_categoria_json, name='admin-cursos-cateogoria-json'),
+    #ruta para crear videos
+    path('admin/videos/crear/', views.crearVideo, name='admin-videos-crear'),
+    #ruta para editar videos
+    path('admin/videos/editar/<str:id>/', views.editarVideo, name='admin-videos-editar'),
+    #ruta para eliminar videos
+    path('admin/videos/eliminar/<str:id>/', views.eliminarVideo, name='admin-videos-eliminar'),
     
     #Ruta a al modulo de Registro de usuarios
     path('altcha-challenge/', altcha_challenge, name='altcha_challenge'),
@@ -75,8 +88,8 @@ urlpatterns = [
     path('base/admin/', TemplateView.as_view(template_name='view_admin/app_admin/base_admin.html'), name='base_admin'),
     path('agregar/clase', TemplateView.as_view(template_name='view_admin/agregar_categoriaClase.html'), name='categoria.clase'),
     
-    #Ruta a los modulos
-    path('models/contenidos/', include('contenidos.urls')),
+    #Ruta a contenidos
+    path('contenido/', include('contenidos.urls')),
     
     path('models/evaluacion/estudiante/', include('modulo_evaluacionEstudiante.urls')), #modulo evaliacion
 

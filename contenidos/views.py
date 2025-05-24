@@ -4,18 +4,16 @@ from django.contrib.auth import authenticate, logout as auth_logout, login as au
 from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
+from mongoData.models import Cursos as MongoCursos
 from .models import *
 import json
 
 #Metodo para selecionar i enviar todas las categoria o modulos al formulario de creacion de video  
-def curso(request, nombreCurso):    
-    # Filtra las categorías por el nombre de la categoría
-    print(nombreCurso)
-    categorias = CategoriaClases.objects.all()
-    cursos = Cursos.objects.filter(titulo=nombreCurso)
-    nombre_categoria = categorias[0].nombre_categoria if categorias.exists() else None
+def curso(request, idCurso):    
+    
+    #curso actual
+    cursoActual = MongoCursos.objects.filter(id=idCurso).first()   
+
     return render(request, 'curso.html', {
-        'categorias':categorias, 
-        'cursos':cursos, 
-        'nombre_categoria': nombre_categoria
+        'cursoActual':cursoActual
     })

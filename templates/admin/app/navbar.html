@@ -17,16 +17,7 @@
                                     inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                                     Dashboard
                         </a>
-                        <a href="{% url 'admin-usuarios' %}"
-                            class="
-                                {% if request.resolver_match.url_name == 'admin-usuarios' %}
-                                    border-white text-white
-                                {% else %}
-                                    border-transparent text-teal-100 hover:border-teal-200 hover:text-white
-                                {% endif %} 
-                                    inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                                    Usuarios
-                        </a>
+                        
                          <a href="{% url 'admin-categorias' %}"
                             class="
                                 {% if request.resolver_match.url_name == 'admin-categorias' %}

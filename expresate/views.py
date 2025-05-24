@@ -14,6 +14,8 @@ from django.core.paginator import Paginator
 from expresate.templatetags import splitfilters
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from bson import ObjectId
+from datetime import datetime
 import os
 
 
@@ -359,11 +361,27 @@ def cursosJson(request):
 
     cursos_data = []
     for curso in page_obj.object_list:
+        # Obtener el icono
+        icon_value = curso.icono if hasattr(curso, 'icono') else None
+
+        # Determinar si es un link externo o recurso local
+        if icon_value:
+            if str(icon_value).startswith('http://') or str(icon_value).startswith('https://'):
+                icon_type = 'external'
+                icon_url = str(icon_value)
+            else:
+                icon_type = 'media'
+                icon_url = icon_value.url if hasattr(icon_value, 'url') else str(icon_value)
+        else:
+            icon_type = None
+            icon_url = None
+
         cursos_data.append({
             'id': str(curso.id),
             'title': curso.titulo if hasattr(curso, 'titulo') else curso.nombre,
             'description': curso.descripcion,
-            'icon': curso.icono if hasattr(curso, 'icono') else None,
+            'icon': icon_url,
+            'icon_type': icon_type,  # <-- Aquí agregas el tipo
             'status': curso.estado if hasattr(curso, 'estado') else "activo",
             'category': curso.categoria_clase,
             'level': curso.nivel if hasattr(curso, 'nivel') else None,
@@ -373,7 +391,7 @@ def cursosJson(request):
         })
 
     # Categorías y niveles igual que antes
-    categorias = CategoriaClases.objects.all().order_by('id')
+    categorias = CategoriaClases.objects.all().order_by('nombre_categoria')
     categorias_data = [{'id': cat.id, 'name': cat.nombre_categoria} for cat in categorias]
     niveles = Niveles.objects.all().order_by('id')
     niveles_data = [{'id': nivel.id, 'name': nivel.nombre} for nivel in niveles]
@@ -389,8 +407,343 @@ def cursosJson(request):
         'has_previous': page_obj.has_previous(),
     })
 
+#create cursos
+@csrf_exempt
+def crearCurso(request):
+    if request.method == "POST":
+        title = request.POST.get("title", "").strip()
+        description = request.POST.get("description", "").strip()
+        status = request.POST.get("status", "activo")
+        category = request.POST.get("category", "")
+        level = request.POST.get("level", "")
+        # Manejo de icono (imagen)
+        icono = request.FILES.get('icon')
+        icon_url = None
+        if icono:
+            # Validaciones de tamaño y tipo aquí si lo deseas
+            from django.core.files.storage import default_storage
+            filename = default_storage.save(f"imagenes/{icono.name}", icono)
+            icon_url = default_storage.url(filename)
+
+        # Validación básica
+        if not title or not category or not level:
+            return JsonResponse({"error": "Título, categoría y nivel son obligatorios."}, status=400)
+        
+        
+        # Crear el curso en Mongo
+        curso = MongoCursos(
+            titulo=title,
+            descripcion=description,
+            icono=icon_url,
+            duracion=0,
+            fecha_creacion=datetime.now(),
+            estado=status,
+            categoria_clase=category,
+            idCuestionario=ObjectId(),
+            nivel=level,           
+        )
+        curso.save()
+
+        return JsonResponse({
+            "id": str(curso.id),
+            "title": curso.titulo,
+            "description": curso.descripcion,
+            "icon": curso.icono,
+            "status": curso.estado,
+            "category": curso.categoria_clase,
+            "level": curso.nivel,
+            "videos": 0,
+            "date": curso.fecha_creacion.strftime('%Y-%m-%d'),
+        })
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
+#update cursos
+def editarCurso(request, id):
+    if request.method == "POST":
+        title = request.POST.get("title", "").strip()
+        description = request.POST.get("description", "").strip()
+        status = request.POST.get("status", "activo")
+        category = request.POST.get("category", "")
+        level = request.POST.get("level", "")
+        icono = request.FILES.get('icon')
+        icon_url = None
+
+        # Validación básica
+        if not title or not category or not level:
+            return JsonResponse({"error": "Título, categoría y nivel son obligatorios."}, status=400)
+
+        # Validar nombre único (case-insensitive), excluyendo el actual
+        if MongoCursos.objects.filter(
+            titulo__iexact=title,
+            categoria_clase=category,
+            id__ne=ObjectId(id)
+            ).first():
+            return JsonResponse({"error": "Ya existe un curso con ese título."}, status=400)
+
+        curso = MongoCursos.objects.get(id=ObjectId(id))
+        curso.titulo = title
+        curso.descripcion = description
+        curso.estado = status
+        curso.categoria_clase = category
+        curso.nivel = level
+
+        # Manejo de icono (imagen)
+        if icono:
+            from django.core.files.storage import default_storage
+            filename = default_storage.save(f"imagenes/{icono.name}", icono)
+            icon_url = default_storage.url(filename)
+            curso.icono = icon_url
+
+        curso.save()
+
+        return JsonResponse({
+            "id": str(curso.id),
+            "title": curso.titulo,
+            "description": curso.descripcion,
+            "icon": curso.icono,
+            "status": curso.estado,
+            "category": curso.categoria_clase,
+            "level": curso.nivel,
+            "videos": MongoVideos.objects.filter(idCurso=curso.id).count(),
+            "date": curso.fecha_creacion.strftime('%Y-%m-%d') if curso.fecha_creacion else "",
+        })
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
 def adminVideos(request):
     return render(request, 'admin/app/videos.html', {})
+
+#read videos
+def videosJson(request):
+    # Videos de Mongo
+    videos = MongoVideos.objects.all().order_by('-fecha_creacion')
+    videos_data = []
+    for video in videos:
+        videos_data.append({
+            'id': str(video.id),
+            'name': video.nombre,
+            'video_file': video.ruta,
+            'description': video.descripcion,
+            'min_age': video.edadMinima or 0,
+            'course_id': str(video.idCurso.id) if video.idCurso else '',
+            'duration': video.duracion or 0,
+            'created_at': video.fecha_creacion.strftime('%Y-%m-%d') if video.fecha_creacion else '',
+            'thumbnail': video.imagen,
+            'video_url': video.ruta,  # o la URL pública si la tienes           
+            'views': getattr(video, 'cantidad_vistas', 0),
+            'likes': getattr(video, 'cantidad_likes', 0),
+            
+        })
+
+    # Cursos de Mongo
+    cursos = MongoCursos.objects.filter(estado="activo").order_by('titulo')
+    cursos_data = []
+    for curso in cursos:
+        cursos_data.append({
+            'id': str(curso.id),
+            'name': curso.titulo,
+            'category_id': curso.categoria_clase,  # Aquí es el nombre, puedes mapearlo a id si lo necesitas
+        })
+
+    # Categorías de Postgres
+    categorias = CategoriaClases.objects.all().order_by('nombre_categoria')
+    categorias_data = []
+    for categoria in categorias:
+        categorias_data.append({
+            'id': categoria.id,
+            'name': categoria.nombre_categoria,
+        })
+
+    return JsonResponse({
+        'videos': videos_data,
+        'courses': cursos_data,
+        'categories': categorias_data,
+    })
+#cursos por categoria para admin de videos
+def cursos_por_categoria_json(request):
+    category = request.GET.get('category')
+    cursos = MongoCursos.objects.filter(estado="activo", categoria_clase=category).order_by('titulo')
+    cursos_data = [
+        {'id': str(c.id), 'name': c.titulo, 'category_id': c.categoria_clase}
+        for c in cursos
+    ]
+    return JsonResponse({'courses': cursos_data})
+
+#create videos
+@csrf_exempt
+def crearVideo(request):
+    if request.method == "POST":
+        name = request.POST.get("name", "").strip()
+        description = request.POST.get("description", "").strip()
+        min_age = int(request.POST.get("min_age", 0))
+        course_id = request.POST.get("course_id", "")
+        video_file = request.FILES.get("video_file")
+        thumbnail = request.FILES.get("thumbnail")
+        duration = int(request.POST.get("duration", 0))
+
+        # Validaciones básicas
+        if not name or not course_id or not video_file:
+            return JsonResponse({"error": "Nombre, curso y archivo de video son obligatorios."}, status=400)
+
+        # Guardar archivo de video
+        from django.core.files.storage import default_storage
+        video_path = default_storage.save(f"videos/{video_file.name}", video_file)
+        video_url = default_storage.url(video_path)
+
+        # Guardar imagen de portada (opcional)
+        thumbnail_url = ""
+        if thumbnail:
+            thumb_path = default_storage.save(f"thumbnails/{thumbnail.name}", thumbnail)
+            thumbnail_url = default_storage.url(thumb_path)
+
+        # Buscar curso
+        try:
+            curso = MongoCursos.objects.get(id=ObjectId(course_id))
+        except MongoCursos.DoesNotExist:
+            return JsonResponse({"error": "Curso no encontrado."}, status=404)
+
+        # Crear video en Mongo
+        video = MongoVideos(
+            nombre=name,
+            ruta=video_url,
+            descripcion=description,
+            edadMinima=min_age,
+            idCurso=curso,            
+            duracion=duration,
+            fecha_creacion=datetime.now(),
+            fecha_modificacion=datetime.now(),
+            imagen=thumbnail_url,           
+            cantidad_vistas=0,
+            cantidad_likes=0,
+        )
+        video.save()
+
+        # Sumar duración al curso
+        curso.duracion = (curso.duracion or 0) + duration
+        curso.save()
+
+        return JsonResponse({
+            "id": str(video.id),
+            "name": video.nombre,
+            "video_url": video.ruta,
+            "description": video.descripcion,
+            "min_age": video.edadMinima,
+            "course_id": str(curso.id),
+            "duration": video.duracion,            
+            "created_at": video.fecha_creacion.strftime('%Y-%m-%d'),
+            "updated_at": video.fecha_modificacion.strftime('%Y-%m-%d'),
+            "thumbnail": video.imagen,
+            "views": video.cantidad_vistas,
+            "likes": video.cantidad_likes,            
+        })
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
+#update videos
+@csrf_exempt
+def editarVideo(request, id):
+    if request.method == "POST":
+        name = request.POST.get("name", "").strip()
+        description = request.POST.get("description", "").strip()
+        min_age = int(request.POST.get("min_age", 0))
+        course_id = request.POST.get("course_id", "")
+        duration = int(request.POST.get("duration", 0))
+        video_file = request.FILES.get("video_file")
+        thumbnail = request.FILES.get("thumbnail")
+
+        if not name or not course_id:
+            return JsonResponse({"error": "Nombre y curso son obligatorios."}, status=400)
+
+        try:
+            video = MongoVideos.objects.get(id=ObjectId(id))
+        except MongoVideos.DoesNotExist:
+            return JsonResponse({"error": "Video no encontrado."}, status=404)
+
+        try:
+            curso_nuevo = MongoCursos.objects.get(id=ObjectId(course_id))
+        except MongoCursos.DoesNotExist:
+            return JsonResponse({"error": "Curso no encontrado."}, status=404)
+
+        curso_anterior = video.idCurso  # Puede ser el mismo o diferente
+        duracion_anterior = video.duracion or 0
+        archivo_cambiado = bool(video_file)
+        curso_cambiado = str(curso_anterior.id) != str(curso_nuevo.id)
+
+        video.nombre = name
+        video.descripcion = description
+        video.edadMinima = min_age
+        video.idCurso = curso_nuevo
+
+        from django.core.files.storage import default_storage
+        if video_file:
+            video_path = default_storage.save(f"videos/{video_file.name}", video_file)
+            video.ruta = default_storage.url(video_path)
+            video.duracion = duration  # Nueva duración
+        else:
+            video.duracion = duration  # Puede que solo se edite el nombre, etc.
+
+        if thumbnail:
+            thumb_path = default_storage.save(f"thumbnails/{thumbnail.name}", thumbnail)
+            video.imagen = default_storage.url(thumb_path)
+
+        video.save()
+
+        # --- Actualización de duración en cursos ---
+        # Si cambió de curso, restar al anterior y sumar al nuevo
+        if curso_cambiado:
+            # Restar al curso anterior
+            curso_anterior.duracion = (curso_anterior.duracion or 0) - duracion_anterior
+            if curso_anterior.duracion < 0:
+                curso_anterior.duracion = 0
+            curso_anterior.save()
+            # Sumar al curso nuevo
+            curso_nuevo.duracion = (curso_nuevo.duracion or 0) + video.duracion
+            curso_nuevo.save()
+        # Si no cambió de curso y cambió el archivo, actualiza la duración
+        elif archivo_cambiado:
+            curso_nuevo.duracion = (curso_nuevo.duracion or 0) - duracion_anterior + duration
+            if curso_nuevo.duracion < 0:
+                curso_nuevo.duracion = 0
+            curso_nuevo.save()
+
+        return JsonResponse({
+            "id": str(video.id),
+            "name": video.nombre,
+            "description": video.descripcion,
+            "min_age": video.edadMinima,
+            "course_id": str(curso_nuevo.id),
+            "video_url": video.ruta,
+            "thumbnail": video.imagen,
+            "duration": video.duracion,
+            "views": video.cantidad_vistas,
+            "likes": video.cantidad_likes,
+            "updated_at": video.fecha_modificacion.strftime('%Y-%m-%d'),
+            "created_at": video.fecha_creacion.strftime('%Y-%m-%d')
+        })
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+#delete videos
+@csrf_exempt
+def eliminarVideo(request, id):
+    if request.method == "POST":
+        try:
+            video = MongoVideos.objects.get(id=ObjectId(id))
+        except MongoVideos.DoesNotExist:
+            return JsonResponse({"error": "Video no encontrado."}, status=404)
+
+        # Guarda datos antes de borrar
+        duracion_video = video.duracion or 0
+        curso = video.idCurso
+
+        # Elimina el video
+        video.delete()
+
+        # Resta la duración al curso
+        if curso:
+            curso.duracion = (curso.duracion or 0) - duracion_video
+            if curso.duracion < 0:
+                curso.duracion = 0
+            curso.save()
+
+        return JsonResponse({"success": True})
+    return JsonResponse({"error": "Método no permitido"}, status=405)
 
 #funciones para archivos anteriores
 def indexOld(request):

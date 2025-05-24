@@ -4,6 +4,1275 @@
 {% block title %}Dashboard Administrativo - Videos{% endblock %}
 
 {% block content %}
-Videos
+
+
+<div x-data="videosApp()" class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-6">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Gestión de Videos</h1>
+                    <p class="mt-1 text-sm text-gray-600">Administra todos los videos de la plataforma</p>
+                </div>
+                <button @click="openCreateModal()" 
+                        class="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    <span>Nuevo Video</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtros y búsqueda -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Búsqueda -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Buscar</label>
+                    <input type="text" 
+                           x-model="searchTerm" 
+                           @input="filterVideos()"
+                           placeholder="Buscar por nombre o descripción..."
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
+                </div>
+
+                <!-- Filtro por categoría -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Categoría</label>
+                    <select x-model="filterCategory" 
+                         @change="filterCourseName=''; filterCourse=''; loadCoursesByCategory(filterCategory); filterVideos()"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
+                        <option value="">Todas las categorías</option>
+                        <template x-for="category in categories" :key="category.name">
+                            <option :value="category.name" x-text="category.name"></option>
+                        </template>
+                    </select>
+                </div>
+
+                <!-- Filtro por curso -->
+                <div class="relative" x-data="{ open: false, query: '', filtered: [] }" @click.away="open = false">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Curso</label>
+                    <input
+                        type="text"
+                        x-model="filterCourseName"
+                        @focus="open = true; query = filterCourseName; filtered = filteredCourses.filter(c => c.name.toLowerCase().includes(query.toLowerCase()))"
+                        @input="query = $event.target.value; filtered = filteredCourses.filter(c => c.name.toLowerCase().includes(query.toLowerCase())); open = true; onCourseInput()"
+                        :disabled="isLoadingCourses"
+                        placeholder="Buscar curso..."
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent pr-10"
+                        autocomplete="off"
+                    >
+                    <!-- Dropdown personalizado -->
+                    <div x-show="open && filtered.length > 0" class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
+                        <template x-for="course in filtered" :key="course.id">
+                            <div
+                                @click="filterCourseName = course.name; filterCourse = course.id; open = false; filterVideos()"
+                                class="px-4 py-2 cursor-pointer hover:bg-teal-100"
+                                x-text="course.name"
+                            ></div>
+                        </template>
+                    </div>
+                    <!-- Icono de limpiar -->
+                    <button
+                        type="button"
+                        x-show="filterCourseName"
+                        @click="filterCourseName=''; filterCourse=''; filterVideos();"
+                        class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 focus:outline-none"
+                        tabindex="-1"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                    <div x-show="isLoadingCourses" class="flex items-center text-teal-600 mt-2">
+                        <svg class="animate-spin h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                        </svg>
+                        Cargando cursos para filtrar...
+                    </div>
+                </div>
+
+                <!-- Filtro por edad mínima -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Edad Mínima</label>
+                    <select x-model="filterAge" 
+                            @change="filterVideos()"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
+                        <option value="">Todas las edades</option>
+                        <option value="7">7+ años</option>
+                        <option value="18">18+ años</option>
+                        <option value="23">23+ años</option>
+                        <option value="50">50+ años</option>
+                    </select>
+                </div>
+
+                <!-- Ordenar por -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Ordenar por</label>
+                    <select x-model="sortBy" 
+                            @change="sortVideos()"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
+                        <option value="name">Nombre</option>
+                        <option value="date">Fecha</option>
+                        <option value="duration">Duración</option>
+                        <option value="views">Vistas</option>
+                        <option value="likes">Likes</option>
+                        <option value="course">Curso</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div x-show="isLoading" class="flex justify-center items-center py-12">
+            <span class="text-teal-600 font-semibold text-lg">Cargando videos...</span>
+        </div>
+        <!-- Grid de videos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" x-show="filteredVideos.length > 0">
+            <template x-for="video in paginatedVideos" :key="video.id">
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                    <!-- Imagen de portada -->
+                    <div class="relative aspect-video bg-gray-100">
+                        <img :src="video.thumbnail" 
+                             :alt="video.name"
+                             class="w-[283px] h-[187px] object-cover">
+                        
+                        <!-- Overlay con duración -->
+                        <div class="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">
+                            <span x-text="formatDuration(video.duration)"></span>
+                        </div>
+
+                        <!-- Botón de play para preview -->
+                        <button @click="openPreviewModal(video)"
+                                class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 hover:bg-opacity-30 transition-all duration-200 group">
+                            <div class="bg-white bg-opacity-90 rounded-full p-3 transform scale-0 group-hover:scale-100 transition-transform duration-200">
+                                <svg class="w-6 h-6 text-teal-600" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- Contenido de la tarjeta -->
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2" x-text="video.name"></h3>
+                        <p class="text-sm text-gray-600 mb-3 line-clamp-2" x-text="video.description"></p>
+                        
+                        <!-- Información del curso -->
+                        <div class="flex items-center text-xs text-gray-500 mb-3">
+                           <span 
+                                x-show="courses.length > 0"
+                                class="bg-teal-100 text-teal-800 px-2 py-1 rounded-full" 
+                                x-text="getCourseNameById(video.course_id)">
+                            </span>
+                            <span class="ml-2" x-text="video.min_age + '+ años'"></span>
+                        </div>
+
+                        <!-- Estadísticas -->
+                        <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="flex items-center space-x-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                    <span x-text="video.views"></span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                    </svg>
+                                    <span x-text="video.likes"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Acciones -->
+                        <div class="flex space-x-2">
+                            <button @click="openPreviewModal(video)"
+                                    class="flex-1 bg-teal-50 text-teal-700 hover:bg-teal-100 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200">
+                                Ver Preview
+                            </button>
+                            <div class="flex space-x-2" x-show="courses.length > 0">
+                                <button 
+                                    @click="openEditModal(video)" 
+                                    class="p-2 bg-white/20 hover:text-teal-800 rounded-full backdrop-blur-sm transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-teal-600" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                    </svg>
+                                </button>
+                                <button 
+                                    @click="confirmDelete(video)" 
+                                    class="p-2 bg-white/20 hover:bg-red-400 hover:text-red-300 rounded-full backdrop-blur-sm transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <!-- Estado vacío -->
+        <div x-show="!isLoading && filteredVideos.length === 0" class="text-center py-12">
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">No hay videos</h3>
+            <p class="mt-1 text-sm text-gray-500">Comienza creando tu primer video.</p>
+            <div class="mt-6">
+                <button @click="openCreateModal()" 
+                        class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+                    Crear Video
+                </button>
+            </div>
+        </div>
+
+        <!-- Paginación -->
+        <div x-show="totalPages > 1" class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 mt-6 rounded-lg">
+            <div class="flex flex-1 justify-between sm:hidden">
+                <button @click="goToPage(currentPage - 1)" 
+                        :disabled="currentPage === 1"
+                        :class="currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'"
+                        class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md">
+                    Anterior
+                </button>
+                <button @click="goToPage(currentPage + 1)" 
+                        :disabled="currentPage === totalPages"
+                        :class="currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'"
+                        class="relative ml-3 inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md">
+                    Siguiente
+                </button>
+            </div>
+            <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                <div>
+                    <p class="text-sm text-gray-700">
+                        Mostrando <span class="font-medium" x-text="(currentPage - 1) * itemsPerPage + 1"></span> a 
+                        <span class="font-medium" x-text="Math.min(currentPage * itemsPerPage, filteredVideos.length)"></span> de 
+                        <span class="font-medium" x-text="filteredVideos.length"></span> resultados
+                    </p>
+                </div>
+                <div>
+                    <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                        <button @click="goToPage(currentPage - 1)" 
+                                :disabled="currentPage === 1"
+                                :class="currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'"
+                                class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0">
+                            <span class="sr-only">Anterior</span>
+                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        
+                        <template x-for="page in Array.from({length: totalPages}, (_, i) => i + 1)" :key="page">
+                            <button @click="goToPage(page)" 
+                                    :class="page === currentPage ? 'bg-teal-600 text-white' : 'text-gray-900 hover:bg-gray-50'"
+                                    class="relative inline-flex items-center px-4 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0"
+                                    x-text="page">
+                            </button>
+                        </template>
+                        
+                        <button @click="goToPage(currentPage + 1)" 
+                                :disabled="currentPage === totalPages"
+                                :class="currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'"
+                                class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0">
+                            <span class="sr-only">Siguiente</span>
+                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para crear/editar video -->
+    <div x-show="showModal" 
+         x-transition:enter="ease-out duration-300" 
+         x-transition:enter-start="opacity-0" 
+         x-transition:enter-end="opacity-100" 
+         x-transition:leave="ease-in duration-200" 
+         x-transition:leave-start="opacity-100" 
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" 
+         style="display: none;">
+        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-medium text-gray-900" x-text="isEditing ? 'Editar Video' : 'Crear Nuevo Video'"></h3>
+                    <button @click="closeModal()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <form @submit.prevent="saveVideo()" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Nombre -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Nombre del Video *</label>
+                            <input type="text" 
+                                   x-model="currentVideo.name" 
+                                   required
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                                   placeholder="Ingresa el nombre del video">
+                        </div>
+
+                        <!-- Archivo de video -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Archivo de Video * (Máx. 100MB)</label>
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-teal-400 transition-colors duration-200">
+                                <div class="space-y-1 text-center">
+                                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <div class="flex text-sm text-gray-600">
+                                        <label class="relative cursor-pointer bg-white rounded-md font-medium text-teal-600 hover:text-teal-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-teal-500">
+                                            <span>Subir archivo de video</span>
+                                            <input type="file" 
+                                                   @change="handleVideoUpload($event)" 
+                                                   accept="video/*" 
+                                                   class="sr-only">
+                                        </label>
+                                        <p class="pl-1">o arrastra y suelta</p>
+                                    </div>
+                                    <p class="text-xs text-gray-500">MP4, AVI, MOV hasta 100MB</p>
+                                </div>
+                            </div>
+                            <div class="mt-2 text-sm text-gray-600">
+                                <template x-if="isEditing && !currentVideo.video_file">
+                                    <span>
+                                        Archivo seleccionado: 
+                                        <span class="font-medium" x-text="currentVideo.video_file_name || (currentVideo.video_url ? currentVideo.video_url.split('/').pop() : '')"></span>
+                                        <span x-show="currentVideo.duration" class="ml-2 text-teal-600">
+                                            (Duración: <span x-text="formatDuration(currentVideo.duration)"></span>)
+                                        </span>
+                                    </span>
+                                </template>
+                                <template x-if="currentVideo.video_file">
+                                    <span>
+                                        Archivo seleccionado: 
+                                        <span class="font-medium" x-text="currentVideo.video_file_name"></span>
+                                        <span x-show="currentVideo.duration" class="ml-2 text-teal-600">
+                                            (Duración: <span x-text="formatDuration(currentVideo.duration)"></span>)
+                                        </span>
+                                    </span>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Descripción -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Descripción</label>
+                            <textarea x-model="currentVideo.description" 
+                                      rows="3"
+                                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                                      placeholder="Describe el contenido del video"></textarea>
+                        </div>
+
+                        <!-- Edad mínima -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Edad Mínima *</label>
+                            <select x-model="currentVideo.min_age" required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
+                                <template x-for="age in minAgeOptions" :key="age">
+                                    <option :value="age" x-text="age + '+ años'"></option>
+                                </template>
+                            </select>
+                        </div>
+
+                        <!-- Categoría -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Categoría *</label>
+                            <select 
+                                x-model="currentVideo.category_id"
+                                @change="currentVideo.course_id=''; loadCoursesByCategory(currentVideo.category_id)"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                            >
+                                <option value="">Selecciona una categoría</option>
+                                <template x-for="category in categories" :key="category.name">
+                                    <option :value="category.name" x-text="category.name"></option>
+                                </template>
+                            </select>
+                        </div>
+
+                       <!-- Curso -->
+                        <div class="relative" x-data="{ open: false, query: '', filtered: [] }" @click.away="open = false">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Curso *</label>
+                            <input
+                                type="text"
+                                x-model="currentVideo.courseName"
+                                @focus="open = true; query = currentVideo.courseName; filtered = courses.filter(c => c.name.toLowerCase().includes(query.toLowerCase()))"
+                                @input="query = $event.target.value; filtered = courses.filter(c => c.name.toLowerCase().includes(query.toLowerCase())); open = true"
+                                :disabled="!currentVideo.category_id || isLoadingCourses"
+                                required
+                                placeholder="Buscar curso..."
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent pr-10"
+                                autocomplete="off"
+                            >
+                            <!-- Dropdown personalizado -->
+                            <div x-show="open && filtered.length > 0" class="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
+                                <template x-for="course in filtered" :key="course.id">
+                                    <div
+                                        @click="currentVideo.courseName = course.name; currentVideo.course_id = course.id; open = false"
+                                        class="px-4 py-2 cursor-pointer hover:bg-teal-100"
+                                        x-text="course.name"
+                                    ></div>
+                                </template>
+                            </div>
+                            <!-- Icono de limpiar -->
+                            <button
+                                type="button"
+                                x-show="currentVideo.courseName"
+                                @click="currentVideo.courseName=''; currentVideo.course_id='';"
+                                class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 focus:outline-none"
+                                tabindex="-1"
+                            >
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                            <div x-show="isLoadingCourses" class="flex items-center text-teal-600 mt-2">
+                                <svg class="animate-spin h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                                </svg>
+                                Cargando cursos...
+                            </div>
+                        </div>
+
+                        <!-- Imagen de portada -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Imagen de Portada</label>
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-teal-400 transition-colors duration-200">
+                                <div class="space-y-1 text-center">
+                                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <div class="flex text-sm text-gray-600">
+                                        <label class="relative cursor-pointer bg-white rounded-md font-medium text-teal-600 hover:text-teal-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-teal-500">
+                                            <span>Subir imagen</span>
+                                            <input type="file" 
+                                                   @change="handleThumbnailUpload($event)" 
+                                                   accept="image/*" 
+                                                   class="sr-only">
+                                        </label>
+                                        <p class="pl-1">o arrastra y suelta</p>
+                                    </div>
+                                    <p class="text-xs text-gray-500">PNG, JPG, GIF hasta 10MB</p>
+                                </div>
+                            </div>
+                            <div x-show="currentVideo.thumbnail_preview" class="mt-4">
+                                <img :src="currentVideo.thumbnail_preview" 
+                                     alt="Preview" 
+                                     class="h-32 w-auto mx-auto rounded-lg shadow-md">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones del modal -->
+                    <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+                        <button type="button" 
+                                @click="closeModal()"
+                                class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                            Cancelar
+                        </button>
+                        <button type="submit"
+                                class="px-4 py-2 text-sm font-medium text-white bg-teal-600 border border-transparent rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                            <span x-text="isEditing ? 'Actualizar' : 'Crear'"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de preview de video -->
+    <div x-show="showPreviewModal" 
+         x-transition:enter="ease-out duration-300" 
+         x-transition:enter-start="opacity-0" 
+         x-transition:enter-end="opacity-100" 
+         x-transition:leave="ease-in duration-200" 
+         x-transition:leave-start="opacity-100" 
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 bg-gray-900 bg-opacity-75 overflow-y-auto h-full w-full z-50" 
+         style="display: none;">
+        <div class="relative top-10 mx-auto p-5 w-11/12 md:w-4/5 lg:w-3/4 xl:w-2/3">
+            <div class="bg-white rounded-lg shadow-xl">
+                <!-- Header del modal -->
+                <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900" x-text="previewVideo.name"></h3>
+                        <p class="text-sm text-gray-600 mt-1" x-text="previewVideo.description"></p>
+                    </div>
+                    <button @click="closePreviewModal()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Reproductor de video -->
+                <div class="p-6">
+                    <div class="video-player" x-show="previewVideo.video_url">
+                        <video x-ref="previewVideoPlayer" 
+                               :src="previewVideo.video_url"
+                               class="w-full rounded-lg"
+                               @loadedmetadata="initVideoControls()"
+                               @timeupdate="updateProgress()"
+                               @ended="videoEnded()">
+                        </video>
+                        
+                        <!-- Controles personalizados -->
+                        <div class="video-controls" x-ref="videoControls">
+                            <!-- Barra de progreso -->
+                            <div class="w-full h-3 bg-gray-200 rounded-full cursor-pointer relative my-4 overflow-hidden" @click="seekVideo($event)">
+                                <div class="absolute top-0 left-0 h-full bg-teal-500 transition-all duration-200"
+                                    :style="`width: ${videoProgress}%`"></div>
+                                <!-- Thumb/handle -->
+                                <div class="absolute top-1/2 transform -translate-y-1/2"
+                                    :style="`left: calc(${videoProgress}% - 8px)`">
+                                    <div class="w-4 h-4 bg-white border-2 border-teal-500 rounded-full shadow transition-all duration-200"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Controles -->
+                            <div class="control-buttons">
+                                <div class="flex items-center space-x-3">
+                                    <!-- Play/Pause -->
+                                    <button class="play-pause-btn" @click="togglePlayPause()">
+                                        <svg x-show="!isPlaying" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z"/>
+                                        </svg>
+                                        <svg x-show="isPlaying" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                                        </svg>
+                                    </button>
+                                    
+                                    <!-- Tiempo -->
+                                    <div class="time-display">
+                                        <span x-text="formatTime(currentTime)"></span> / <span x-text="formatTime(videoDuration)"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center space-x-3">
+                                    <!-- Control de volumen -->
+                                    <div class="volume-control">
+                                        <button @click="toggleMute()">
+                                            <svg x-show="!isMuted && volume > 0" class="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                            </svg>
+                                            <svg x-show="isMuted || volume === 0" class="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                                            </svg>
+                                        </button>
+                                        <input type="range" 
+                                               class="volume-slider" 
+                                               min="0" 
+                                               max="1" 
+                                               step="0.1" 
+                                               :value="volume"
+                                               @input="setVolume($event.target.value)">
+                                    </div>
+                                    
+                                    <!-- Pantalla completa -->
+                                    <button class="fullscreen-btn" @click="toggleFullscreen()">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Información del video -->
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span class="text-sm font-medium text-gray-700">Duración</span>
+                            </div>
+                            <p class="text-lg font-semibold text-gray-900 mt-1" x-text="formatDuration(previewVideo.duration)"></p>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                                <span class="text-sm font-medium text-gray-700">Vistas</span>
+                            </div>
+                            <p class="text-lg font-semibold text-gray-900 mt-1" x-text="previewVideo.views"></p>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                </svg>
+                                <span class="text-sm font-medium text-gray-700">Likes</span>
+                            </div>
+                            <p class="text-lg font-semibold text-gray-900 mt-1" x-text="previewVideo.likes"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación de eliminación -->
+    <div x-show="showDeleteModal" 
+         x-transition:enter="ease-out duration-300" 
+         x-transition:enter-start="opacity-0" 
+         x-transition:enter-end="opacity-100" 
+         x-transition:leave="ease-in duration-200" 
+         x-transition:leave-start="opacity-100" 
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" 
+         style="display: none;">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                    <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg leading-6 font-medium text-gray-900 mt-4">Eliminar Video</h3>
+                <div class="mt-2 px-7 py-3">
+                    <p class="text-sm text-gray-500">
+                        ¿Estás seguro de que deseas eliminar el video "<span x-text="videoToDelete?.name" class="font-medium"></span>"? 
+                        Esta acción no se puede deshacer.
+                    </p>
+                </div>
+                <div class="flex justify-center space-x-3 px-4 py-3">
+                    <button @click="closeDeleteModal()"
+                            class="px-4 py-2 bg-white text-gray-500 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                        Cancelar
+                    </button>
+                    <button @click="deleteVideo()"
+                            class="px-4 py-2 bg-red-600 text-white border border-transparent rounded-md text-sm font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alertas -->
+    <div x-show="showAlert" 
+         x-transition:enter="transition ease-out duration-300" 
+         x-transition:enter-start="opacity-0 transform translate-y-2" 
+         x-transition:enter-end="opacity-100 transform translate-y-0" 
+         x-transition:leave="transition ease-in duration-200" 
+         x-transition:leave-start="opacity-100 transform translate-y-0" 
+         x-transition:leave-end="opacity-0 transform translate-y-2"
+         class="fixed top-4 right-4 z-50" 
+         style="display: none;">
+        <div :class="alertType === 'success' ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-800'" 
+             class="border rounded-lg p-4 shadow-lg max-w-md">
+            <div class="flex items-center">
+                <svg x-show="alertType === 'success'" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <svg x-show="alertType === 'error'" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                </svg>
+                <span x-text="alertMessage"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function videosApp() {
+    return {
+        // Estado principal
+        videos: [],
+        courses: [],
+        categories: [],
+
+
+        // Filtros y búsqueda
+        searchTerm: '',
+        filterCategory: '',
+        filterCourse: '',
+        filterCourseName: '',
+        filterAge: '',
+        sortBy: 'name',
+        filteredVideos: [],
+        minAgeOptions: [7, 18, 24, 50],
+
+        // Paginación
+        currentPage: 1,
+        itemsPerPage: 8,
+        totalPages: 1,
+        isLoading: false,
+        isLoadingCourses: false,
+
+        // Modales
+        showModal: false,
+        showPreviewModal: false,
+        showDeleteModal: false,
+        isEditing: false,
+
+        // Video actual
+        currentVideo: {
+            id: null,
+            name: '',
+            description: '',
+            video_file: null,
+            courseName: '',
+            course_id: '',
+            video_file_name: '',
+            video_url: '',
+            thumbnail: '',
+            thumbnail_preview: '',
+            min_age: 0,
+            course_id: '',
+            duration: 0,
+            views: 0,
+            likes: 0
+        },
+
+        // Preview de video
+        previewVideo: {},
+        isPlaying: false,
+        currentTime: 0,
+        videoDuration: 0,
+        videoProgress: 0,
+        volume: 1,
+        isMuted: false,
+
+        // Video a eliminar
+        videoToDelete: null,
+
+        // Alertas
+        showAlert: false,
+        alertType: 'success',
+        alertMessage: '',
+
+        init() {
+            this.loadData();
+        },
+
+        loadData() {
+            this.isLoading = true;
+            fetch('/admin/videos/json/')
+                .then(response => response.json())
+                .then(data => {
+                    this.videos = data.videos;
+                    this.categories = data.categories;
+                    this.filteredVideos = [...this.videos];
+                    this.updatePagination();
+                    this.filterVideos();
+                })
+                .catch(() => {
+                    this.showAlertMessage('Error al cargar los datos', 'error');
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
+        loadCoursesByCategory(categoryId) {
+            this.courses = [];
+            if (!categoryId) return;
+            this.isLoadingCourses = true;
+            fetch(`/admin/cursos/categoria/json/?category=${encodeURIComponent(categoryId)}`)
+                .then(response => response.json())
+                .then(data => {
+                    this.courses = data.courses;
+                    this.$nextTick(() => {
+                        const input = document.querySelector('input[list="courses-list"]');
+                        if (input) input.focus();
+                    });
+                })
+                .catch(() => {
+                    this.showAlertMessage('Error al cargar los cursos', 'error');
+                })
+                .finally(() => {
+                    this.isLoadingCourses = false;
+                });
+        },
+        getClosestMinAge(age) {
+            // Devuelve el mayor valor en minAgeOptions que sea <= age
+            let closest = this.minAgeOptions[0];
+            for (let i = 0; i < this.minAgeOptions.length; i++) {
+                if (age >= this.minAgeOptions[i]) {
+                    closest = this.minAgeOptions[i];
+                }
+            }
+            return closest;
+        },
+        get filteredCourses() {
+            if (!this.filterCategory) {
+                return this.courses;
+            }
+            return this.courses.filter(c => c.category_id == this.filterCategory);
+        },
+        
+        onCourseInput() {
+            // Busca el curso por nombre y asigna su id a filterCourse
+            const found = this.filteredCourses.find(c => c.name === this.filterCourseName);
+            this.filterCourse = found ? found.id : '';
+            this.filterVideos();
+        },
+        onModalCourseInput() {
+            const found = this.courses.find(c => c.name === this.currentVideo.courseName);
+            this.currentVideo.course_id = found ? found.id : '';
+        },
+
+        // Filtrado y búsqueda
+        filterVideos() {
+            this.isLoading = true;
+            let filtered = [...this.videos];
+
+            // Filtro por búsqueda
+            if (this.searchTerm) {
+                const term = this.searchTerm.toLowerCase();
+                filtered = filtered.filter(video => 
+                    video.name.toLowerCase().includes(term) || 
+                    video.description.toLowerCase().includes(term)
+                );
+            }
+            // Filtro por categoría
+            if (this.filterCategory) {
+                // Filtra cursos por categoría seleccionada y obtén sus IDs
+                const courseIds = this.courses.filter(c => c.category_id == this.filterCategory).map(c => c.id);
+                filtered = filtered.filter(video => courseIds.includes(video.course_id));
+            }
+
+            // Filtro por curso
+            if (this.filterCourse) {
+                filtered = filtered.filter(video => video.course_id == this.filterCourse);
+            }
+
+            // Filtro por edad
+            if (this.filterAge) {
+                filtered = filtered.filter(video => video.min_age >= parseInt(this.filterAge));
+            }
+
+            this.filteredVideos = filtered;
+            this.currentPage = 1;
+            this.updatePagination();
+            this.sortVideos();
+            this.isLoading = false;
+        },
+
+        // Ordenación
+        sortVideos() {
+            this.filteredVideos.sort((a, b) => {
+                switch (this.sortBy) {
+                    case 'name':
+                        return a.name.localeCompare(b.name);
+                    case 'date':
+                        return new Date(b.created_at) - new Date(a.created_at);
+                    case 'duration':
+                        return b.duration - a.duration;
+                    case 'views':
+                        return b.views - a.views;
+                    case 'likes':
+                        return b.likes - a.likes;
+                    case 'course':
+                        const courseA = this.getCourseNameById(a.course_id);
+                        const courseB = this.getCourseNameById(b.course_id);
+                        return courseA.localeCompare(courseB);
+                    default:
+                        return 0;
+                }
+            });
+        },
+
+        // Paginación
+        updatePagination() {
+            this.totalPages = Math.ceil(this.filteredVideos.length / this.itemsPerPage);
+        },
+
+        get paginatedVideos() {
+            const start = (this.currentPage - 1) * this.itemsPerPage;
+            const end = start + this.itemsPerPage;
+            return this.filteredVideos.slice(start, end);
+        },
+
+        goToPage(page) {
+            if (page >= 1 && page <= this.totalPages) {
+                this.currentPage = page;
+            }
+        },
+
+        // Gestión de modales
+        openCreateModal() {
+            this.isEditing = false;
+            this.currentVideo = {
+                id: null,
+                name: '',
+                description: '',
+                video_file: null,
+                courseName: '',
+                course_id: '',
+                video_file_name: '',
+                video_url: '',
+                thumbnail: '',
+                thumbnail_preview: '',
+                min_age: this.minAgeOptions[0],
+                category_id: '',
+                course_id: '',
+                duration: 0,
+                views: 0,
+                likes: 0
+            };
+            this.courses = [];
+            this.showModal = true;
+        },
+
+        openEditModal(video) {
+            this.isEditing = true;
+            this.currentVideo = { ...video };
+            this.currentVideo.thumbnail_preview = video.thumbnail;
+            this.currentVideo.min_age = this.getClosestMinAge(this.currentVideo.min_age);
+            const found = this.courses.find(c => c.id === video.course_id);
+            this.currentVideo.courseName = found ? found.name : '';
+            // Extrae el nombre del archivo si no existe
+            if (!this.currentVideo.video_file_name && this.currentVideo.video_url) {
+                this.currentVideo.video_file_name = this.currentVideo.video_url.split('/').pop();
+            }
+            this.showModal = true;
+        },
+
+        closeModal() {
+            this.showModal = false;
+            this.currentVideo = {
+                id: null,
+                name: '',
+                description: '',
+                video_file: null,
+                video_file_name: '',
+                video_url: '',
+                thumbnail: '',
+                thumbnail_preview: '',
+                min_age: 0,
+                course_id: '',
+                duration: 0,
+                views: 0,
+                likes: 0
+            };
+        },
+
+        // Preview de video
+        openPreviewModal(video) {
+            this.previewVideo = { ...video };
+            this.showPreviewModal = true;
+            this.isPlaying = false;
+            this.currentTime = 0;
+            this.videoProgress = 0;
+        },
+
+        closePreviewModal() {
+            this.showPreviewModal = false;
+            this.pauseVideo();
+            this.previewVideo = {};
+        },
+
+        // Controles de video
+        initVideoControls() {
+            const video = this.$refs.previewVideoPlayer;
+            if (video) {
+                this.videoDuration = video.duration;
+                video.volume = this.volume;
+            }
+        },
+
+        togglePlayPause() {
+            const video = this.$refs.previewVideoPlayer;
+            if (video) {
+                if (this.isPlaying) {
+                    video.pause();
+                } else {
+                    video.play();
+                }
+                this.isPlaying = !this.isPlaying;
+            }
+        },
+
+        pauseVideo() {
+            const video = this.$refs.previewVideoPlayer;
+            if (video) {
+                video.pause();
+                this.isPlaying = false;
+            }
+        },
+
+        updateProgress() {
+            const video = this.$refs.previewVideoPlayer;
+            if (video) {
+                this.currentTime = video.currentTime;
+                this.videoProgress = (video.currentTime / video.duration) * 100;
+            }
+        },
+
+        seekVideo(event) {
+            const video = this.$refs.previewVideoPlayer;
+            const progressBar = event.currentTarget;
+            const rect = progressBar.getBoundingClientRect();
+            const percent = (event.clientX - rect.left) / rect.width;
+            
+            if (video) {
+                video.currentTime = percent * video.duration;
+            }
+        },
+
+        setVolume(value) {
+            this.volume = parseFloat(value);
+            const video = this.$refs.previewVideoPlayer;
+            if (video) {
+                video.volume = this.volume;
+                this.isMuted = this.volume === 0;
+            }
+        },
+
+        toggleMute() {
+            const video = this.$refs.previewVideoPlayer;
+            if (video) {
+                if (this.isMuted) {
+                    video.volume = this.volume;
+                    this.isMuted = false;
+                } else {
+                    video.volume = 0;
+                    this.isMuted = true;
+                }
+            }
+        },
+
+        toggleFullscreen() {
+            const video = this.$refs.previewVideoPlayer;
+            if (video) {
+                if (video.requestFullscreen) {
+                    video.requestFullscreen();
+                } else if (video.webkitRequestFullscreen) {
+                    video.webkitRequestFullscreen();
+                } else if (video.msRequestFullscreen) {
+                    video.msRequestFullscreen();
+                }
+            }
+        },
+
+        videoEnded() {
+            this.isPlaying = false;
+            this.currentTime = 0;
+            this.videoProgress = 0;
+        },
+
+        // Manejo de archivos
+        handleVideoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Validar tamaño (100MB = 100 * 1024 * 1024 bytes)
+                if (file.size > 100 * 1024 * 1024) {
+                    this.showAlertMessage('El archivo de video no puede superar los 100MB', 'error');
+                    return;
+                }
+
+                this.currentVideo.video_file = file;
+                this.currentVideo.video_file_name = file.name;
+                
+                // Crear URL temporal para el video
+                const videoUrl = URL.createObjectURL(file);
+                this.currentVideo.video_url = videoUrl;
+
+                // Calcular duración del video
+                const video = document.createElement('video');
+                video.src = videoUrl;
+                video.onloadedmetadata = () => {
+                    this.currentVideo.duration = Math.round(video.duration);
+                };
+            }
+        },
+
+        handleThumbnailUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Validar que sea una imagen
+                if (!file.type.startsWith('image/')) {
+                    this.showAlertMessage('Por favor selecciona un archivo de imagen válido', 'error');
+                    return;
+                }
+
+                // Validar tamaño (10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    this.showAlertMessage('La imagen no puede superar los 10MB', 'error');
+                    return;
+                }
+
+                this.currentVideo.thumbnail = file;
+                
+                // Crear preview
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.currentVideo.thumbnail_preview = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        },
+
+        // CRUD operations
+        saveVideo() {
+            if (!this.currentVideo.name || !this.currentVideo.course_id) {
+                this.showAlertMessage('Por favor completa todos los campos requeridos', 'error');
+                return;
+            }
+
+            if (!this.isEditing && !this.currentVideo.video_file) {
+                this.showAlertMessage('Por favor selecciona un archivo de video', 'error');
+                return;
+            }
+
+            this.isLoading = true;
+            const formData = new FormData();
+            formData.append('name', this.currentVideo.name);
+            formData.append('description', this.currentVideo.description);
+            formData.append('min_age', Number(this.currentVideo.min_age));
+            formData.append('course_id', this.currentVideo.course_id);
+            formData.append('duration', this.currentVideo.duration || 0);
+
+            if (this.currentVideo.video_file instanceof File) {
+                formData.append('video_file', this.currentVideo.video_file);
+            }
+            if (this.currentVideo.thumbnail instanceof File) {
+                formData.append('thumbnail', this.currentVideo.thumbnail);
+            }
+
+            let url, method;
+            if (this.isEditing) {
+                url = `/admin/videos/editar/${this.currentVideo.id}/`;
+                method = 'POST';
+            } else {
+                url = '/admin/videos/crear/';
+                method = 'POST';
+            }
+
+            fetch(url, {
+                method: method,
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.id) {
+                    if (this.isEditing) {
+                        const idx = this.videos.findIndex(v => v.id === data.id);
+                        if (idx !== -1) this.videos[idx] = data;
+                        this.showAlertMessage('Video actualizado exitosamente', 'success');
+                    } else {
+                        this.videos.unshift(data);
+                        this.showAlertMessage('Video creado exitosamente', 'success');
+                    }
+                    this.closeModal();
+                    this.filterVideos();
+                } else {
+                    this.showAlertMessage(data.error || 'Error al guardar el video', 'error');
+                }
+            })
+            .catch(() => {
+                this.showAlertMessage('Error de red al guardar el video', 'error');
+            })
+            .finally(() => {
+                this.isLoading = false;
+            });
+        },
+
+        confirmDelete(video) {
+            this.videoToDelete = video;
+            this.showDeleteModal = true;
+        },
+
+        deleteVideo() {
+            if (!this.videoToDelete) return;
+            this.isLoading = true;
+            fetch(`/admin/videos/eliminar/${this.videoToDelete.id}/`, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Elimina el video del array local
+                    this.videos = this.videos.filter(v => v.id !== this.videoToDelete.id);
+                    this.filterVideos();
+                    this.showAlertMessage('Video eliminado exitosamente', 'success');
+                } else {
+                    this.showAlertMessage(data.error || 'No se pudo eliminar el video', 'error');
+                }
+            })
+            .catch(() => {
+                this.showAlertMessage('Error de red al eliminar el video', 'error');
+            })
+            .finally(() => {
+                this.isLoading = false;
+                this.closeDeleteModal();
+            });
+        },
+
+        closeDeleteModal() {
+            this.showDeleteModal = false;
+            this.videoToDelete = null;
+        },
+
+        // Utilidades
+        getCourseNameById(courseId) {
+            const course = this.courses.find(c => c.id == courseId);
+            return course ? course.name : 'Sin curso';
+        },
+
+        formatDuration(seconds) {
+            if (!seconds) return '0:00';
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            
+            if (hours > 0) {
+                return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            } else {
+                return `${minutes}:${secs.toString().padStart(2, '0')}`;
+            }
+        },
+
+        formatTime(seconds) {
+            if (!seconds) return '0:00';
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs.toString().padStart(2, '0')}`;
+        },
+
+        showAlertMessage(message, type = 'success') {
+            this.alertMessage = message;
+            this.alertType = type;
+            this.showAlert = true;
+            
+            setTimeout(() => {
+                this.showAlert = false;
+            }, 5000);
+        }
+    }
+}
+</script>
+
+
+
+
 
 {% endblock %}

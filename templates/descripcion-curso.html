@@ -36,7 +36,7 @@ Descripción Categorias | Expresate con señas
 <div class="relative">
     <!-- Imagen de fondo -->
     <div class="absolute inset-0 z-0">
-        <img src="https://www.24morelos.com/content/images/2024/09/PORTADA-KM-1.png" alt="Yoga y Meditación" class="w-full h-full object-cover">
+        <img src="{{descripcionCurso.icono}}" alt="Yoga y Meditación" class="w-full h-full object-cover">
         <div class="absolute inset-0 gradient-overlay"></div>
     </div>
     
@@ -291,10 +291,10 @@ Descripción Categorias | Expresate con señas
         <!-- Grid de videos -->
         <div class="mt-12 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
             {% for video in videos %}
-                <a href="{% url 'curso' nombreCurso='Familia' %}">
+                <a href="{% url 'curso' idCurso=descripcionCurso.id %}">
                     <div class="group relative video-card transition-all duration-300">
                         <div class="w-full min-h-80 bg-gray-200 aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-md group-hover:shadow-xl">
-                            <img src="{% static 'img/video-thumbnail02.jpg' %}" alt="Yoga para principiantes" class="w-full h-full object-cover">
+                            <img src="{{ video.imagen}}" alt="Yoga para principiantes" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
