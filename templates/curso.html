@@ -6,7 +6,11 @@ Cursos | Expresate con señas
 
 {% block content %}
 
+
 {% load static %}
+{% load django_htmx %}
+
+{% load duracionfilterscurso %}
 
 <style>
     /* Estilos generales */
@@ -220,199 +224,54 @@ Cursos | Expresate con señas
             <div class="bg-white rounded-lg shadow-md p-4 mb-6">
                 <h2 class="text-lg font-bold text-gray-900 mb-4">Cursos Relacionados</h2>
                 
-                <!-- Curso relacionado 1 -->
-                <div class="related-course-card mb-4 bg-gray-50 rounded-lg overflow-hidden">
-                    <div class="relative h-32">
-                        <img src="https://images.contentstack.io/v3/assets/bltcb97f12fda51b6c0/blta118d7db62c8b8da/6297abebb86a794d785d3aa5/pexels-rodnae-productions-10031280.jpg?auto=webp&format=pjpg&quality=80&width=1920&height=1080&fit=crop" alt="Yoga intermedio" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-2 left-2 right-2 flex justify-between items-center">
-                            <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
-                                Yoga
-                            </span>
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                <span class="ml-1 text-xs font-medium text-white">4.7</span>
+                {% if cursosRelacionados %}
+                    {% for curso in cursosRelacionados %}
+                    <div class="related-course-card mb-4 bg-gray-50 rounded-lg overflow-hidden">
+                        <div class="relative h-32">
+                            <img src="{{ curso.icono }}" alt="Yoga intermedio" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2 right-2 flex justify-between items-center">
+                                <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
+                                    {{ curso.categoria_clase}}
+                                </span>
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                    <span class="ml-1 text-xs font-medium text-white">4.7</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="text-sm font-medium text-gray-900">{{ curso.titulo }}</h3>
+                            <div class="mt-2 flex justify-between items-center">
+                                <span class="text-sm font-bold text-teal-600">Gratis</span>
+                                <a href="{% url 'descripcion-curso' curso.id %}" class="text-xs font-medium text-teal-600 hover:text-teal-700">Ver curso</a>
                             </div>
                         </div>
                     </div>
-                    <div class="p-3">
-                        <h3 class="text-sm font-medium text-gray-900">Yoga Intermedio: Perfecciona tu Práctica</h3>
-                        <p class="mt-1 text-xs text-gray-500">Ana Martínez • 10 lecciones</p>
-                        <div class="mt-2 flex justify-between items-center">
-                            <span class="text-sm font-bold text-teal-600">$59.99</span>
-                            <a href="#" class="text-xs font-medium text-teal-600 hover:text-teal-700">Ver curso</a>
-                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="flex flex-col items-center justify-center py-8 text-center text-teal-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-2 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 018 0v2m-4-4v4m0 0v2m0-2h-4m4 0h4" />
+                        </svg>
+                        <p class="text-base font-medium text-teal-700">No se encontraron cursos relacionados.</p>
                     </div>
-                </div>
-                
-                <!-- Curso relacionado 2 -->
-                <div class="related-course-card mb-4 bg-gray-50 rounded-lg overflow-hidden">
-                    <div class="relative h-32">
-                        <img src="https://s.yimg.com/ny/api/res/1.2/B83dGnHQ12ajchKm5shnCA--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQyNw--/https://media.zenfs.com/es/lanacion.com.ar/d709b043450a5087ac9ae28daca0accb" alt="Meditación para principiantes" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-2 left-2 right-2 flex justify-between items-center">
-                            <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800">
-                                Meditación
-                            </span>
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                <span class="ml-1 text-xs font-medium text-white">4.9</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <h3 class="text-sm font-medium text-gray-900">Meditación para Reducir el Estrés</h3>
-                        <p class="mt-1 text-xs text-gray-500">Carlos Ruiz • 8 lecciones</p>
-                        <div class="mt-2 flex justify-between items-center">
-                            <span class="text-sm font-bold text-teal-600">$39.99</span>
-                            <a href="#" class="text-xs font-medium text-teal-600 hover:text-teal-700">Ver curso</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Curso relacionado 3 -->
-                <div class="related-course-card bg-gray-50 rounded-lg overflow-hidden">
-                    <div class="relative h-32">
-                        <img src="https://www.clarin.com/2022/11/23/05GWmEhS3_2000x1500__1.jpg" alt="Yoga restaurativo" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div class="absolute bottom-2 left-2 right-2 flex justify-between items-center">
-                            <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
-                                Yoga
-                            </span>
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                <span class="ml-1 text-xs font-medium text-white">4.6</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <h3 class="text-sm font-medium text-gray-900">Yoga Restaurativo: Recuperación y Descanso</h3>
-                        <p class="mt-1 text-xs text-gray-500">Laura Gómez • 6 lecciones</p>
-                        <div class="mt-2 flex justify-between items-center">
-                            <span class="text-sm font-bold text-teal-600">$44.99</span>
-                            <a href="#" class="text-xs font-medium text-teal-600 hover:text-teal-700">Ver curso</a>
-                        </div>
-                    </div>
-                </div>
+                {% endif %}
+
+
+
             </div>
             
-            <!-- Estadísticas del curso -->
-            <div class="bg-white rounded-lg shadow-md p-4">
-                <h2 class="text-lg font-bold text-gray-900 mb-4">Estadísticas del Curso</h2>
-                <div class="space-y-4">
-                    <div>
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-sm font-medium text-gray-700">Estudiantes inscritos</span>
-                            <span class="text-sm font-bold text-gray-900">1,248</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-value" style="width: 85%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-sm font-medium text-gray-700">Valoración promedio</span>
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                <span class="ml-1 text-sm font-bold text-gray-900">4.8</span>
-                            </div>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-value" style="width: 96%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-sm font-medium text-gray-700">Tasa de finalización</span>
-                            <span class="text-sm font-bold text-gray-900">78%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-value" style="width: 78%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-sm font-medium text-gray-700">Última actualización</span>
-                            <span class="text-sm font-bold text-gray-900">Hace 2 meses</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </div>
         
         <!-- Contenido central - Reproductor de video -->
         <div class="lg:col-span-6">
             <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <!-- Reproductor de video personalizado -->
-                <div class="custom-video-player">
-                    <div class="video-container relative">
-                        <img src="https://www.uag.mx/contenido/ihq6hNhVbF/una-reflexion-sobre-la-importancia-de-la-lengua-de-senas_om2.jpg" alt="Video thumbnail" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <button class="bg-white/20 backdrop-blur-sm rounded-full p-4 hover:bg-white/30 transition-colors animate-pulse">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Controles de video -->
-                    <div class="video-controls">
-                        <div class="video-progress">
-                            <div class="video-progress-filled"></div>
-                        </div>
-                        <div class="video-buttons">
-                            <div class="flex items-center space-x-4">
-                                <button class="video-button">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 7.536a5 5 0 10-7.07 7.07l7.07-7.07z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 7.536l-7.07 7.07a5 5 0 107.07-7.07z" />
-                                    </svg>
-                                </button>
-                                <button class="video-button">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.333 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z" />
-                                    </svg>
-                                </button>
-                                <button class="video-button">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                                    </svg>
-                                </button>
-                                <button class="video-button">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z" />
-                                    </svg>
-                                </button>
-                                <span class="video-time text-sm">12:45 / 25:30</span>
-                            </div>
-                            <div class="flex items-center space-x-4">
-                                <div class="video-volume">
-                                    <button class="video-button">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M12 9.5l-3-3m0 0l-3 3m3-3v12" />
-                                        </svg>
-                                    </button>
-                                    <div class="video-volume-slider">
-                                        <div class="video-volume-filled"></div>
-                                    </div>
-                                </div>
-                                <button class="video-button">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                <div id="video-player-container">
+                    {% include "partials/video_player.html" with video=video_actual %}
                 </div>
                 
                 <!-- Información del video -->
@@ -473,30 +332,7 @@ Cursos | Expresate con señas
                         </div>
                     </div>
                     
-                    <!-- Recursos adicionales -->
-                    <div class="mt-6">
-                        <h3 class="text-lg font-medium text-gray-900">Recursos Adicionales</h3>
-                        <div class="mt-2 space-y-2">
-                            <a href="#" class="flex items-center p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-teal-600 mr-3" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
-                                </svg>
-                                <div>
-                                    <p class="text-sm font-medium text-gray-900">Guía de Posturas Básicas (PDF)</p>
-                                    <p class="text-xs text-gray-500">2.4 MB • Descargado 856 veces</p>
-                                </div>
-                            </a>
-                            <a href="#" class="flex items-center p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-teal-600 mr-3" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-                                </svg>
-                                <div>
-                                    <p class="text-sm font-medium text-gray-900">Práctica Guiada de Audio</p>
-                                    <p class="text-xs text-gray-500">15 minutos • MP3</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
+                  
                 </div>
             </div>
             
@@ -642,13 +478,13 @@ Cursos | Expresate con señas
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-lg font-bold text-gray-900">Tu Progreso</h2>
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
-                        25% Completado
+                        {{ progreso_usuario.porcentaje_visto }}% Completado
                     </span>
                 </div>
                 
                 <div class="mb-4">
                     <div class="progress-bar">
-                        <div class="progress-value" style="width: 25%"></div>
+                        <div class="progress-value" style="width: {{ progreso_usuario.porcentaje_visto|default:0 }}%"></div>
                     </div>
                 </div>
                 
@@ -656,370 +492,139 @@ Cursos | Expresate con señas
                     <!-- Módulo 1 -->
                     <div class="bg-gray-50 rounded-md p-3">
                         <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-medium text-gray-900">Módulo 1: Introducción al Yoga</h3>
-                            <span class="text-xs font-medium text-teal-600">3/3</span>
+                            <h3 class="text-sm font-medium text-gray-900">Lecciones en este curso:</h3>
+                            <span class="text-xs font-medium text-teal-600">Total: {{ total_videos }}</span>
                         </div>
-                        
-                        <!-- Lecciones del módulo 1 -->
-                        <div class="mt-2 space-y-1">
-                            <!-- Lección 1 (completada) -->
-                            <div class="lesson-item completed flex items-center p-2 rounded-md">
-                                <div class="lesson-status h-4 w-4 rounded-full mr-3 flex-shrink-0"></div>
-                                <div class="flex-grow">
-                                    <p class="text-sm text-gray-900">Lección 1: Bienvenida al Curso</p>
-                                    <div class="flex items-center mt-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                                        </svg>
-                                        <span class="text-xs text-gray-500">10:15</span>
-                                    </div>
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-teal-600" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            
-                            <!-- Lección 2 (completada) -->
-                            <div class="lesson-item completed flex items-center p-2 rounded-md">
-                                <div class="lesson-status h-4 w-4 rounded-full mr-3 flex-shrink-0"></div>
-                                <div class="flex-grow">
-                                    <p class="text-sm text-gray-900">Lección 2: Respiración y Conciencia</p>
-                                    <div class="flex items-center mt-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                                        </svg>
-                                        <span class="text-xs text-gray-500">15:30</span>
-                                    </div>
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-teal-600" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            
-                            <!-- Lección 3 (completada) -->
-                            <div class="lesson-item completed flex items-center p-2 rounded-md">
-                                <div class="lesson-status h-4 w-4 rounded-full mr-3 flex-shrink-0"></div>
-                                <div class="flex-grow">
-                                    <p class="text-sm text-gray-900">Lección 3: Preparación del Espacio</p>
-                                    <div class="flex items-center mt-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                                        </svg>
-                                        <span class="text-xs text-gray-500">12:45</span>
-                                    </div>
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-teal-600" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Módulo 2 -->
-                    <div class="bg-gray-50 rounded-md p-3">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-medium text-gray-900">Módulo 2: Posturas Básicas</h3>
-                            <span class="text-xs font-medium text-teal-600">1/4</span>
-                        </div>
-                        
-                        <!-- Lecciones del módulo 2 -->
-                        <div class="mt-2 space-y-1">
-                            <!-- Lección 1 (completada) -->
-                            <div class="lesson-item completed flex items-center p-2 rounded-md">
-                                <div class="lesson-status h-4 w-4 rounded-full mr-3 flex-shrink-0"></div>
-                                <div class="flex-grow">
-                                    <p class="text-sm text-gray-900">Lección 1: Posturas de Suelo</p>
-                                    <div class="flex items-center mt-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                                        </svg>
-                                        <span class="text-xs text-gray-500">20:10</span>
-                                    </div>
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-teal-600" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            
-                            <!-- Lección 2 (completada) -->
-                            <div class="lesson-item completed flex items-center p-2 rounded-md">
-                                <div class="lesson-status h-4 w-4 rounded-full mr-3 flex-shrink-0"></div>
-                                <div class="flex-grow">
-                                    <p class="text-sm text-gray-900">Lección 2: Posturas Sentadas</p>
-                                    <div class="flex items-center mt-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                                        </svg>
-                                        <span class="text-xs text-gray-500">18:25</span>
-                                    </div>
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-teal-600" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            
-                            <!-- Lección 3 (actual) -->
-                            <div class="lesson-item current active flex items-center p-2 rounded-md">
-                                <div class="lesson-status h-4 w-4 rounded-full mr-3 flex-shrink-0"></div>
-                                <div class="flex-grow">
-                                    <p class="text-sm font-medium text-gray-900">Lección 3: Posturas Básicas de Pie</p>
-                                    <div class="flex items-center mt-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                                        </svg>
-                                        <span class="text-xs text-gray-500">25:30</span>
-                                    </div>
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-teal-600" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            
-                            <!-- Lección 4 (bloqueada) -->
-                            <div class="lesson-item locked flex items-center p-2 rounded-md">
-                                <div class="lesson-status h-4 w-4 rounded-full mr-3 flex-shrink-0"></div>
-                                <div class="flex-grow">
-                                    <p class="text-sm text-gray-500">Lección 4: Secuencia Básica</p>
-                                    <div class="flex items-center mt-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                                        </svg>
-                                        <span class="text-xs text-gray-500">22:15</span>
-                                    </div>
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Módulo 3 -->
-                    <div class="bg-gray-50 rounded-md p-3">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-medium text-gray-900">Módulo 3: Secuencias Completas</h3>
-                            <span class="text-xs font-medium text-gray-500">0/3</span>
-                        </div>
-                        
-                        <!-- Lecciones del módulo 3 (todas bloqueadas) -->
-                        <div class="mt-2 space-y-1">
-                            <!-- Lección 1 (bloqueada) -->
-                            <div class="lesson-item locked flex items-center p-2 rounded-md">
-                                <div class="lesson-status h-4 w-4 rounded-full mr-3 flex-shrink-0"></div>
-                                <div class="flex-grow">
-                                    <p class="text-sm text-gray-500">Lección 1: Secuencia Matutina</p>
-                                    <div class="flex items-center mt-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                                        </svg>
-                                        <span class="text-xs text-gray-500">30:15</span>
-                                    </div>
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            
-                            <!-- Lección 2 (bloqueada) -->
-                            <div class="lesson-item locked flex items-center p-2 rounded-md">
-                                <div class="lesson-status h-4 w-4 rounded-full mr-3 flex-shrink-0"></div>
-                                <div class="flex-grow">
-                                    <p class="text-sm text-gray-500">Lección 2: Secuencia para Relajación</p>
-                                    <div class="flex items-center mt-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                                        </svg>
-                                        <span class="text-xs text-gray-500">28:40</span>
-                                    </div>
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            
-                            <!-- Lección 3 (bloqueada) -->
-                            <div class="lesson-item locked flex items-center p-2 rounded-md">
-                                <div class="lesson-status h-4 w-4 rounded-full mr-3 flex-shrink-0"></div>
-                                <div class="flex-grow">
-                                    <p class="text-sm text-gray-500">Lección 3: Práctica Completa</p>
-                                    <div class="flex items-center mt-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                                        </svg>
-                                        <span class="text-xs text-gray-500">35:20</span>
-                                    </div>
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </div>
+                        <script>
+                            window.leccionesData = [
+                                {% for leccion in lecciones %}
+                                    {
+                                        id: "{{ leccion.id }}",
+                                        nombre: "{{ leccion.nombre|escapejs }}",
+                                        estado: "{{ leccion.estado }}",
+                                        duracion: "{{ leccion.duracion|duracion_legible }}",
+                                        url: "{% url 'video-curso-ajax' cursoActual.id leccion.id %}"
+                                    }{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            ];
+                        </script>
+                        <div x-data="leccionesSidebar()" x-init="init()">
+    <div class="mt-2 space-y-1">
+        <template x-for="(leccion, idx) in lecciones" :key="leccion.id">
+            <div 
+                class="lesson-item flex items-center p-2 rounded-md cursor-pointer"
+                :class="leccion.estado"
+                :data-id="leccion.id"
+                :data-estado="leccion.estado"
+                @click="desbloquear(idx)"
+                :hx-get="leccion.estado !== 'locked' ? leccion.url : null"
+                hx-target="#video-player-container"
+                hx-swap="outerHTML"
+            >
+                <!-- Circulito de estado -->
+                <div class="lesson-status h-4 w-4 rounded-full mr-3 flex-shrink-0"></div>
+                <div class="flex-grow">
+                    <p class="text-sm" :class="leccion.estado === 'locked' ? 'text-gray-500' : 'text-gray-900'" x-text="leccion.nombre"></p>
+                    <div class="flex items-center mt-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="text-xs text-gray-500" x-text="leccion.duracion"></span>
                     </div>
                 </div>
+                <!-- Icono de estado -->
+                <template x-if="leccion.estado === 'completed'">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-teal-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </template>
+                <template x-if="leccion.estado === 'current'">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-teal-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                    </svg>
+                </template>
+                <template x-if="leccion.estado === 'locked'">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                    </svg>
+                </template>
+            </div>
+        </template>
+    </div>
+</div>
+                    </div>
             </div>
             
-            <!-- Notas del curso -->
-            <div class="bg-white rounded-lg shadow-md p-4">
-                <h2 class="text-lg font-bold text-gray-900 mb-4">Mis Notas</h2>
-                
-                <div class="mb-4">
-                    <textarea rows="4" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm" placeholder="Añade tus notas sobre esta lección..."></textarea>
-                </div>
-                
-                <div class="flex justify-between">
-                    <button class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                        </svg>
-                        Guardar Nota
-                    </button>
-                    <button class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z" />
-                            <path fill-rule="evenodd" d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd" />
-                        </svg>
-                        Ver Todas
-                    </button>
-                </div>
-            </div>
+            
         </div>
     </div>
 </div>
 
+</div>
 <!-- Sección de recomendaciones -->
 <div class="bg-gray-50 py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-2xl font-bold text-gray-900 mb-8">Recomendado para ti</h2>
+        <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center" >Recomendado para ti</h2>
         
-        <div class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            <!-- Curso recomendado 1 -->
-            <div class="course-card group relative bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="relative h-48 w-full overflow-hidden">
-                    <img src="https://enrichmentapi.io/wp-content/uploads/2023/09/473BF0-350-x-253-px-350-x-253-px-350-x-253-px-1024-x-1024-px-1024-x-1024-px-1.png" alt="Meditación para reducir estrés" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div class="absolute bottom-4 left-4 right-4 flex justify-between items-center">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800">
-                            Meditación
-                        </span>
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <span class="ml-1 text-sm font-medium text-white">4.9</span>
+        {% if cursosRecomendados %}
+            <div class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                {% for curso in cursosRecomendados %}
+                    <div class="course-card group relative bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="relative h-48 w-full overflow-hidden">
+                            <img src="{{ curso.icono }}" alt="{{ curso.titulo }}" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4 right-4 flex justify-between items-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800">
+                                    {{ curso.categoria_clase }}
+                                </span>
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                    <span class="ml-1 text-sm font-medium text-white">4.9</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-lg font-medium text-gray-900">{{ curso.titulo }}</h3>
+                            <p class="mt-1 text-sm text-gray-500 line-clamp-2">{{ curso.descripcion }}</p>
+                            <div class="mt-3 flex items-center justify-between">
+                                <p class="text-lg font-bold text-teal-600">Gratis</p>
+                            </div>
+                            <div class="mt-4">
+                                <a href="{% url 'descripcion-curso' curso.id %}" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                                    Ver Curso
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="p-4">
-                    <h3 class="text-lg font-medium text-gray-900">Meditación para Reducir el Estrés</h3>
-                    <p class="mt-1 text-sm text-gray-500 line-clamp-2">Técnicas de meditación mindfulness para reducir el estrés y la ansiedad en tu vida diaria.</p>
-                    <div class="mt-3 flex items-center justify-between">
-                        <p class="text-sm text-gray-500">Carlos Ruiz</p>
-                        <p class="text-lg font-bold text-teal-600">$39.99</p>
-                    </div>
-                    <div class="mt-4">
-                        <a href="#" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
-                            Ver Curso
-                        </a>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
-            
-            <!-- Curso recomendado 2 -->
-            <div class="course-card group relative bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="relative h-48 w-full overflow-hidden">
-                    <img src="https://enrichmentapi.io/wp-content/uploads/2023/09/473BF0-350-x-253-px-350-x-253-px-350-x-253-px-1024-x-1024-px-1024-x-1024-px-1.png" alt="Yoga restaurativo" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div class="absolute bottom-4 left-4 right-4 flex justify-between items-center">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
-                            Yoga
-                        </span>
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <span class="ml-1 text-sm font-medium text-white">4.6</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-4">
-                    <h3 class="text-lg font-medium text-gray-900">Yoga Restaurativo: Recuperación y Descanso</h3>
-                    <p class="mt-1 text-sm text-gray-500 line-clamp-2">Aprende posturas suaves para liberar tensión y promover la recuperación física y mental.</p>
-                    <div class="mt-3 flex items-center justify-between">
-                        <p class="text-sm text-gray-500">Laura Gómez</p>
-                        <p class="text-lg font-bold text-teal-600">$44.99</p>
-                    </div>
-                    <div class="mt-4">
-                        <a href="#" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
-                            Ver Curso
-                        </a>
-                    </div>
-                </div>
+        {% else %}
+            <div class="flex flex-col items-center justify-center py-12 text-center text-cyan-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-3 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 018 0v2m-4-4v4m0 0v2m0-2h-4m4 0h4" />
+                </svg>
+                <p class="text-lg font-medium text-cyan-700">No se encontraron cursos recomendados.</p>
             </div>
-            
-            <!-- Curso recomendado 3 -->
-            <div class="course-card group relative bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="relative h-48 w-full overflow-hidden">
-                    <img src="https://enrichmentapi.io/wp-content/uploads/2023/09/473BF0-350-x-253-px-350-x-253-px-350-x-253-px-1024-x-1024-px-1024-x-1024-px-1.png" alt="Nutrición balanceada" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div class="absolute bottom-4 left-4 right-4 flex justify-between items-center">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                            Nutrición
-                        </span>
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <span class="ml-1 text-sm font-medium text-white">4.7</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-4">
-                    <h3 class="text-lg font-medium text-gray-900">Nutrición Balanceada y Consciente</h3>
-                    <p class="mt-1 text-sm text-gray-500 line-clamp-2">Aprende a crear planes de alimentación saludables y sostenibles para complementar tu práctica de yoga.</p>
-                    <div class="mt-3 flex items-center justify-between">
-                        <p class="text-sm text-gray-500">Laura Gómez</p>
-                        <p class="text-lg font-bold text-teal-600">$59.99</p>
-                    </div>
-                    <div class="mt-4">
-                        <a href="#" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
-                            Ver Curso
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Curso recomendado 4 -->
-            <div class="course-card group relative bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="relative h-48 w-full overflow-hidden">
-                    <img src="https://enrichmentapi.io/wp-content/uploads/2023/09/473BF0-350-x-253-px-350-x-253-px-350-x-253-px-1024-x-1024-px-1024-x-1024-px-1.png" alt="Fitness en casa" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div class="absolute bottom-4 left-4 right-4 flex justify-between items-center">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
-                            Fitness
-                        </span>
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <span class="ml-1 text-sm font-medium text-white">4.6</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-4">
-                    <h3 class="text-lg font-medium text-gray-900">Fitness en Casa: Rutinas Efectivas</h3>
-                    <p class="mt-1 text-sm text-gray-500 line-clamp-2">Entrena desde la comodidad de tu hogar con rutinas de ejercicio efectivas que complementan tu yoga.</p>
-                    <div class="mt-3 flex items-center justify-between">
-                        <p class="text-sm text-gray-500">Miguel Sánchez</p>
-                        <p class="text-lg font-bold text-teal-600">$44.99</p>
-                    </div>
-                    <div class="mt-4">
-                        <a href="#" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
-                            Ver Curso
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% endif %}
     </div>
 </div>
+<script>
+function leccionesSidebar() {
+    return {
+        lecciones: [],
+        init() {
+            this.lecciones = window.leccionesData;
+        },
+        desbloquear(idx) {
+            // Si la actual es 'current' y la siguiente está 'locked', desbloquea la siguiente
+            if (this.lecciones[idx].estado === 'current' && this.lecciones[idx+1] && this.lecciones[idx+1].estado === 'locked') {
+                this.lecciones[idx+1].estado = 'current';
+            }
+        }
+    }
+}
+</script>
+<script src="https://unpkg.com/htmx.org@1.9.10"></script>
 {% endblock %}

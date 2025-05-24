@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404 as findObject
 from django.http import JsonResponse
 from users.models import Paises, RolesUser
+from django.http import HttpResponse
 from contenidos.models import CategoriaClases, Niveles
 from mongoData.models import Paises as MongoPaises
 from mongoData.models import Cursos as MongoCursos
@@ -14,6 +15,8 @@ from django.core.paginator import Paginator
 from expresate.templatetags import splitfilters
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from django.template.loader import render_to_string
+from django.utils import timezone
 from bson import ObjectId
 from datetime import datetime
 import os
@@ -74,7 +77,10 @@ def cursos(request, categoria):
         
     })
 def curso(request):
-    return render(request, 'curso.html', {})
+    video_actual = MongoVideos.first() 
+    return render(request, 'curso.html', {
+        'video_actual': video_actual,
+    })
 
 def descripcionCurso(request, idCurso):
     descripcionCurso = MongoCursos.objects.get(id=idCurso)
@@ -766,3 +772,5 @@ def loginOld(request):
 
 def moduloClases(request):
     return render(request, 'modulo_clase.html', {})
+
+

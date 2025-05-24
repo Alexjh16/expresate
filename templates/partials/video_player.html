@@ -1,0 +1,139 @@
+<!-- filepath: c:\Users\User\Desktop\expresate\templates\partials\video_player.html -->
+<div id="video-player-container" class="custom-video-player" x-data="videoPlayer()" x-init="init()">
+    <div class="video-container relative">
+        <video
+            id="main-video"
+            src="{% if video.ruta %}{{ video.ruta }}{% elif primerVideo and primerVideo.ruta %}{{ primerVideo.ruta }}{% else %}{% endif %}"
+            poster="{{ video.thumbnail|default:'https://www.uag.mx/contenido/ihq6hNhVbF/una-reflexion-sobre-la-importancia-de-la-lengua-de-senas_om2.jpg' }}"
+            class="w-full h-full object-cover"
+            x-ref="video"
+            @timeupdate="updateTime"
+            @loadedmetadata="setDuration"
+            @play="playing = true"
+            @pause="playing = false"
+            autoplay
+        ></video>
+        <!-- Botón de play central (opcional, puedes ocultarlo si usas controles nativos) -->
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none" x-show="!playing">
+            <button class="bg-white/20 backdrop-blur-sm rounded-full p-4 hover:bg-white/30 transition-colors animate-pulse pointer-events-auto"
+                @click="$refs.video.play()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    <!-- Controles personalizados -->
+    <div class="video-controls" x-data x-show="$refs.video">
+        <div class="video-progress" @click="seek($event)">
+            <div class="video-progress-filled" :style="'width: ' + progress + '%'"></div>
+        </div>
+        <div class="video-buttons">
+            <div class="flex items-center space-x-4">
+                <!-- Botón retroceder 10s -->
+                <button class="video-button" @click="$refs.video.currentTime -= 10">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 7.536a5 5 0 10-7.07 7.07l7.07-7.07z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 7.536l-7.07 7.07a5 5 0 107.07-7.07z" />
+                    </svg>
+                </button>
+                <!-- Botón play/pause -->
+                <button class="video-button" @click="togglePlay">
+                    <template x-if="!playing">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                        </svg>
+                    </template>
+                    <template x-if="playing">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <rect x="6" y="6" width="4" height="12" rx="1"/>
+                            <rect x="14" y="6" width="4" height="12" rx="1"/>
+                        </svg>
+                    </template>
+                </button>
+                <!-- Botón adelantar 10s -->
+                <button class="video-button" @click="$refs.video.currentTime += 10">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z" />
+                    </svg>
+                </button>
+                <!-- Tiempo -->
+                <span class="video-time text-sm" x-text="formatTime(currentTime) + ' / ' + formatTime(duration)"></span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <!-- Volumen -->
+                <div class="video-volume">
+                    <button class="video-button" @click="toggleMute">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M12 9.5l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                    </button>
+                    <div class="video-volume-slider" @click="setVolume($event)">
+                        <div class="video-volume-filled" :style="'width: ' + (volume * 100) + '%'"></div>
+                    </div>
+                </div>
+                <!-- Pantalla completa -->
+                <button class="video-button" @click="toggleFullscreen">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function videoPlayer() {
+    return {
+        playing: false,
+        currentTime: 0,
+        duration: 0,
+        progress: 0,
+        volume: 0.7,
+        init() {
+            this.$refs.video.volume = this.volume;
+        },
+        togglePlay() {
+            if (this.$refs.video.paused) {
+                this.$refs.video.play();
+            } else {
+                this.$refs.video.pause();
+            }
+        },
+        updateTime() {
+            this.currentTime = this.$refs.video.currentTime;
+            this.duration = this.$refs.video.duration;
+            this.progress = (this.currentTime / this.duration) * 100;
+        },
+        setDuration() {
+            this.duration = this.$refs.video.duration;
+        },
+        seek(event) {
+            const rect = event.target.getBoundingClientRect();
+            const percent = (event.clientX - rect.left) / rect.width;
+            this.$refs.video.currentTime = percent * this.duration;
+        },
+        toggleMute() {
+            this.$refs.video.muted = !this.$refs.video.muted;
+        },
+        setVolume(event) {
+            const rect = event.target.getBoundingClientRect();
+            const percent = (event.clientX - rect.left) / rect.width;
+            this.volume = percent;
+            this.$refs.video.volume = this.volume;
+        },
+        toggleFullscreen() {
+            if (this.$refs.video.requestFullscreen) {
+                this.$refs.video.requestFullscreen();
+            }
+        },
+        formatTime(time) {
+            if (isNaN(time)) return "00:00";
+            const minutes = Math.floor(time / 60);
+            const seconds = Math.floor(time % 60);
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+    }
+}
+</script>

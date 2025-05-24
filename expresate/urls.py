@@ -68,6 +68,8 @@ urlpatterns = [
     path('admin/videos/editar/<str:id>/', views.editarVideo, name='admin-videos-editar'),
     #ruta para eliminar videos
     path('admin/videos/eliminar/<str:id>/', views.eliminarVideo, name='admin-videos-eliminar'),
+
+    
     
     #Ruta a al modulo de Registro de usuarios
     path('altcha-challenge/', altcha_challenge, name='altcha_challenge'),
@@ -90,6 +92,7 @@ urlpatterns = [
     
     #Ruta a contenidos
     path('contenido/', include('contenidos.urls')),
+
     
     path('models/evaluacion/estudiante/', include('modulo_evaluacionEstudiante.urls')), #modulo evaliacion
 
