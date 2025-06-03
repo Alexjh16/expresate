@@ -63,6 +63,8 @@ def curso(request, idCurso):
     ) if progreso_usuario and progreso_usuario.video else set()
 
     for idx, video in enumerate(videosCurso):
+        if idx == 0:
+            estado = 'current'
         clave_video = (video.nombre, getattr(video, 'ruta', None))
         visto = clave_video in videos_vistos
         if visto:
@@ -77,6 +79,7 @@ def curso(request, idCurso):
             "nombre": video.nombre,
             "duracion": video.duracion,
             "estado": estado,
+            'ruta': video.ruta,
         })
     return render(request, 'curso.html', {
         'cursoActual':cursoActual,

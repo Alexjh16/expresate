@@ -619,8 +619,12 @@ function leccionesSidebar() {
         },
         desbloquear(idx) {
             // Si la actual es 'current' y la siguiente está 'locked', desbloquea la siguiente
-            if (this.lecciones[idx].estado === 'current' && this.lecciones[idx+1] && this.lecciones[idx+1].estado === 'locked') {
-                this.lecciones[idx+1].estado = 'current';
+            if (
+                this.lecciones[idx].estado === 'current' &&
+                this.lecciones[idx + 1] &&
+                this.lecciones[idx + 1].estado === 'locked'
+            ) {
+                this.lecciones[idx + 1].estado = 'current';
             }
         }
     }
