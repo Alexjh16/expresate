@@ -33,5 +33,4 @@ databases:
       - key: POSTGRES_DB
       - key: POSTGRES_USER
       - key: POSTGRES_PASSWORD
-
 # Nota: Ajusta plan/region según tu cuenta de Render.
