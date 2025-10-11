@@ -1,17 +1,17 @@
 # psycopg2-binary usado para conectar con Postgres en contenedores
+Django==5.1.1
+gunicorn
+psycopg2-binary
 Pillow
-tailwind
 django-tailwind
 django-browser-reload
 django-alpine
 django-redis
 pymongo
+dnspython
 django-seed
 django-altcha
 django-cors-headers
 tqdm
 mongoengine
 django-htmx
-
-gunicorn
-psycopg2-binary
