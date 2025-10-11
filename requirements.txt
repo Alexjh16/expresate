@@ -1,5 +1,4 @@
-psycopg
-psycopg2
+# psycopg2-binary usado para conectar con Postgres en contenedores
 Pillow
 tailwind
 django-tailwind
@@ -13,3 +12,6 @@ django-cors-headers
 tqdm
 mongoengine
 django-htmx
+
+gunicorn
+psycopg2-binary

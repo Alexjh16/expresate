@@ -21,12 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ke86-csy(2sg=6(dlk6k519he+232g$wn^t2-4))w9@q1v5lek'
+# Read secret key from environment so it's not hard-coded in the repo.
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-ke86-csy(2sg=6(dlk6k519he+232g$wn^t2-4))w9@q1v5lek')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Set DEBUG via environment variable (e.g. DJANGO_DEBUG=False in production)
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in ('1', 'true', 'yes')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 
 # Application definition
@@ -123,27 +125,27 @@ WSGI_APPLICATION = 'expresate.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "expresate",
-        "USER": "postgres",
-        "PASSWORD": "12345678",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+        "ENGINE": os.environ.get('DB_ENGINE', 'django.db.backends.postgresql'),
+        "NAME": os.environ.get('POSTGRES_DB', 'expresate'),
+        "USER": os.environ.get('POSTGRES_USER', 'postgres'),
+        "PASSWORD": os.environ.get('POSTGRES_PASSWORD', '12345'),
+        "HOST": os.environ.get('POSTGRES_HOST', '127.0.0.1'),
+        "PORT": os.environ.get('POSTGRES_PORT', '5432'),
     }
 }
 
 #configuracion para mongo db : Jhon Alexander
 MONGO_DB = {
-    "NAME": "expresate",
-    "HOST": "127.0.0.1",
-    "PORT": 27017
+    "NAME": os.environ.get('MONGO_DB_NAME', 'expresate'),
+    "HOST": os.environ.get('MONGO_HOST', '127.0.0.1'),
+    "PORT": int(os.environ.get('MONGO_PORT', 27017)),
 }
 
 #configuraciones para redis : Jhon Alexander
 CACHES = {
     "default":{
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/0",
+        "LOCATION": os.environ.get('REDIS_URL', 'redis://127.0.0.1:6379/0'),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -151,10 +153,10 @@ CACHES = {
 }
 
 REDIS = {
-    "HOST": "127.0.0.1",
-    "PORT": 6379,
-    "DB": 0,
-    "PASSWORD": None,
+    "HOST": os.environ.get('REDIS_HOST', '127.0.0.1'),
+    "PORT": int(os.environ.get('REDIS_PORT', 6379)),
+    "DB": int(os.environ.get('REDIS_DB', 0)),
+    "PASSWORD": os.environ.get('REDIS_PASSWORD', None),
 }
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"

@@ -3,7 +3,13 @@ from mongoengine import Document, StringField, ListField, DateTimeField, Embedde
 from bson import ObjectId
 import datetime
 
-mongoengine.connect('expresate')
+import os
+
+# Conectar a MongoDB usando variables de entorno para soportar despliegue en Docker
+MONGO_NAME = os.environ.get('MONGO_DB_NAME', 'expresate')
+MONGO_HOST = os.environ.get('MONGO_HOST', '127.0.0.1')
+MONGO_PORT = int(os.environ.get('MONGO_PORT', 27017))
+mongoengine.connect(db=MONGO_NAME, host=f"{MONGO_HOST}", port=MONGO_PORT)
 
 
 #Clases embeddeds : Jhon Alexander Ramos

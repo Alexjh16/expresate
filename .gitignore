@@ -4,3 +4,31 @@
 *.pyo
 *.pyd
 venv/**
+
+# Environment
+.env
+
+# Django
+db.sqlite3
+/media
+/staticfiles
+/static/theme/static_src
+
+# VSCode
+.vscode/
+
+# Node
+node_modules/
+
+# Docker
+docker-compose.override.yml
+
+# Logs
+*.log
+
+# Coverage
+.coverage
+htmlcov/
+
+# Temporary
+*.swp

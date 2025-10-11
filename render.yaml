@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: expresate-web
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn expresate.wsgi:application --bind 0.0.0.0:$PORT
+    branch: main
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        fromDatabase: false
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: DJANGO_ALLOWED_HOSTS
+        value: "*"
+      - key: POSTGRES_HOST
+      - key: POSTGRES_PORT
+      - key: POSTGRES_DB
+      - key: POSTGRES_USER
+      - key: POSTGRES_PASSWORD
+      - key: MONGO_URI
+      - key: REDIS_URL
+
+databases:
+  - name: expresate-db
+    engine: postgres
+    plan: starter
+    region: oregon
+    free: true
+    envVars:
+      - key: POSTGRES_HOST
+      - key: POSTGRES_PORT
+      - key: POSTGRES_DB
+      - key: POSTGRES_USER
+      - key: POSTGRES_PASSWORD
+
+# Nota: Ajusta plan/region según tu cuenta de Render.
