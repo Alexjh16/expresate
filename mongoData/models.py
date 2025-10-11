@@ -5,11 +5,24 @@ import datetime
 
 import os
 
-# Conectar a MongoDB usando variables de entorno para soportar despliegue en Docker
-MONGO_NAME = os.environ.get('MONGO_DB_NAME', 'expresate')
-MONGO_HOST = os.environ.get('MONGO_HOST', '127.0.0.1')
-MONGO_PORT = int(os.environ.get('MONGO_PORT', 27017))
-mongoengine.connect(db=MONGO_NAME, host=f"{MONGO_HOST}", port=MONGO_PORT)
+# Conectar a MongoDB: priorizar MONGO_URI (por ejemplo Atlas), si no usar host/port
+MONGO_URI = os.environ.get('MONGO_URI')
+try:
+    if MONGO_URI:
+        mongoengine.connect(host=MONGO_URI)
+    else:
+        # Conectar a MongoDB usando variables de entorno host/port/db
+        MONGO_NAME = os.environ.get('MONGO_DB_NAME', 'expresate')
+        MONGO_HOST = os.environ.get('MONGO_HOST', '127.0.0.1')
+        MONGO_PORT = int(os.environ.get('MONGO_PORT', 27017))
+        mongoengine.connect(db=MONGO_NAME, host=f"{MONGO_HOST}", port=MONGO_PORT)
+except Exception as e:
+    # En entornos de CI o cuando Mongo no está disponible, no bloquear la importación
+    try:
+        import logging
+        logging.getLogger(__name__).warning(f"No se pudo conectar a MongoDB: {e}")
+    except Exception:
+        pass
 
 
 #Clases embeddeds : Jhon Alexander Ramos

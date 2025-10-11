@@ -30,6 +30,7 @@ Despliegue en Render (guía mínima)
 	- Postgres connection variables si usas Render Managed Postgres: `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`.
 	- MongoDB: recomendamos usar MongoDB Atlas y configurar `MONGO_HOST` (connection string o host), `MONGO_PORT` y `MONGO_DB_NAME`, o `MONGO_URI` si usas una URI completa.
 	- Redis: si usas Render Redis, configura `REDIS_HOST`, `REDIS_PORT`, `REDIS_PASSWORD`.
+	- RECOMENDADO: usar `MONGO_URI` (por ejemplo la URI de MongoDB Atlas) y `REDIS_URL` para simplificar la conexión desde Render.
 4. Bases de datos:
 	- Render ofrece Managed Postgres: crea una instancia e introduce las credenciales en las env vars de tu Web Service.
 	- Para MongoDB, Render no ofrece un servicio gestionado nativo: usa MongoDB Atlas o un proveedor que prefieras y añade su URI a `MONGO_URI` o las variables separadas.
