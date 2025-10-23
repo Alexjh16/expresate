@@ -7,5 +7,23 @@
         "imagen_portada": "imagenes/portada-leccion2.jpg",
         "fecha_subida":"2024-04-28",
         "curso_id" : 1
+    },
+    {
+        "video_url": "videos/leccion3.mp4",
+        "descripcion": "Números en lenguaje de señas",
+        "edad_minima": 12,
+        "duracion": 850,
+        "imagen_portada": "imagenes/portada-leccion3.jpg",
+        "fecha_subida":"2024-04-29",
+        "curso_id" : 1
+    },
+    {
+        "video_url": "videos/leccion4.mp4",
+        "descripcion": "Colores en lenguaje de señas",
+        "edad_minima": 8,
+        "duracion": 780,
+        "imagen_portada": "imagenes/portada-leccion4.jpg",
+        "fecha_subida":"2024-04-30",
+        "curso_id" : 1
     }
 ]

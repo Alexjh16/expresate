@@ -59,4 +59,54 @@ Siguientes pasos sugeridos
 3. Quieres que remueva también archivos relacionados con Docker en git history o crear una rama con los cambios? (opcional)
 
 Si quieres que configure el `render.yaml` ahora (con Managed Postgres), indícame: (a) nombre del proyecto en Render y (b) si quieres crear base Postgres gestionada desde el `render.yaml`.
+
+## Configuración del Proyecto
+
+Sigue los pasos a continuación para configurar y ejecutar el proyecto:
+
+### Requisitos Previos
+
+Asegúrate de tener lo siguiente configurado antes de continuar:
+- Una base de datos PostgreSQL creada y configurada.
+- Una base de datos MongoDB creada y configurada.
+- Redis corriendo en tu sistema.
+
+### Pasos para Configurar el Proyecto
+
+1. **Crear un entorno virtual**:
+   ```bash
+   python -m venv venv
+   ```
+
+2. **Activar el entorno virtual**:
+   - En Windows:
+     ```bash
+     .\venv\Scripts\activate
+     ```
+   - En Linux/Mac:
+     ```bash
+     source venv/bin/activate
+     ```
+
+3. **Instalar las dependencias**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Aplicar las migraciones**:
+   ```bash
+   python manage.py migrate
+   ```
+
+5. **Cargar los seeders**:
+   ```bash
+   python manage.py seed_db
+   ```
+
+6. **Ejecutar el servidor de desarrollo**:
+   ```bash
+   python manage.py runserver
+   ```
+
+El proyecto estará disponible en `http://127.0.0.1:8000/`.
 ```

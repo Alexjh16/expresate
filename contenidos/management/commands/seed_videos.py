@@ -2,10 +2,13 @@ import time
 from django.core.management.base import BaseCommand
 from faker import Faker
 import random
+import json
 import datetime
 from bson import ObjectId
 from mongoData.models import Cursos
 from mongoData.models import Videos
+from contenidos.models import Videos as SQLVideos
+from django.conf import settings
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -37,6 +40,22 @@ class Command(BaseCommand):
         if not cursos_ids:
             self.stdout.write(self.style.ERROR('No hay cursos en la base de datos.'))
             return
+        
+        def saveVideosToPosgreSQL():
+            json_path = settings.BASE_DIR / 'contenidos' / 'seeders' / 'videos.json'
+
+            try:
+                with open(json_path, 'r', encoding='utf-8') as f:
+                    videos_data = json.load(f)
+
+                    for video_data in videos_data:
+                        SQLVideos.objects.create(**video_data)
+                    self.stdout.write(self.style.SUCCESS(f'{len(videos_data)} videos cargados desde JSON : seeders/videos.json'))
+
+            except FileNotFoundError:
+                self.stdout.write(self.style.WARNING('Archivo videos.json no encontrado'))
+            except json.JSONDecodeError:
+                self.stdout.write(self.style.ERROR('Error al leer el archivo JSON'))
 
         def generar_video(i):
             now = datetime.datetime.now()
@@ -63,6 +82,7 @@ class Command(BaseCommand):
                     future.result()
                 except Exception as e:
                     self.stdout.write(self.style.ERROR(f'Error generando video: {str(e)}'))
-
+        # Guardar videos en PostgreSQL desde JSON
+        saveVideosToPosgreSQL()
         elapsed_time = time.time() - start_time
         self.stdout.write(self.style.SUCCESS(f'\n{total} videos creados exitosamente en {elapsed_time:.2f} segundos.'))

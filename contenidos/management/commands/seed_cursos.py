@@ -5,6 +5,9 @@ from bson import ObjectId
 import random
 import datetime
 from mongoData.models import Cursos
+from contenidos.models import Cursos as SQLCursos
+from django.conf import settings
+import json
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -36,6 +39,22 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING('Eliminando todos los cursos existentes...'))
             Cursos.objects.delete()
 
+        def saveCursosToPostgreSQL():
+            json_path = settings.BASE_DIR / 'contenidos' / 'seeders' / 'cursos.json'
+
+            try:
+                with open(json_path, 'r', encoding='utf-8') as f:
+                    cursos_data = json.load(f)
+
+                    for curso_data in cursos_data:
+                        SQLCursos.objects.create(**curso_data)
+                    self.stdout.write(self.style.SUCCESS(f'{len(cursos_data)} cursos cargados desde JSON : seeders/cursos.json'))
+
+            except FileNotFoundError:
+                self.stdout.write(self.style.WARNING('Archivo cursos.json no encontrado'))
+            except json.JSONDecodeError:
+                self.stdout.write(self.style.ERROR('Error al leer el archivo JSON'))
+
         def generar_curso(i):
             # Generar un ObjectId falso para idCuestionario
             id_cuestionario = ObjectId()
@@ -63,5 +82,7 @@ class Command(BaseCommand):
                 except Exception as e:
                     self.stdout.write(self.style.ERROR(f'Error generando curso: {str(e)}'))
 
+        # Guardar cursos en PostgreSQL desde JSON
+        saveCursosToPostgreSQL()
         elapsed_time = time.time() - start_time
         self.stdout.write(self.style.SUCCESS(f'\n{total} cursos creados exitosamente en {elapsed_time:.2f} segundos.'))

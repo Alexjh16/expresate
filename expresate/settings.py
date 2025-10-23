@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     "django_htmx",
     'users',
     'contenidos',
@@ -128,7 +129,7 @@ DATABASES = {
         "ENGINE": os.environ.get('DB_ENGINE', 'django.db.backends.postgresql'),
         "NAME": os.environ.get('POSTGRES_DB', 'expresate'),
         "USER": os.environ.get('POSTGRES_USER', 'postgres'),
-        "PASSWORD": os.environ.get('POSTGRES_PASSWORD', '12345'),
+        "PASSWORD": os.environ.get('POSTGRES_PASSWORD', '12345678'),
         "HOST": os.environ.get('POSTGRES_HOST', '127.0.0.1'),
         "PORT": os.environ.get('POSTGRES_PORT', '5432'),
     }
