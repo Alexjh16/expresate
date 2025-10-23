@@ -119,8 +119,8 @@ class loginUserForm(AuthenticationForm):
             raise forms.ValidationError("El nombre de usuario es requerido.")
         
         # Validar que el username no contenga caracteres especiales
-        if not username.isalnum():
-            raise forms.ValidationError("El nombre de usuario solo puede contener letras y números.")
+        #if not username.isalnum():
+         #   raise forms.ValidationError("El nombre de usuario solo puede contener letras y números.")
             
         return username.lower()  # Normalizar username a minúsculas
 

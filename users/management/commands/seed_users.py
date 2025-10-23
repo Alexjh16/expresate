@@ -16,7 +16,7 @@ class Command(BaseCommand):
     help = 'Generador de usuarios con datos falsos usando Faker'
 
     def add_arguments(self, parser):
-        parser.add_argument('--total', type=int, default=100, help='Número de usuarios a generar')
+        parser.add_argument('--total', type=int, default=40, help='Número de usuarios a generar')
         parser.add_argument('--clear', action='store_true', help='Eliminar todos los usuarios existentes')
 
     def handle(self, *args, **options):
@@ -70,7 +70,7 @@ class Command(BaseCommand):
         def generar_usuario(i):
             first_name = fake.first_name()
             last_name = fake.last_name()
-            username = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+            username = first_name.join(random.choices(string.ascii_letters + string.digits, k=2))
             email = f'{first_name.lower()}.{last_name.lower()}{i}@mail.com'
             password = make_password('123456789a*')
 

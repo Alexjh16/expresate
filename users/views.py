@@ -100,14 +100,14 @@ def loginUser(request):
     if request.method == 'POST':
         form = loginUserForm(request, data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
+            username_or_email = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
 
             # Verificar si el usuario está en Redis
-            cached_password = redisClient.get(username)
+            cached_password = redisClient.get(username_or_email)    
             if cached_password:
                 cached_password = cached_password.decode('utf-8') # Decodificar la contraseña almacenada en Redis                
-                user = authenticate(username=username, password=password)
+                user = authenticate(request, username=username_or_email, password=password)
                 if user is not None:
                     print("login redis")
                     login(request, user)
@@ -115,11 +115,25 @@ def loginUser(request):
                 else:
                     messages.error(request, 'Contraseña incorrecta.')
             else:
-                user = authenticate(username=username, password=password)
+                # Intentar autenticar con username o email
+                user = None
+                if '@' in username_or_email:  # Si contiene '@', es un email
+                    from django.contrib.auth import get_user_model
+                    User = get_user_model()
+                    try:
+                        username = User.objects.get(email=username_or_email).username
+                        user = authenticate(request, username=username, password=password)
+                    except User.DoesNotExist:
+                        messages.error(request, 'El email no está registrado.')
+                else:  # De lo contrario, es un username
+                    user = authenticate(request, username=username_or_email, password=password)
+
                 if user is not None:
                     login(request, user)
-                    print("login pgsql")              
-                    return redirect('clases')  # O la URL que desees después del login
+                    print("login pgsql")
+                    return redirect('clases')  # Redirigir después del login
+                else:
+                    messages.error(request, 'Credenciales incorrectas.')     # O la URL que desees después del login
         else:
             # Si el formulario no es válido, mostramos los errores
             for field in form.errors:
