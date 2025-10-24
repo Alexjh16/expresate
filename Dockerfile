@@ -23,8 +23,8 @@ RUN set -ex && \
 COPY . /code
 
 ENV SECRET_KEY "m340KfhNV7g95CqttWO9UawFsByhKmM0y8r3Qgb91j0G1mO9zO"
-RUN python manage.py collectstatic --noinput
+ENV DJANGO_SETTINGS_MODULE expresate.settings.fly
 
 EXPOSE 8000
 
-CMD ["gunicorn","--bind",":8000","--workers","2","expresate.wsgi"]
+CMD ["gunicorn","--bind","0.0.0.0:8000","--workers","2","expresate.wsgi"]

@@ -26,10 +26,10 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-ke86-csy(2sg=6
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Set DEBUG via environment variable (e.g. DJANGO_DEBUG=False in production)
-DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in ('1', 'true', 'yes')
+DEBUG = True
 #allow to 0.0.0.0 and localhost for debug mode
 #allow 192.168.1.0/24
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,0.0.0.0,192.168.92.178').split(',')
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '192.168.92.178']
 
 
 # Application definition
@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'evaluacion',
     'expresate',
     'mongoData',
+    'modelos_expresate',
+    'modulo_evaluacionEstudiante',
 
     #Django-seed, altcha, corsheader : Jhon Alexander
     'django_seed',
@@ -56,9 +58,6 @@ INSTALLED_APPS = [
     'corsheaders',
 
     #Apps anterios[Borrar]
-    'modelos_expresate',
-    'modulo_evaluacionEstudiante'
-    '',
     #tailwind css : Jhon Alexander
     'tailwind',
     'theme',

@@ -42,6 +42,15 @@ class Users(AbstractUser):
     pais = models.ForeignKey(Paises, on_delete=models.SET_NULL, null=True, blank=True)
     rol = models.ForeignKey(RolesUser, on_delete=models.PROTECT)
     
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        verbose_name='user permissions',
+        blank=True,
+        help_text='Specific permissions for this user.',
+        related_name='users_user_permissions',
+        related_query_name='users',
+    )
+    
     class Meta:
         db_table = 'users'
 
