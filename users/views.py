@@ -201,6 +201,25 @@ def api_loginUser(request):
             return JsonResponse({"success": False, 'error': 'Invalid JSON'}, status=400)
     else:
         return JsonResponse({"success": False, 'error': 'Método no permitido.'}, status=405)
+@csrf_exempt
+def api_getRandomUser(request):
+    if request.method == 'GET':
+        User = get_user_model()
+        try:
+            user = User.objects.order_by('?').first()
+            if user:
+                return JsonResponse({
+                    "username": user.username,
+                    "email": user.email,
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                })
+            else:
+                return JsonResponse({"error": "No users found"}, status=404)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    else:
+        return JsonResponse({"error": "Método no permitido."}, status=405)
             
 def logoutUser(request):
     auth_logout(request)
