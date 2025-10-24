@@ -17,10 +17,14 @@ class BaseSeederCommand(BaseCommand):
         Establece la conexión con MongoDB
         """
         try:
-            self.mongo_client = MongoClient(
-                host=settings.MONGO_DB['HOST'],
-                port=settings.MONGO_DB['PORT']
-            )
+            mongo_uri = getattr(settings, 'MONGO_URI', None)
+            if mongo_uri:
+                self.mongo_client = MongoClient(mongo_uri, tlsAllowInvalidCertificates=True)
+            else:
+                self.mongo_client = MongoClient(
+                    host=settings.MONGO_DB['HOST'],
+                    port=settings.MONGO_DB['PORT']
+                )
             self.mongo_db = self.mongo_client[settings.MONGO_DB['NAME']]
             self.mongo_collection = self.mongo_db[collection_name]
             return True

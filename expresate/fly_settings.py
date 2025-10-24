@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from .settings import *
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 DEBUG = False
 SECRET_KEY = os.environ.get('SECRET_KEY', 'tu-secret-key')
@@ -66,7 +66,12 @@ DATABASES = {
 }
 
 # MongoDB
-MONGODB_URI = os.environ.get('MONGODB_URI')
+MONGO_URI = os.environ.get('MONGODB_URI')
+MONGO_DB = {
+    "NAME": os.environ.get('MONGO_DB_NAME', 'expresate'),
+    "HOST": os.environ.get('MONGO_HOST', 'localhost'),
+    "PORT": int(os.environ.get('MONGO_PORT', 27017)),
+}
 
 # Redis
 CACHES = {
