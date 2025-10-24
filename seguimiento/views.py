@@ -188,4 +188,51 @@ def get_user_treasures(request, id):
 #GET /api/users/{id}/stats/ - Estadísticas
 @csrf_exempt
 def get_user_stats(request, id):
-    return JsonResponse({'message': f'Estadísticas del usuario {id}'})
+    #uri example with user 68fb6a4d87f47d9e4d229b23
+    #/api/users/68fb6a4d87f47d9e4d229b23/stats/
+    if request.method != 'GET':
+        return JsonResponse({'error': 'Método no permitido'}, status=405)
+    try:
+        # Contar tesoros creados
+        treasures_created = Treasures.objects.filter(creator_id=id).count()
+        
+        # Contar tesoros encontrados
+        treasures_found = Treasures.objects.filter(found_by=id, is_found=True).count()
+        
+        # Calcular puntos totales usando sum de MongoEngine
+        total_points = Treasures.objects.filter(
+            found_by=id, 
+            is_found=True
+        ).sum('points') or 0
+        
+        # Determinar rango
+        rank = calculate_rank(total_points)
+        
+        stats = {
+            'treasures_created': treasures_created,
+            'treasures_found': treasures_found,
+            'total_points': total_points,
+            'rank': rank
+        }
+
+        return JsonResponse({'success': True, 'stats': stats}, status=200)
+
+    except Exception as e:
+        return JsonResponse({
+            'error': f'Error al obtener estadísticas: {str(e)}'
+        }, status=500)
+    
+def calculate_rank(total_points):
+    """Determinar rango basado en puntos"""
+    if total_points >= 1000:
+        return 'Maestro Tesorero'
+    elif total_points >= 500:
+        return 'Explorador Experto'
+    elif total_points >= 200:
+        return 'Cazador Avanzado'
+    elif total_points >= 50:
+        return 'Buscador Intermedio'
+    elif total_points >= 10:
+        return 'Aprendiz'
+    else:
+        return 'Novato'  

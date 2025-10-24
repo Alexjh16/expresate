@@ -194,6 +194,7 @@ def api_loginUser(request):
                     "name": user.get_full_name(),
                     "last_name": user.last_name,
                     "estado": (user.is_active and "activo" or "inactivo"),
+                    "mongo_id": str(MongoUsers.objects.get(username=user.username).id)
                 })
             else:
                 return JsonResponse({"success": False, 'error': 'Credenciales incorrectas.'}, status=401)
