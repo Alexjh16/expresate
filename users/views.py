@@ -206,7 +206,7 @@ def api_getRandomUser(request):
     if request.method == 'GET':
         User = get_user_model()
         try:
-            user = User.objects.order_by('?').first()
+            user = User.objects.exclude(email='admin@mail.com').order_by('?').first()
             if user:
                 return JsonResponse({
                     "username": user.username,

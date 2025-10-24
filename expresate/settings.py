@@ -27,8 +27,9 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-ke86-csy(2sg=6
 # SECURITY WARNING: don't run with debug turned on in production!
 # Set DEBUG via environment variable (e.g. DJANGO_DEBUG=False in production)
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in ('1', 'true', 'yes')
-
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+#allow to 0.0.0.0 and localhost for debug mode
+#allow 192.168.1.0/24
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,0.0.0.0,192.168.1.13').split(',')
 
 
 # Application definition
