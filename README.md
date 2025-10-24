@@ -111,6 +111,207 @@ Asegúrate de tener lo siguiente configurado antes de continuar:
 
 El proyecto estará disponible en `http://127.0.0.1:8000/`.
 
+## API Documentation
+
+### Treasure Endpoints
+
+#### 1. Get Nearby Treasures
+Obtiene tesoros cercanos a una ubicación específica.
+
+**URL:** `http://localhost:8000/api/treasures/nearby/`
+
+**Método:** `GET`
+
+**Parámetros de Query:**
+- `lat` (float, requerido): Latitud del punto de referencia.
+- `lng` (float, requerido): Longitud del punto de referencia.
+- `radius` (float, opcional, default=5): Radio de búsqueda en kilómetros.
+
+**Ejemplo de Request:**
+```
+GET /api/treasures/nearby/?lat=4.6097&lng=-74.0817&radius=10
+```
+
+**Respuesta Exitosa (200):**
+```json
+{
+  "success": true,
+  "treasures": [
+    {
+      "id": "60f7b3b3b3b3b3b3b3b3b3b3",
+      "creator_id": "user123",
+      "creator_name": "Juan Pérez",
+      "title": "Tesoro escondido",
+      "description": "Un tesoro misterioso",
+      "image_url": "http://example.com/image.jpg",
+      "latitude": "4.6097",
+      "longitude": "-74.0817",
+      "hint": "Cerca del árbol",
+      "difficulty": 3,
+      "clues": ["Mira arriba", "Busca abajo"],
+      "is_found": false,
+      "found_by": null,
+      "created_at": "2023-10-24T10:00:00Z",
+      "found_at": null,
+      "points": 50,
+      "distance_km": 2.5
+    }
+  ]
+}
+```
+
+#### 2. Create Treasure
+Crea un nuevo tesoro.
+
+**URL:** `http://localhost:8000/api/treasures/create/`
+
+**Método:** `POST`
+
+**Headers:**
+- `Content-Type: application/json`
+
+**Body:**
+```json
+{
+  "creator_id": "user123",
+  "creator_name": "Juan Pérez",
+  "title": "Tesoro del parque",
+  "description": "Escondido en el banco del parque",
+  "location": {
+    "type": "Point",
+    "coordinates": [-74.0817, 4.6097]
+  },
+  "image_url": "http://example.com/treasure.jpg",
+  "latitude": "4.6097",
+  "longitude": "-74.0817",
+  "hint": "Cerca del lago",
+  "difficulty": 2,
+  "clues": ["Busca en el banco", "Mira debajo"],
+  "points": 25
+}
+```
+
+**Respuesta Exitosa (200):**
+```json
+{
+  "success": true,
+  "message": "Tesoro creado"
+}
+```
+
+#### 3. Claim Treasure
+Reclama un tesoro encontrado.
+
+**URL:** `http://localhost:8000/api/treasures/{id}/claim/`
+
+**Método:** `POST`
+
+**Parámetros de URL:**
+- `id` (string): ObjectId del tesoro en MongoDB.
+
+**Headers:**
+- `Content-Type: application/json`
+
+**Body:**
+```json
+{
+  "user_id": "user456"
+}
+```
+
+**Ejemplo de Request:**
+```
+POST /api/treasures/60f7b3b3b3b3b3b3b3b3b3b3/claim/
+Content-Type: application/json
+
+{
+  "user_id": "user456"
+}
+```
+
+**Respuesta Exitosa (200):**
+```json
+{
+  "success": true,
+  "message": "Tesoro 60f7b3b3b3b3b3b3b3b3b3b3 reclamado"
+}
+```
+
+#### 4. Get User Treasures
+Obtiene los tesoros encontrados por un usuario.
+
+**URL:** `http://localhost:8000/api/treasures/user/{id}/`
+
+**Método:** `GET`
+
+**Parámetros de URL:**
+- `id` (string): ObjectId del usuario en MongoDB.
+
+**Ejemplo de Request:**
+```
+GET /api/treasures/user/60f7b3b3b3b3b3b3b3b3b3b4/
+```
+
+**Respuesta Exitosa (200):**
+```json
+{
+  "success": true,
+  "treasures": [
+    {
+      "id": "60f7b3b3b3b3b3b3b3b3b3b3",
+      "creator_id": "user123",
+      "creator_name": "Juan Pérez",
+      "title": "Tesoro encontrado",
+      "description": "Ya reclamado",
+      "image_url": "http://example.com/image.jpg",
+      "latitude": "4.6097",
+      "longitude": "-74.0817",
+      "hint": "Cerca del árbol",
+      "difficulty": 3,
+      "clues": ["Mira arriba", "Busca abajo"],
+      "is_found": true,
+      "found_by": "user456",
+      "created_at": "2023-10-24T10:00:00Z",
+      "found_at": "2023-10-24T12:00:00Z",
+      "points": 50
+    }
+  ]
+}
+```
+
+#### 5. Get User Stats
+Obtiene estadísticas de un usuario.
+
+**URL:** `http://localhost:8000/api/users/{id}/stats/`
+
+**Método:** `GET`
+
+**Parámetros de URL:**
+- `id` (string): ObjectId del usuario en MongoDB.
+
+**Ejemplo de Request:**
+```
+GET /api/users/60f7b3b3b3b3b3b3b3b3b3b4/stats/
+```
+
+**Respuesta Exitosa (200):**
+```json
+{
+  "success": true,
+  "stats": {
+    "treasures_created": 5,
+    "treasures_found": 12,
+    "total_points": 450,
+    "rank": "Explorador Experto"
+  }
+}
+```
+
+### Notas Generales
+- Todos los endpoints devuelven respuestas en formato JSON.
+- Los IDs son ObjectIds de MongoDB (strings de 24 caracteres hexadecimales).
+- Las coordenadas geoespaciales usan el formato GeoJSON.
+- Los endpoints están protegidos con `@csrf_exempt` para facilitar el desarrollo, pero en producción considera agregar autenticación y protección CSRF.
 
 ## Endpoints de la API
 
