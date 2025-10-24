@@ -25,6 +25,7 @@ import os
 
 #functiones de las vistas : Jhon Alexander
 def index(request):
+    from django.http import HttpResponse
     return HttpResponse("Hello World!")
 
 def clases(request):
