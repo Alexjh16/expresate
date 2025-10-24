@@ -15,8 +15,11 @@ from altcha import create_challenge, verify_solution
 from django.contrib.auth import authenticate, logout as auth_logout, login
 from mongoData.models import Users as MongoUsers
 from mongoData.models import Paises as MongoPaises
+from django.middleware.csrf import get_token
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import get_user_model
 import logging
-
+import json
 logger = logging.getLogger(__name__)
 
 
@@ -99,7 +102,9 @@ def loginUser(request):
         
     if request.method == 'POST':
         form = loginUserForm(request, data=request.POST)
+        print(form.errors.as_json())
         if form.is_valid():
+            
             username_or_email = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
 
@@ -146,8 +151,57 @@ def loginUser(request):
         'form': form,
         'title': 'Iniciar Sesión'
     })
-    
 
+@csrf_exempt
+def api_loginUser(request):
+    username_or_email = ''
+    password = ''
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            username_or_email = data.get('username')
+            password = data.get('password')
+
+            #method to validate if username_or_email and password are not empty
+            if not username_or_email or not password:
+                return JsonResponse({"success": False, 'error': 'Username or password is missing.'}, status=400)
+
+            #validate if username_or_email contains @ to know if is an email
+            User = get_user_model()
+            if '@' in username_or_email:
+                try:
+                    #login with email
+                    username = User.objects.get(email=username_or_email).username
+                    user = authenticate(request, username=username, password=password)
+                except User.DoesNotExist:
+                    return JsonResponse({"success": False, 'error': 'El email no está registrado.'}, status=404)
+            else:
+                try:
+                    #login with username
+                    username = User.objects.get(username=username_or_email).username
+                    user = authenticate(request, username=username, password=password)
+                except User.DoesNotExist:
+                    return JsonResponse({"success": False, 'error': 'El usuario no está registrado.'}, status=404)
+
+            if user is not None:
+                login(request, user)
+                return JsonResponse({
+                    "success": True,
+                    "message": "Login successful",
+                    "csrfToken": get_token(request),
+                    "method": request.method,
+                    "logged with": username_or_email,
+                    "name": user.get_full_name(),
+                    "last_name": user.last_name,
+                    "estado": (user.is_active and "activo" or "inactivo"),
+                })
+            else:
+                return JsonResponse({"success": False, 'error': 'Credenciales incorrectas.'}, status=401)
+        except json.JSONDecodeError:
+            return JsonResponse({"success": False, 'error': 'Invalid JSON'}, status=400)
+    else:
+        return JsonResponse({"success": False, 'error': 'Método no permitido.'}, status=405)
+            
 def logoutUser(request):
     auth_logout(request)
     response = redirect('index')

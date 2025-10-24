@@ -70,9 +70,9 @@ class Command(BaseCommand):
         def generar_usuario(i):
             first_name = fake.first_name()
             last_name = fake.last_name()
-            username = first_name.join(random.choices(string.ascii_letters + string.digits, k=2))
+            username = 'usuario' + str(i)
             email = f'{first_name.lower()}.{last_name.lower()}{i}@mail.com'
-            password = make_password('123456789a*')
+            password = make_password('123456789a')
 
             # Guardar en Redis
             redisClient.set(username, password, ex=3000)

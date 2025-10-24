@@ -73,6 +73,7 @@ Asegúrate de tener lo siguiente configurado antes de continuar:
 
 ### Pasos para Configurar el Proyecto
 
+```
 1. **Crear un entorno virtual**:
    ```bash
    python -m venv venv
@@ -109,4 +110,24 @@ Asegúrate de tener lo siguiente configurado antes de continuar:
    ```
 
 El proyecto estará disponible en `http://127.0.0.1:8000/`.
-```
+
+
+## Endpoints de la API
+
+### Login de Usuario
+Este endpoint permite autenticar a un usuario mediante un POST con credenciales.
+
+**URL:**  
+`http://localhost:8000/users/api/loginUser/`
+
+**Método:**  
+`POST`
+
+**Body:**  
+El cuerpo de la solicitud debe enviarse en formato JSON con los siguientes campos:
+
+```json
+{
+    "username": "usuario",
+    "password": "clave"
+}

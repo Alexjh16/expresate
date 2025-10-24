@@ -3,6 +3,8 @@ from altcha import verify_solution
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Users, Paises, RolesUser
+from django.contrib.auth import authenticate
+import logging
 
 
 class registrarUserForm(UserCreationForm):
@@ -138,6 +140,16 @@ class loginUserForm(AuthenticationForm):
         cleaned_data = super().clean()
         username = cleaned_data.get('username')
         password = cleaned_data.get('password')
+
+        logger = logging.getLogger(__name__)
+        try:
+            # intenta autenticar (si tu AuthenticationForm fue instanciado con request, puedes pasar self.request)
+            auth_user = authenticate(username=username, password=password)
+        except Exception as e:
+            logger.exception("Error al llamar a authenticate")
+
+        logger.debug("Login debug: username=%s password_provided=%s auth_user=%s backends=%s",
+                     username, bool(password), getattr(auth_user, 'pk', None), settings.AUTHENTICATION_BACKENDS)
 
         if username and password:
             try:
