@@ -204,15 +204,23 @@ def api_loginUser(request):
 @csrf_exempt
 def api_getRandomUser(request):
     if request.method == 'GET':
+        
+
         User = get_user_model()
         try:
             user = User.objects.exclude(email='admin@mail.com').order_by('?').first()
+
+            #get mongo Object ID
+            username = user.username
+            mongo_user = MongoUsers.objects.get(username=username)
+            Objectid = str(mongo_user.id)
             if user:
                 return JsonResponse({
                     "username": user.username,
                     "email": user.email,
                     "first_name": user.first_name,
                     "last_name": user.last_name,
+                    "mongo_id": Objectid
                 })
             else:
                 return JsonResponse({"error": "No users found"}, status=404)

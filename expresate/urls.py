@@ -5,6 +5,7 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
+from seguimiento import urls as seguimiento_urls
 
 
 urlpatterns = [
@@ -92,6 +93,9 @@ urlpatterns = [
     
     #Ruta a contenidos
     path('contenido/', include('contenidos.urls')),
+
+    #Ruta de seguimiento para API de treasures de app de flutter de google maps
+    path('api/', include(seguimiento_urls)),
 
     
     path('models/evaluacion/estudiante/', include('modulo_evaluacionEstudiante.urls')), #modulo evaliacion

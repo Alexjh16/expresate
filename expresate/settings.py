@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-ke86-csy(2sg=6
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in ('1', 'true', 'yes')
 #allow to 0.0.0.0 and localhost for debug mode
 #allow 192.168.1.0/24
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,0.0.0.0,192.168.1.13').split(',')
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,0.0.0.0,192.168.92.178').split(',')
 
 
 # Application definition
@@ -130,7 +130,7 @@ DATABASES = {
         "ENGINE": os.environ.get('DB_ENGINE', 'django.db.backends.postgresql'),
         "NAME": os.environ.get('POSTGRES_DB', 'expresate'),
         "USER": os.environ.get('POSTGRES_USER', 'postgres'),
-        "PASSWORD": os.environ.get('POSTGRES_PASSWORD', '12345'),
+        "PASSWORD": os.environ.get('POSTGRES_PASSWORD', '12345678'),
         "HOST": os.environ.get('POSTGRES_HOST', '127.0.0.1'),
         "PORT": os.environ.get('POSTGRES_PORT', '5432'),
     }

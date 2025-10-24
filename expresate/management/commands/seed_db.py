@@ -23,7 +23,8 @@ class Command(BaseCommand):
             'seed_videos',
             'seed_users_videos_cursos',
             'seed_comentarios',
-            'seed_permisos_videos'
+            'seed_permisos_videos',
+            'seed_treasures'
 
         ]
 

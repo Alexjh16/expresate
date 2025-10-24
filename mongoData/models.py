@@ -1,8 +1,6 @@
 import mongoengine
-from mongoengine import Document, StringField, ListField, DateTimeField, EmbeddedDocument, IntField, EmbeddedDocumentField, ReferenceField, BooleanField
-from bson import ObjectId
+from mongoengine import Document, StringField, ListField, DateTimeField, EmbeddedDocument, IntField, EmbeddedDocumentField, ReferenceField, BooleanField, PointField
 import datetime
-
 import os
 
 # Conectar a MongoDB: priorizar MONGO_URI (por ejemplo Atlas), si no usar host/port
@@ -125,6 +123,27 @@ class UserVideosCurso(Document):
     usuario = ListField(StringField()) #username, nombres, email
     estado = StringField(choices=["bloqueado", "desbloqueado"], default="bloqueado")
     porcentaje_visto = IntField(default=0) #porcentaje visto pero del curso
+
+#coleccion para la aplicación de flutter de trasures con google maps : Jhon Alexander Ramos
+class Treasures(Document):
+    creator_id = StringField(required=True)
+    creator_name = StringField(required=True)
+    title = StringField(required=True)
+    location = PointField(geo_index=True)  # Campo geoespacial para MongoDB (GeoJSON) con índice automático
+    description = StringField()
+    image_url = StringField()
+    latitude = StringField(required=True)  # Mantener para compatibilidad
+    longitude = StringField(required=True)
+    hint = StringField()
+    difficulty = IntField(default=1)  # 1 (fácil) a 5 (difícil)
+    clues = ListField(StringField())
+    is_found = BooleanField(default=False)
+    found_by = StringField()
+    created_at = DateTimeField(default=datetime.datetime.utcnow)
+    found_at = DateTimeField()
+    points = IntField(default=0)  # 1 - 100
+
+    # meta vacío, ya que geo_index se maneja en el campo
     
 
 #Ejemplo de uso : Jhon Alexander Ramos

@@ -13,6 +13,7 @@ dnspython
 django-seed
 django-altcha
 django-cors-headers
+gdal
 tqdm
 mongoengine
 django-htmx
