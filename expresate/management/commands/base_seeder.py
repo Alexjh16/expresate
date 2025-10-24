@@ -19,7 +19,12 @@ class BaseSeederCommand(BaseCommand):
         try:
             mongo_uri = getattr(settings, 'MONGO_URI', None)
             if mongo_uri:
-                self.mongo_client = MongoClient(mongo_uri, tlsAllowInvalidCertificates=True)
+                # Agregar parámetros TLS para compatibilidad con Fly.io
+                if '?' in mongo_uri:
+                    mongo_uri += "&tlsAllowInvalidCertificates=true"
+                else:
+                    mongo_uri += "?tlsAllowInvalidCertificates=true"
+                self.mongo_client = MongoClient(mongo_uri)
             else:
                 self.mongo_client = MongoClient(
                     host=settings.MONGO_DB['HOST'],
