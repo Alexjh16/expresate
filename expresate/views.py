@@ -25,7 +25,7 @@ import os
 
 #functiones de las vistas : Jhon Alexander
 def index(request):
-    return render(request, 'index.html', {})
+    return HttpResponse("Hello World!")
 
 def clases(request):
     #Retornar las clases
