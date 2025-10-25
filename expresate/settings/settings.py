@@ -14,7 +14,10 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+if 'FLY_APP_NAME' in os.environ:
+    BASE_DIR = Path(__file__).resolve().parent.parent
+else:
+    BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -129,7 +132,7 @@ DATABASES = {
         "ENGINE": os.environ.get('DB_ENGINE', 'django.db.backends.postgresql'),
         "NAME": os.environ.get('POSTGRES_DB', 'expresate'),
         "USER": os.environ.get('POSTGRES_USER', 'postgres'),
-        "PASSWORD": os.environ.get('POSTGRES_PASSWORD', '12345678'),
+        "PASSWORD": os.environ.get('POSTGRES_PASSWORD', '12345'),
         "HOST": os.environ.get('POSTGRES_HOST', '127.0.0.1'),
         "PORT": os.environ.get('POSTGRES_PORT', '5432'),
     }

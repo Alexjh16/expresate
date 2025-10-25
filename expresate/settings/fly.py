@@ -4,7 +4,7 @@ from ..settings import *
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-DEBUG = False
+DEBUG = True
 SECRET_KEY = os.environ.get('SECRET_KEY', 'tu-secret-key')
 
 ALLOWED_HOSTS = [
