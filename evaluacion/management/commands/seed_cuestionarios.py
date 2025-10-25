@@ -33,10 +33,21 @@ class Command(BaseCommand):
                     cuestionarios_data = json.load(f)
 
                     for cuestionario_data in cuestionarios_data:
-                        Cuestionarios.objects.get_or_create(
-                            titulo=cuestionario_data['titulo'],
-                            defaults=cuestionario_data
-                        )
+                        autor_id = cuestionario_data.get('autor_id')
+                        if autor_id:
+                            Cuestionarios.objects.get_or_create(
+                                titulo=cuestionario_data['titulo'],
+                                autor_id=autor_id,
+                                defaults={
+                                    'descripcion': cuestionario_data.get('descripcion'),
+                                    'limite_intentos': cuestionario_data.get('limite_intentos'),
+                                    'estado': cuestionario_data.get('estado'),
+                                    'calificacion_aprobacion': cuestionario_data.get('calificacion_aprobacion'),
+                                    'duracion_estimada': cuestionario_data.get('duracion_estimada'),
+                                }
+                            )
+                        else:
+                            self.stdout.write(self.style.WARNING(f'Cuestionario sin autor_id: {cuestionario_data["titulo"]}'))
                     self.stdout.write(self.style.SUCCESS(f'{len(cuestionarios_data)} cuestionarios cargados desde JSON : seeders/cuestionarios.json'))
                     
             except FileNotFoundError:

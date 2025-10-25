@@ -1,5 +1,7 @@
 from django.db import models
-from users.models import Users
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # Create your models here.
 #tablas o entidades
@@ -21,7 +23,7 @@ class Cuestionarios(models.Model):
     calificacion_aprobacion = models.FloatField(null=True, blank=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     duracion_estimada = models.IntegerField(null=True, blank=True)
-    autor = models.ForeignKey(Users, on_delete=models.CASCADE)
+    autor = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.titulo} - {self.descripcion} - {self.estado}'
@@ -41,7 +43,7 @@ class TiposPregunta(models.Model):
 class Preguntas(models.Model):
     pregunta = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    autor = models.ForeignKey(Users, on_delete=models.CASCADE)
+    autor = models.ForeignKey(User, on_delete=models.CASCADE)
     tipo_pregunta = models.ForeignKey(TiposPregunta, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -73,7 +75,7 @@ class Calificaciones(models.Model):
     calificacion = models.FloatField()
     fecha_realizacion = models.DateTimeField(auto_now_add=True)
     tiempo_empleado = models.IntegerField(null=True, blank=True)
-    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     cuestionario = models.ForeignKey(Cuestionarios, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -88,7 +90,7 @@ class IntentosCuestionario(models.Model):
     calificacion_obtenida = models.FloatField(null=True, blank=True)
     estado = models.CharField(max_length=10, choices=[('completo', 'Completo'), ('incompleto', 'Incompleto')])
     tiempo_empleado = models.IntegerField(null=True, blank=True)
-    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     cuestionario = models.ForeignKey(Cuestionarios, on_delete=models.CASCADE)
 
     def __str__(self):
