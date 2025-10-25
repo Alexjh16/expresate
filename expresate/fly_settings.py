@@ -74,10 +74,11 @@ MONGO_DB = {
 }
 
 # Redis
+REDIS_URL = os.environ.get('REDIS_URL')
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': os.environ.get('REDIS_URL'),
+        'LOCATION': REDIS_URL,
     }
 }
 
