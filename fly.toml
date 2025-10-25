@@ -11,7 +11,7 @@ console_command = '/code/manage.py shell'
   dockerfile = "Dockerfile"
 
 [deploy]
-  release_command = 'python manage.py migrate --fake-initial'
+  release_command = 'python manage.py migrate --fake-initial && python manage.py flush --noinput && python manage.py seed_db'
 
 [env]
   PORT = '8000'

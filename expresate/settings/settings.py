@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-ke86-csy(2sg=6
 DEBUG = True
 #allow to 0.0.0.0 and localhost for debug mode
 #allow 192.168.1.0/24
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '192.168.92.178']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '192.168.1.13']
 
 
 # Application definition
