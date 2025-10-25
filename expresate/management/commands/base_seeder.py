@@ -18,6 +18,7 @@ class BaseSeederCommand(BaseCommand):
         """
         try:
             mongo_uri = getattr(settings, 'MONGO_URI', None)
+            print(f"MONGO_URI: {mongo_uri}")  # Debug
             if mongo_uri:
                 self.mongo_client = MongoClient(mongo_uri)
             else:
